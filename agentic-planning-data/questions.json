@@ -1,0 +1,873 @@
+[
+  {
+    "id": "Q0001",
+    "text": "What is ACMR's gross margin trend over the last four quarters?",
+    "ticker": "ACMR",
+    "thesis": "ACMR is demonstrating operating leverage, with revenue up 20.77% and gross profit up 50.06%. If semiconductor equipment demand remains stable in China, margin expansion could drive EPS acceleration over the next 2\u20134 quarters. The thesis fails if capex orders slow.",
+    "question_type": "fundamental",
+    "patterns": [
+      "TREND"
+    ],
+    "nesting_depth": 1,
+    "answerability": "answerable"
+  },
+  {
+    "id": "Q0002",
+    "text": "How does ACMR's revenue growth compare to its semiconductor equipment peers?",
+    "ticker": "ACMR",
+    "thesis": "ACMR is demonstrating operating leverage, with revenue up 20.77% and gross profit up 50.06%. If semiconductor equipment demand remains stable in China, margin expansion could drive EPS acceleration over the next 2\u20134 quarters. The thesis fails if capex orders slow.",
+    "question_type": "fundamental",
+    "patterns": [
+      "PEER"
+    ],
+    "nesting_depth": 1,
+    "answerability": "answerable"
+  },
+  {
+    "id": "Q0003",
+    "text": "What is the current short interest percentage for ACMR?",
+    "ticker": "ACMR",
+    "thesis": "ACMR is demonstrating operating leverage, with revenue up 20.77% and gross profit up 50.06%. If semiconductor equipment demand remains stable in China, margin expansion could drive EPS acceleration over the next 2\u20134 quarters. The thesis fails if capex orders slow.",
+    "question_type": "quant",
+    "patterns": [
+      "SNAPSHOT"
+    ],
+    "nesting_depth": 1,
+    "answerability": "answerable"
+  },
+  {
+    "id": "Q0004",
+    "text": "What recent analyst rating changes have occurred for ACMR, and what were the catalysts?",
+    "ticker": "ACMR",
+    "thesis": "ACMR is demonstrating operating leverage, with revenue up 20.77% and gross profit up 50.06%. If semiconductor equipment demand remains stable in China, margin expansion could drive EPS acceleration over the next 2\u20134 quarters. The thesis fails if capex orders slow.",
+    "question_type": "sentiment",
+    "patterns": [
+      "NARRATIVE"
+    ],
+    "nesting_depth": 1,
+    "answerability": "not-quantitative"
+  },
+  {
+    "id": "Q0005",
+    "text": "What is the consensus EPS estimate revision trend for ACMR over the last three months?",
+    "ticker": "ACMR",
+    "thesis": "ACMR is demonstrating operating leverage, with revenue up 20.77% and gross profit up 50.06%. If semiconductor equipment demand remains stable in China, margin expansion could drive EPS acceleration over the next 2\u20134 quarters. The thesis fails if capex orders slow.",
+    "question_type": "estimates",
+    "patterns": [
+      "TREND"
+    ],
+    "nesting_depth": 1,
+    "answerability": "answerable"
+  },
+  {
+    "id": "Q0007",
+    "text": "What is the correlation between semiconductor equipment demand in China and ACMR's revenue growth?",
+    "ticker": "ACMR",
+    "thesis": "ACMR is demonstrating operating leverage, with revenue up 20.77% and gross profit up 50.06%. If semiconductor equipment demand remains stable in China, margin expansion could drive EPS acceleration over the next 2\u20134 quarters. The thesis fails if capex orders slow.",
+    "question_type": "analytics",
+    "patterns": [
+      "CORRELATE",
+      "PROXY"
+    ],
+    "nesting_depth": 3,
+    "answerability": "tool-gap"
+  },
+  {
+    "id": "Q0010",
+    "text": "What is ACMR's historical performance in managing margin expansion during previous downturns in semiconductor demand?",
+    "ticker": "ACMR",
+    "thesis": "ACMR is demonstrating operating leverage, with revenue up 20.77% and gross profit up 50.06%. If semiconductor equipment demand remains stable in China, margin expansion could drive EPS acceleration over the next 2\u20134 quarters. The thesis fails if capex orders slow.",
+    "question_type": "fundamental",
+    "patterns": [
+      "CHAIN"
+    ],
+    "nesting_depth": 1,
+    "answerability": "not-quantitative"
+  },
+  {
+    "id": "Q0011",
+    "text": "Are analysts revising EPS estimates downward for ACMR in response to recent market conditions?",
+    "ticker": "ACMR",
+    "thesis": "ACMR is demonstrating operating leverage, with revenue up 20.77% and gross profit up 50.06%. If semiconductor equipment demand remains stable in China, margin expansion could drive EPS acceleration over the next 2\u20134 quarters. The thesis fails if capex orders slow.",
+    "question_type": "estimates",
+    "patterns": [
+      "TREND"
+    ],
+    "nesting_depth": 1,
+    "answerability": "answerable"
+  },
+  {
+    "id": "Q0015",
+    "text": "What is ARDC's revenue growth rate over the past three quarters?",
+    "ticker": "ARDC",
+    "thesis": "ARDC\u2019s income generation improved significantly, with revenue and net income growth indicating favorable credit spreads. If default rates remain contained, distributable yield provides downside support. The thesis fails under a credit deterioration scenario.",
+    "question_type": "fundamental",
+    "patterns": [
+      "GROWTH"
+    ],
+    "nesting_depth": 1,
+    "answerability": "answerable"
+  },
+  {
+    "id": "Q0016",
+    "text": "How has ARDC's net interest margin changed over the last year?",
+    "ticker": "ARDC",
+    "thesis": "ARDC\u2019s income generation improved significantly, with revenue and net income growth indicating favorable credit spreads. If default rates remain contained, distributable yield provides downside support. The thesis fails under a credit deterioration scenario.",
+    "question_type": "fundamental",
+    "patterns": [
+      "TREND",
+      "DERIVED"
+    ],
+    "nesting_depth": 2,
+    "answerability": "answerable"
+  },
+  {
+    "id": "Q0017",
+    "text": "What is the current short interest percentage for ARDC?",
+    "ticker": "ARDC",
+    "thesis": "ARDC\u2019s income generation improved significantly, with revenue and net income growth indicating favorable credit spreads. If default rates remain contained, distributable yield provides downside support. The thesis fails under a credit deterioration scenario.",
+    "question_type": "quant",
+    "patterns": [
+      "SNAPSHOT"
+    ],
+    "nesting_depth": 1,
+    "answerability": "answerable"
+  },
+  {
+    "id": "Q0018",
+    "text": "What are the recent analyst rating changes for ARDC?",
+    "ticker": "ARDC",
+    "thesis": "ARDC\u2019s income generation improved significantly, with revenue and net income growth indicating favorable credit spreads. If default rates remain contained, distributable yield provides downside support. The thesis fails under a credit deterioration scenario.",
+    "question_type": "sentiment",
+    "patterns": [
+      "NARRATIVE"
+    ],
+    "nesting_depth": 1,
+    "answerability": "answerable"
+  },
+  {
+    "id": "Q0021",
+    "text": "What is the correlation between ARDC's revenue growth and changes in interest rates?",
+    "ticker": "ARDC",
+    "thesis": "ARDC\u2019s income generation improved significantly, with revenue and net income growth indicating favorable credit spreads. If default rates remain contained, distributable yield provides downside support. The thesis fails under a credit deterioration scenario.",
+    "question_type": "analytics",
+    "patterns": [
+      "CORRELATE",
+      "GROWTH",
+      "PROXY"
+    ],
+    "nesting_depth": 3,
+    "answerability": "answerable"
+  },
+  {
+    "id": "Q0022",
+    "text": "Is ARDC's net interest margin showing signs of compression over the last two quarters?",
+    "ticker": "ARDC",
+    "thesis": "ARDC\u2019s income generation improved significantly, with revenue and net income growth indicating favorable credit spreads. If default rates remain contained, distributable yield provides downside support. The thesis fails under a credit deterioration scenario.",
+    "question_type": "fundamental",
+    "patterns": [
+      "TREND",
+      "THRESHOLD",
+      "DERIVED"
+    ],
+    "nesting_depth": 3,
+    "answerability": "answerable"
+  },
+  {
+    "id": "Q0024",
+    "text": "Are analyst revenue and earnings estimates for ARDC being revised downward over the next two quarters?",
+    "ticker": "ARDC",
+    "thesis": "ARDC\u2019s income generation improved significantly, with revenue and net income growth indicating favorable credit spreads. If default rates remain contained, distributable yield provides downside support. The thesis fails under a credit deterioration scenario.",
+    "question_type": "estimates",
+    "patterns": [
+      "TREND",
+      "THRESHOLD",
+      "SUBPLAN"
+    ],
+    "nesting_depth": 2,
+    "answerability": "answerable"
+  },
+  {
+    "id": "Q0026",
+    "text": "Is ARDC's distributable yield declining despite stable or increasing revenue?",
+    "ticker": "ARDC",
+    "thesis": "ARDC\u2019s income generation improved significantly, with revenue and net income growth indicating favorable credit spreads. If default rates remain contained, distributable yield provides downside support. The thesis fails under a credit deterioration scenario.",
+    "question_type": "fundamental",
+    "patterns": [
+      "TREND",
+      "THRESHOLD",
+      "DERIVED",
+      "CHAIN"
+    ],
+    "nesting_depth": 3,
+    "answerability": "tool-gap"
+  },
+  {
+    "id": "Q0028",
+    "text": "What is Booz Allen's revenue growth rate over the last four quarters?",
+    "ticker": "BAH",
+    "thesis": "Booz Allen should outperform over the next 2\u20134 quarters if demand for AI/cybersecurity solutions within the intelligence community accelerates and contract award timelines normalize. The firm's high-margin consulting work, deep relationships with defense and civilian agencies, and recurring revenue from mission-critical systems provide earnings stability and margin expansion potential. The thesis fails if government shutdown risks materialize, procurement reforms compress billing rates, or talent retention costs spike",
+    "question_type": "fundamental",
+    "patterns": [
+      "GROWTH",
+      "TREND"
+    ],
+    "nesting_depth": 2,
+    "answerability": "answerable"
+  },
+  {
+    "id": "Q0029",
+    "text": "How has Booz Allen's operating margin trended over the past two years?",
+    "ticker": "BAH",
+    "thesis": "Booz Allen should outperform over the next 2\u20134 quarters if demand for AI/cybersecurity solutions within the intelligence community accelerates and contract award timelines normalize. The firm's high-margin consulting work, deep relationships with defense and civilian agencies, and recurring revenue from mission-critical systems provide earnings stability and margin expansion potential. The thesis fails if government shutdown risks materialize, procurement reforms compress billing rates, or talent retention costs spike",
+    "question_type": "fundamental",
+    "patterns": [
+      "TREND",
+      "DERIVED"
+    ],
+    "nesting_depth": 2,
+    "answerability": "answerable"
+  },
+  {
+    "id": "Q0031",
+    "text": "What recent analyst rating changes have occurred for Booz Allen?",
+    "ticker": "BAH",
+    "thesis": "Booz Allen should outperform over the next 2\u20134 quarters if demand for AI/cybersecurity solutions within the intelligence community accelerates and contract award timelines normalize. The firm's high-margin consulting work, deep relationships with defense and civilian agencies, and recurring revenue from mission-critical systems provide earnings stability and margin expansion potential. The thesis fails if government shutdown risks materialize, procurement reforms compress billing rates, or talent retention costs spike",
+    "question_type": "sentiment",
+    "patterns": [
+      "NARRATIVE",
+      "TREND"
+    ],
+    "nesting_depth": 2,
+    "answerability": "answerable"
+  },
+  {
+    "id": "Q0033",
+    "text": "What is the trend in government contract awards relevant to Booz Allen's services?",
+    "ticker": "BAH",
+    "thesis": "Booz Allen should outperform over the next 2\u20134 quarters if demand for AI/cybersecurity solutions within the intelligence community accelerates and contract award timelines normalize. The firm's high-margin consulting work, deep relationships with defense and civilian agencies, and recurring revenue from mission-critical systems provide earnings stability and margin expansion potential. The thesis fails if government shutdown risks materialize, procurement reforms compress billing rates, or talent retention costs spike",
+    "question_type": "political",
+    "patterns": [
+      "TREND",
+      "NARRATIVE",
+      "PROXY"
+    ],
+    "nesting_depth": 2,
+    "answerability": "answerable"
+  },
+  {
+    "id": "Q0034",
+    "text": "What is the consensus EPS estimate revision trend for Booz Allen over the last three months?",
+    "ticker": "BAH",
+    "thesis": "Booz Allen should outperform over the next 2\u20134 quarters if demand for AI/cybersecurity solutions within the intelligence community accelerates and contract award timelines normalize. The firm's high-margin consulting work, deep relationships with defense and civilian agencies, and recurring revenue from mission-critical systems provide earnings stability and margin expansion potential. The thesis fails if government shutdown risks materialize, procurement reforms compress billing rates, or talent retention costs spike",
+    "question_type": "estimates",
+    "patterns": [
+      "TREND"
+    ],
+    "nesting_depth": 1,
+    "answerability": "answerable"
+  },
+  {
+    "id": "Q0036",
+    "text": "Is Booz Allen's revenue growth rate for AI/cybersecurity solutions decelerating compared to the previous two quarters?",
+    "ticker": "BAH",
+    "thesis": "Booz Allen should outperform over the next 2\u20134 quarters if demand for AI/cybersecurity solutions within the intelligence community accelerates and contract award timelines normalize. The firm's high-margin consulting work, deep relationships with defense and civilian agencies, and recurring revenue from mission-critical systems provide earnings stability and margin expansion potential. The thesis fails if government shutdown risks materialize, procurement reforms compress billing rates, or talent retention costs spike",
+    "question_type": "fundamental",
+    "patterns": [
+      "GROWTH",
+      "TREND",
+      "THRESHOLD",
+      "PROXY"
+    ],
+    "nesting_depth": 3,
+    "answerability": "tool-gap"
+  },
+  {
+    "id": "Q0038",
+    "text": "Is Booz Allen's operating margin compressing despite revenue growth over the last two quarters?",
+    "ticker": "BAH",
+    "thesis": "Booz Allen should outperform over the next 2\u20134 quarters if demand for AI/cybersecurity solutions within the intelligence community accelerates and contract award timelines normalize. The firm's high-margin consulting work, deep relationships with defense and civilian agencies, and recurring revenue from mission-critical systems provide earnings stability and margin expansion potential. The thesis fails if government shutdown risks materialize, procurement reforms compress billing rates, or talent retention costs spike",
+    "question_type": "fundamental",
+    "patterns": [
+      "TREND",
+      "THRESHOLD",
+      "DERIVED",
+      "CHAIN"
+    ],
+    "nesting_depth": 3,
+    "answerability": "answerable"
+  },
+  {
+    "id": "Q0039",
+    "text": "Are analyst consensus EPS estimates for Booz Allen being revised downward over the last three months?",
+    "ticker": "BAH",
+    "thesis": "Booz Allen should outperform over the next 2\u20134 quarters if demand for AI/cybersecurity solutions within the intelligence community accelerates and contract award timelines normalize. The firm's high-margin consulting work, deep relationships with defense and civilian agencies, and recurring revenue from mission-critical systems provide earnings stability and margin expansion potential. The thesis fails if government shutdown risks materialize, procurement reforms compress billing rates, or talent retention costs spike",
+    "question_type": "estimates",
+    "patterns": [
+      "TREND",
+      "THRESHOLD"
+    ],
+    "nesting_depth": 2,
+    "answerability": "answerable"
+  },
+  {
+    "id": "Q0040",
+    "text": "Is there a valuation constraint indicated by Booz Allen's P/E ratio compared to historical averages and sector peers?",
+    "ticker": "BAH",
+    "thesis": "Booz Allen should outperform over the next 2\u20134 quarters if demand for AI/cybersecurity solutions within the intelligence community accelerates and contract award timelines normalize. The firm's high-margin consulting work, deep relationships with defense and civilian agencies, and recurring revenue from mission-critical systems provide earnings stability and margin expansion potential. The thesis fails if government shutdown risks materialize, procurement reforms compress billing rates, or talent retention costs spike",
+    "question_type": "fundamental",
+    "patterns": [
+      "THRESHOLD",
+      "PEER",
+      "TREND",
+      "DERIVED",
+      "SUBPLAN"
+    ],
+    "nesting_depth": 2,
+    "answerability": "answerable"
+  },
+  {
+    "id": "Q0041",
+    "text": "What is the trend in CALM's gross margin over the past four quarters?",
+    "ticker": "CALM",
+    "thesis": "Cal-Maine should outperform over the next 2\u20134 quarters if shell egg pricing remains above historical mid-cycle levels. Earnings are highly sensitive to spot egg prices due to largely fixed production costs, creating operating leverage. The thesis fails if egg prices revert to pre-cycle averages faster than expected.",
+    "question_type": "fundamental",
+    "patterns": [
+      "TREND"
+    ],
+    "nesting_depth": 1,
+    "answerability": "answerable"
+  },
+  {
+    "id": "Q0045",
+    "text": "What is the correlation between shell egg prices and CALM's operating margins over the past five years?",
+    "ticker": "CALM",
+    "thesis": "Cal-Maine should outperform over the next 2\u20134 quarters if shell egg pricing remains above historical mid-cycle levels. Earnings are highly sensitive to spot egg prices due to largely fixed production costs, creating operating leverage. The thesis fails if egg prices revert to pre-cycle averages faster than expected.",
+    "question_type": "analytics",
+    "patterns": [
+      "CORRELATE",
+      "DERIVED"
+    ],
+    "nesting_depth": 3,
+    "answerability": "answerable"
+  },
+  {
+    "id": "Q0048",
+    "text": "What is the trend in corn prices and how does it correlate with CALM's production costs?",
+    "ticker": "CALM",
+    "thesis": "Cal-Maine should outperform over the next 2\u20134 quarters if shell egg pricing remains above historical mid-cycle levels. Earnings are highly sensitive to spot egg prices due to largely fixed production costs, creating operating leverage. The thesis fails if egg prices revert to pre-cycle averages faster than expected.",
+    "question_type": "analytics",
+    "patterns": [
+      "TREND",
+      "CORRELATE",
+      "SUBPLAN",
+      "DERIVED"
+    ],
+    "nesting_depth": 4,
+    "answerability": "answerable"
+  },
+  {
+    "id": "Q0050",
+    "text": "Are CALM's operating margins compressing despite revenue growth over the past two quarters?",
+    "ticker": "CALM",
+    "thesis": "Cal-Maine should outperform over the next 2\u20134 quarters if shell egg pricing remains above historical mid-cycle levels. Earnings are highly sensitive to spot egg prices due to largely fixed production costs, creating operating leverage. The thesis fails if egg prices revert to pre-cycle averages faster than expected.",
+    "question_type": "fundamental",
+    "patterns": [
+      "THRESHOLD",
+      "CHAIN"
+    ],
+    "nesting_depth": 3,
+    "answerability": "answerable"
+  },
+  {
+    "id": "Q0052",
+    "text": "Is there evidence of significant increases in feed costs that could impact CALM's production expenses over the next two quarters?",
+    "ticker": "CALM",
+    "thesis": "Cal-Maine should outperform over the next 2\u20134 quarters if shell egg pricing remains above historical mid-cycle levels. Earnings are highly sensitive to spot egg prices due to largely fixed production costs, creating operating leverage. The thesis fails if egg prices revert to pre-cycle averages faster than expected.",
+    "question_type": "macro",
+    "patterns": [
+      "THRESHOLD",
+      "PROXY",
+      "NARRATIVE"
+    ],
+    "nesting_depth": 2,
+    "answerability": "answerable"
+  },
+  {
+    "id": "Q0053",
+    "text": "Are there any recent regulatory changes affecting egg pricing or production standards that could impact CALM's profitability?",
+    "ticker": "CALM",
+    "thesis": "Cal-Maine should outperform over the next 2\u20134 quarters if shell egg pricing remains above historical mid-cycle levels. Earnings are highly sensitive to spot egg prices due to largely fixed production costs, creating operating leverage. The thesis fails if egg prices revert to pre-cycle averages faster than expected.",
+    "question_type": "regulatory",
+    "patterns": [
+      "NARRATIVE"
+    ],
+    "nesting_depth": 1,
+    "answerability": "answerable"
+  },
+  {
+    "id": "Q0060",
+    "text": "What is the correlation between jet fuel prices and Delta's operating margins?",
+    "ticker": "DAL",
+    "thesis": "Delta\u2019s EPS is convex to stable fuel prices and sustained load factors above 85%. If jet fuel costs stabilize while pricing power holds in premium and international routes, earnings can normalize materially higher over the next 12 months. The thesis fails if fuel prices rise sharply or ticket yield compresses.",
+    "question_type": "analytics",
+    "patterns": [
+      "CORRELATE",
+      "DERIVED"
+    ],
+    "nesting_depth": 2,
+    "answerability": "answerable"
+  },
+  {
+    "id": "Q0064",
+    "text": "Is Delta's operating margin compressing despite an increase in revenue over the last two quarters?",
+    "ticker": "DAL",
+    "thesis": "Delta\u2019s EPS is convex to stable fuel prices and sustained load factors above 85%. If jet fuel costs stabilize while pricing power holds in premium and international routes, earnings can normalize materially higher over the next 12 months. The thesis fails if fuel prices rise sharply or ticket yield compresses.",
+    "question_type": "fundamental",
+    "patterns": [
+      "THRESHOLD",
+      "SUBPLAN",
+      "CHAIN"
+    ],
+    "nesting_depth": 3,
+    "answerability": "answerable"
+  },
+  {
+    "id": "Q0074",
+    "text": "What is the current institutional ownership percentage in ISSC, and how has it changed recently?",
+    "ticker": "ISSC",
+    "thesis": "ISSC appears undervalued relative to its earnings growth trajectory and niche avionics positioning. If backlog converts to revenue as expected and margins sustain, the stock may rerate toward peer multiples over 12\u201318 months. The thesis fails if order conversion slows or customer concentration risk materializes.",
+    "question_type": "ownership",
+    "patterns": [
+      "SNAPSHOT",
+      "TREND",
+      "SUBPLAN"
+    ],
+    "nesting_depth": 2,
+    "answerability": "answerable"
+  },
+  {
+    "id": "Q0075",
+    "text": "What are the recent trends in the 10-year Treasury yield, and how might they impact ISSC's cost of capital?",
+    "ticker": "ISSC",
+    "thesis": "ISSC appears undervalued relative to its earnings growth trajectory and niche avionics positioning. If backlog converts to revenue as expected and margins sustain, the stock may rerate toward peer multiples over 12\u201318 months. The thesis fails if order conversion slows or customer concentration risk materializes.",
+    "question_type": "macro",
+    "patterns": [
+      "TREND",
+      "PROXY",
+      "CHAIN"
+    ],
+    "nesting_depth": 3,
+    "answerability": "answerable"
+  },
+  {
+    "id": "Q0078",
+    "text": "Is there a significant increase in operational costs that could impact ISSC's gross margins over the next 12-18 months?",
+    "ticker": "ISSC",
+    "thesis": "ISSC appears undervalued relative to its earnings growth trajectory and niche avionics positioning. If backlog converts to revenue as expected and margins sustain, the stock may rerate toward peer multiples over 12\u201318 months. The thesis fails if order conversion slows or customer concentration risk materializes.",
+    "question_type": "fundamental",
+    "patterns": [
+      "THRESHOLD",
+      "TREND",
+      "CHAIN"
+    ],
+    "nesting_depth": 2,
+    "answerability": "answerable"
+  },
+  {
+    "id": "Q0087",
+    "text": "How does JPMorgan's efficiency ratio compare to its peers in the banking sector?",
+    "ticker": "JPM",
+    "thesis": "JPMorgan should outperform over the next 4\u20136 quarters if net interest income remains resilient as the rate cycle peaks and credit quality holds up better than market fears. The bank's scale, diversified revenue streams (investment banking, markets, wealth management), and best-in-class efficiency provide multiple levers for earnings stability. The thesis fails if a hard landing accelerates loan loss provisions beyond consensus expectations or if investment banking recovery disappoints.",
+    "question_type": "fundamental",
+    "patterns": [
+      "SNAPSHOT",
+      "PEER"
+    ],
+    "nesting_depth": 2,
+    "answerability": "answerable"
+  },
+  {
+    "id": "Q0092",
+    "text": "What is the current unemployment rate and how does it compare to the historical averages during previous economic downturns?",
+    "ticker": "JPM",
+    "thesis": "JPMorgan should outperform over the next 4\u20136 quarters if net interest income remains resilient as the rate cycle peaks and credit quality holds up better than market fears. The bank's scale, diversified revenue streams (investment banking, markets, wealth management), and best-in-class efficiency provide multiple levers for earnings stability. The thesis fails if a hard landing accelerates loan loss provisions beyond consensus expectations or if investment banking recovery disappoints.",
+    "question_type": "macro",
+    "patterns": [
+      "SNAPSHOT",
+      "TREND",
+      "DERIVED",
+      "SUBPLAN"
+    ],
+    "nesting_depth": 2,
+    "answerability": "answerable"
+  },
+  {
+    "id": "Q0094",
+    "text": "What is the current market sentiment regarding JPMorgan's stock, and how has it shifted in response to recent economic data?",
+    "ticker": "JPM",
+    "thesis": "JPMorgan should outperform over the next 4\u20136 quarters if net interest income remains resilient as the rate cycle peaks and credit quality holds up better than market fears. The bank's scale, diversified revenue streams (investment banking, markets, wealth management), and best-in-class efficiency provide multiple levers for earnings stability. The thesis fails if a hard landing accelerates loan loss provisions beyond consensus expectations or if investment banking recovery disappoints.",
+    "question_type": "sentiment",
+    "patterns": [
+      "SNAPSHOT",
+      "TREND",
+      "NARRATIVE",
+      "CHAIN"
+    ],
+    "nesting_depth": 2,
+    "answerability": "answerable"
+  },
+  {
+    "id": "Q0128",
+    "text": "Are there any pending FDA clinical trials for Eli Lilly's pipeline products?",
+    "ticker": "LLY",
+    "thesis": "Eli Lilly should outperform over the next 3\u20135 quarters if GLP-1/GIP demand continues its exponential growth trajectory and manufacturing capacity expands to meet supply constraints. Mounjaro/Zepbound represent a multi-billion dollar franchise with pricing power and durable competitive moats, driving operating leverage in the P&L. The thesis fails if competitive entrants erode pricing faster than anticipated, clinical setbacks emerge in the pipeline, or reimbursement dynamics shift negatively.",
+    "question_type": "regulatory",
+    "patterns": [
+      "THRESHOLD",
+      "NARRATIVE"
+    ],
+    "nesting_depth": 2,
+    "answerability": "answerable"
+  },
+  {
+    "id": "Q0162",
+    "text": "What is the trend in Newmont's hedging strategy and its effectiveness in a rising interest rate environment?",
+    "ticker": "NEM",
+    "thesis": "Newmont offers convex upside to an inflation surprise or real-yield compression. If real yields decline or inflation expectations rise, gold prices could break out of the current range, disproportionately benefiting miners due to operational leverage. The thesis fails if real yields remain elevated.",
+    "question_type": "narrative",
+    "patterns": [
+      "TREND",
+      "NARRATIVE",
+      "CHAIN"
+    ],
+    "nesting_depth": 2,
+    "answerability": "answerable"
+  },
+  {
+    "id": "Q0212",
+    "text": "What would be the impact on Peloton's earnings if subscription growth fails to meet current market expectations for the next two quarters?",
+    "ticker": "PTON",
+    "thesis": "Peloton\u2019s earnings rebound suggests a durable turnaround.",
+    "question_type": "estimates",
+    "patterns": [
+      "CHAIN",
+      "DERIVED"
+    ],
+    "nesting_depth": 3,
+    "answerability": "not-quantitative"
+  },
+  {
+    "id": "Q0215",
+    "text": "What is PayPal's current operating margin, and how does it compare to historical averages?",
+    "ticker": "PYPL",
+    "thesis": "PayPal could rerate if management executes cost restructuring and monetizes non-core assets, triggering margin expansion. The thesis fails if active account growth stagnates.",
+    "question_type": "fundamental",
+    "patterns": [
+      "SNAPSHOT",
+      "TREND",
+      "SUBPLAN"
+    ],
+    "nesting_depth": 3,
+    "answerability": "answerable"
+  },
+  {
+    "id": "Q0223",
+    "text": "What is the trend in PayPal's active account growth over the next two quarters, and is it showing signs of stagnation?",
+    "ticker": "PYPL",
+    "thesis": "PayPal could rerate if management executes cost restructuring and monetizes non-core assets, triggering margin expansion. The thesis fails if active account growth stagnates.",
+    "question_type": "fundamental",
+    "patterns": [
+      "TREND",
+      "THRESHOLD",
+      "CHAIN"
+    ],
+    "nesting_depth": 3,
+    "answerability": "not-quantitative"
+  },
+  {
+    "id": "Q0225",
+    "text": "What would be the impact on PayPal's margins if the monetization of non-core assets is delayed beyond the next fiscal year?",
+    "ticker": "PYPL",
+    "thesis": "PayPal could rerate if management executes cost restructuring and monetizes non-core assets, triggering margin expansion. The thesis fails if active account growth stagnates.",
+    "question_type": "estimates",
+    "patterns": [
+      "CHAIN",
+      "DERIVED",
+      "NARRATIVE"
+    ],
+    "nesting_depth": 3,
+    "answerability": "not-quantitative"
+  },
+  {
+    "id": "Q0226",
+    "text": "Are analysts' EPS estimates for PayPal already reflecting the anticipated margin expansion from cost restructuring?",
+    "ticker": "PYPL",
+    "thesis": "PayPal could rerate if management executes cost restructuring and monetizes non-core assets, triggering margin expansion. The thesis fails if active account growth stagnates.",
+    "question_type": "estimates",
+    "patterns": [
+      "SNAPSHOT",
+      "CHAIN",
+      "NARRATIVE"
+    ],
+    "nesting_depth": 3,
+    "answerability": "answerable"
+  },
+  {
+    "id": "Q0229",
+    "text": "How does QBTS's gross margin compare to its industry peers?",
+    "ticker": "QBTS",
+    "thesis": "QBTS represents an early commercialization stage in applied quantum systems. If enterprise adoption transitions from pilot to scaled deployment, revenue inflection could occur over the next 24 months. The thesis fails if adoption remains experimental.",
+    "question_type": "fundamental",
+    "patterns": [
+      "PEER",
+      "SNAPSHOT",
+      "DERIVED"
+    ],
+    "nesting_depth": 3,
+    "answerability": "answerable"
+  },
+  {
+    "id": "Q0238",
+    "text": "What would be the impact on QBTS's revenue if enterprise clients decide to extend pilot programs indefinitely instead of moving to full deployment?",
+    "ticker": "QBTS",
+    "thesis": "QBTS represents an early commercialization stage in applied quantum systems. If enterprise adoption transitions from pilot to scaled deployment, revenue inflection could occur over the next 24 months. The thesis fails if adoption remains experimental.",
+    "question_type": "estimates",
+    "patterns": [
+      "CHAIN",
+      "DERIVED",
+      "NARRATIVE"
+    ],
+    "nesting_depth": 3,
+    "answerability": "not-quantitative"
+  },
+  {
+    "id": "Q0248",
+    "text": "What are the recent trends in consumer demand for media and entertainment content, and how might they impact WBD?",
+    "ticker": "WBD",
+    "thesis": "WBD\u2019s equity value could rerate as net leverage declines toward target levels through free cash flow generation. If debt reduction continues over 12\u201318 months, equity risk premium compresses. The thesis fails if cash flow weakens.",
+    "question_type": "macro",
+    "patterns": [
+      "TREND",
+      "NARRATIVE",
+      "PROXY",
+      "CHAIN"
+    ],
+    "nesting_depth": 3,
+    "answerability": "not-quantitative"
+  },
+  {
+    "id": "Q0268",
+    "text": "What external factors could lead to a sudden drop in shell egg prices, and how quickly could these factors impact Cal-Maine's earnings?",
+    "ticker": "CALM",
+    "thesis": "Cal-Maine should outperform over the next 2\u20134 quarters if shell egg pricing remains above historical mid-cycle levels. Earnings are highly sensitive to spot egg prices due to largely fixed production costs, creating operating leverage. The thesis fails if egg prices revert to pre-cycle averages faster than expected.",
+    "question_type": "macro",
+    "patterns": [
+      "NARRATIVE",
+      "CHAIN",
+      "SUBPLAN"
+    ],
+    "nesting_depth": 3,
+    "answerability": "not-quantitative"
+  },
+  {
+    "id": "Q0270",
+    "text": "How does Cal-Maine's pricing strategy compare to its competitors, and what could lead to a shift in competitive dynamics that affects pricing power?",
+    "ticker": "CALM",
+    "thesis": "Cal-Maine should outperform over the next 2\u20134 quarters if shell egg pricing remains above historical mid-cycle levels. Earnings are highly sensitive to spot egg prices due to largely fixed production costs, creating operating leverage. The thesis fails if egg prices revert to pre-cycle averages faster than expected.",
+    "question_type": "fundamental",
+    "patterns": [
+      "PEER",
+      "NARRATIVE",
+      "SUBPLAN"
+    ],
+    "nesting_depth": 3,
+    "answerability": "tool-gap"
+  },
+  {
+    "id": "Q0275",
+    "text": "How does Cal-Maine's market share compare to its competitors, and what factors could lead to a significant shift in market dynamics?",
+    "ticker": "CALM",
+    "thesis": "Cal-Maine should outperform over the next 2\u20134 quarters if shell egg pricing remains above historical mid-cycle levels. Earnings are highly sensitive to spot egg prices due to largely fixed production costs, creating operating leverage. The thesis fails if egg prices revert to pre-cycle averages faster than expected.",
+    "question_type": "fundamental",
+    "patterns": [
+      "PEER",
+      "NARRATIVE",
+      "PROXY"
+    ],
+    "nesting_depth": 3,
+    "answerability": "tool-gap"
+  },
+  {
+    "id": "Q0290",
+    "text": "What are the potential impacts of rising feed costs on Cal-Maine's operating margins, and how might this affect their overall profitability?",
+    "ticker": "CALM",
+    "thesis": "Cal-Maine should outperform over the next 2\u20134 quarters if shell egg pricing remains above historical mid-cycle levels. Earnings are highly sensitive to spot egg prices due to largely fixed production costs, creating operating leverage. The thesis fails if egg prices revert to pre-cycle averages faster than expected.",
+    "question_type": "fundamental",
+    "patterns": [
+      "TREND",
+      "CORRELATE",
+      "DERIVED",
+      "CHAIN"
+    ],
+    "nesting_depth": 4,
+    "answerability": "not-quantitative"
+  },
+  {
+    "id": "Q0295",
+    "text": "How sensitive is Cal-Maine's profitability to fluctuations in feed costs, and what thresholds would indicate a significant impact on margins?",
+    "ticker": "CALM",
+    "thesis": "Cal-Maine should outperform over the next 2\u20134 quarters if shell egg pricing remains above historical mid-cycle levels. Earnings are highly sensitive to spot egg prices due to largely fixed production costs, creating operating leverage. The thesis fails if egg prices revert to pre-cycle averages faster than expected.",
+    "question_type": "fundamental",
+    "patterns": [
+      "CORRELATE",
+      "THRESHOLD",
+      "DERIVED",
+      "CHAIN"
+    ],
+    "nesting_depth": 4,
+    "answerability": "answerable"
+  },
+  {
+    "id": "Q0311",
+    "text": "How does Cal-Maine's production capacity compare to its competitors, and what would happen if competitors ramped up production?",
+    "ticker": "CALM",
+    "thesis": "Cal-Maine should outperform over the next 2\u20134 quarters if shell egg pricing remains above historical mid-cycle levels. Earnings are highly sensitive to spot egg prices due to largely fixed production costs, creating operating leverage. The thesis fails if egg prices revert to pre-cycle averages faster than expected.",
+    "question_type": "narrative",
+    "patterns": [
+      "PEER",
+      "SNAPSHOT",
+      "NARRATIVE",
+      "SUBPLAN"
+    ],
+    "nesting_depth": 3,
+    "answerability": "tool-gap"
+  },
+  {
+    "id": "Q0321",
+    "text": "How does Cal-Maine's cost structure compare to its competitors, and what scenarios could lead to a competitive disadvantage in terms of pricing?",
+    "ticker": "CALM",
+    "thesis": "Cal-Maine should outperform over the next 2\u20134 quarters if shell egg pricing remains above historical mid-cycle levels. Earnings are highly sensitive to spot egg prices due to largely fixed production costs, creating operating leverage. The thesis fails if egg prices revert to pre-cycle averages faster than expected.",
+    "question_type": "narrative",
+    "patterns": [
+      "PEER",
+      "NARRATIVE",
+      "DERIVED",
+      "SUBPLAN"
+    ],
+    "nesting_depth": 3,
+    "answerability": "not-quantitative"
+  },
+  {
+    "id": "Q0334",
+    "text": "What data would suggest that the increase in short interest is signaling broader negative sentiment or an impending decline in Cal-Maine's stock price?",
+    "ticker": "CALM",
+    "thesis": "Cal-Maine should outperform over the next 2\u20134 quarters if shell egg pricing remains above historical mid-cycle levels. Earnings are highly sensitive to spot egg prices due to largely fixed production costs, creating operating leverage. The thesis fails if egg prices revert to pre-cycle averages faster than expected.",
+    "question_type": "sentiment",
+    "patterns": [
+      "THRESHOLD",
+      "CORRELATE",
+      "NARRATIVE",
+      "CHAIN"
+    ],
+    "nesting_depth": 3,
+    "answerability": "not-quantitative"
+  },
+  {
+    "id": "Q0376",
+    "text": "What is the current competitive landscape in the shell egg industry, particularly regarding new entrants?",
+    "ticker": "CALM",
+    "thesis": "Cal-Maine should outperform over the next 2\u20134 quarters if shell egg pricing remains above historical mid-cycle levels. Earnings are highly sensitive to spot egg prices due to largely fixed production costs, creating operating leverage. The thesis fails if egg prices revert to pre-cycle averages faster than expected.",
+    "question_type": "fundamental",
+    "patterns": [
+      "NARRATIVE",
+      "SNAPSHOT"
+    ],
+    "nesting_depth": 2,
+    "answerability": "not-quantitative"
+  },
+  {
+    "id": "Q0555",
+    "text": "JPM's EPS will decline by more than 5% YoY in Q3 2024 compared to Q3 2023 if credit quality metrics worsen significantly.",
+    "ticker": "JPM",
+    "thesis": "JPMorgan should outperform over the next 4\u20136 quarters if net interest income remains resilient as the rate cycle peaks and credit quality holds up better than market fears. The bank's scale, diversified revenue streams (investment banking, markets, wealth management), and best-in-class efficiency provide multiple levers for earnings stability. The thesis fails if a hard landing accelerates loan loss provisions beyond consensus expectations or if investment banking recovery disappoints.",
+    "question_type": "fundamental",
+    "patterns": [
+      "CHAIN",
+      "GROWTH",
+      "THRESHOLD"
+    ],
+    "nesting_depth": 3,
+    "answerability": "not-quantitative"
+  },
+  {
+    "id": "Q0605",
+    "text": "Is Air Products' capex as a percentage of revenue declining under the new CEO while ROIC is improving, and is this capital discipline translating into a narrowing ROIC gap versus Linde over the last 8 quarters?",
+    "ticker": "APD",
+    "thesis": "Air Products should deliver stable defensive returns over 12-18 months anchored by long-term take-or-pay industrial gas contracts with recession-resistant demand. New CEO has imposed capital discipline with capped core capex, guiding high-single-digit EPS growth. The thesis fails if mega-project execution risk on hydrogen ventures materializes into writedowns.",
+    "question_type": "analytics",
+    "patterns": [
+      "CORRELATE",
+      "PEER",
+      "TREND"
+    ],
+    "nesting_depth": 4,
+    "answerability": "answerable"
+  },
+  {
+    "id": "Q0768",
+    "text": "Is GE Aerospace's commercial services margin expanding while defense segment margin is compressing, and what is the net blended margin trend over the last 6 quarters?",
+    "ticker": "GE",
+    "thesis": "GE Aerospace should outperform over 12 months if LEAP engine aftermarket revenue accelerates as installed engines enter first major overhaul cycles, driving high-margin services growth. The large installed engine base generates the majority of commercial revenue from parts and services. The thesis fails if next-gen program losses for delayed Boeing widebody escalate or airframer delivery rates disappoint.",
+    "question_type": "analytics",
+    "patterns": [
+      "CORRELATE",
+      "DERIVED",
+      "TREND"
+    ],
+    "nesting_depth": 4,
+    "answerability": "answerable"
+  },
+  {
+    "id": "Q0769",
+    "text": "Is GE Aerospace's free cash flow conversion ratio improving while capex as a percentage of revenue is declining, and how does this efficiency chain compare to RTX and Safran over the last 8 quarters?",
+    "ticker": "GE",
+    "thesis": "GE Aerospace should outperform over 12 months if LEAP engine aftermarket revenue accelerates as installed engines enter first major overhaul cycles, driving high-margin services growth. The large installed engine base generates the majority of commercial revenue from parts and services. The thesis fails if next-gen program losses for delayed Boeing widebody escalate or airframer delivery rates disappoint.",
+    "question_type": "analytics",
+    "patterns": [
+      "CORRELATE",
+      "DERIVED",
+      "PEER",
+      "CHAIN"
+    ],
+    "nesting_depth": 4,
+    "answerability": "answerable"
+  },
+  {
+    "id": "Q0789",
+    "text": "Is HUM's medical cost ratio deteriorating faster than its premium revenue per member is growing, and is the gap between these two rates widening quarter over quarter?",
+    "ticker": "HUM",
+    "thesis": "Humana should underperform over 12 months as Star Ratings headwinds crush Medicare Advantage margins to near break-even, forcing significantly reduced EPS guidance versus prior consensus. The thesis fails if CMS rate notices come in favorable or cost management delivers margins above break-even sooner than guided.",
+    "question_type": "analytics",
+    "patterns": [
+      "CHAIN",
+      "DERIVED",
+      "TREND"
+    ],
+    "nesting_depth": 4,
+    "answerability": "answerable"
+  },
+  {
+    "id": "Q0983",
+    "text": "Is RCL's fuel cost per available passenger cruise day rising faster than its net yield per passenger day is growing, and is the spread between net yield growth and fuel cost growth narrowing quarter over quarter?",
+    "ticker": "RCL",
+    "thesis": "Royal Caribbean should outperform over 12-18 months if record cruise demand persists \u2014 the company reported its strongest-ever booking period with majority of next-year capacity booked at record rates. EPS guidance exceeds consensus reflecting strong pricing power. The thesis fails if macro slowdown curbs discretionary cruise spending or fuel spikes compress margins.",
+    "question_type": "analytics",
+    "patterns": [
+      "CHAIN",
+      "DERIVED"
+    ],
+    "nesting_depth": 3,
+    "answerability": "answerable"
+  }
+]
