@@ -1,0 +1,183 @@
+{
+  "question_id": "Q0024",
+  "plan": {
+    "original_text": "Are analyst revenue and earnings estimates for ARDC being revised downward over the next two quarters?",
+    "thesis": "ARDC\u2019s income generation improved significantly, with revenue and net income growth indicating favorable credit spreads. If default rates remain contained, distributable yield provides downside support. The thesis fails under a credit deterioration scenario.",
+    "hypothesis_type": "composite",
+    "answer_type": "boolean",
+    "ticker": "ARDC",
+    "steps": [
+      {
+        "step_id": "s1",
+        "operation": "fetch",
+        "description": "ARDC analyst revenue estimate revision direction \u2014 estimates.revenue.revision_direction",
+        "macro_preference": false,
+        "horizon": {
+          "period": 2,
+          "frequency": "quarterly"
+        },
+        "assessment_period": null,
+        "expected_output": "record",
+        "result_type": null,
+        "inputs": [],
+        "params": {
+          "item_id": "estimates.revenue.revision_direction"
+        },
+        "output_key": "ardc_revenue_revision_direction",
+        "derivation": null
+      },
+      {
+        "step_id": "s2",
+        "operation": "fetch",
+        "description": "ARDC analyst EPS estimate revision direction \u2014 estimates.eps.revision_direction",
+        "macro_preference": false,
+        "horizon": {
+          "period": 2,
+          "frequency": "quarterly"
+        },
+        "assessment_period": null,
+        "expected_output": "record",
+        "result_type": null,
+        "inputs": [],
+        "params": {
+          "item_id": "estimates.eps.revision_direction"
+        },
+        "output_key": "ardc_eps_revision_direction",
+        "derivation": null
+      },
+      {
+        "step_id": "s3",
+        "operation": "compare",
+        "description": "Are ARDC revenue estimate revisions downward over the next two quarters?",
+        "macro_preference": null,
+        "horizon": null,
+        "assessment_period": null,
+        "expected_output": null,
+        "result_type": "boolean",
+        "inputs": [
+          "$s1"
+        ],
+        "params": {
+          "operator": "==",
+          "value": "falling"
+        },
+        "output_key": "ardc_revenue_revisions_down",
+        "derivation": null
+      },
+      {
+        "step_id": "s4",
+        "operation": "compare",
+        "description": "Are ARDC EPS estimate revisions downward over the next two quarters?",
+        "macro_preference": null,
+        "horizon": null,
+        "assessment_period": null,
+        "expected_output": null,
+        "result_type": "boolean",
+        "inputs": [
+          "$s2"
+        ],
+        "params": {
+          "operator": "==",
+          "value": "falling"
+        },
+        "output_key": "ardc_eps_revisions_down",
+        "derivation": null
+      },
+      {
+        "step_id": "s5",
+        "operation": "compare",
+        "description": "Are both ARDC revenue and EPS estimates being revised downward over the next two quarters?",
+        "macro_preference": null,
+        "horizon": null,
+        "assessment_period": null,
+        "expected_output": null,
+        "result_type": "boolean",
+        "inputs": [
+          "$s3",
+          "$s4"
+        ],
+        "params": {
+          "operator": "and"
+        },
+        "output_key": "ardc_estimate_revisions_down_both",
+        "derivation": null
+      }
+    ],
+    "ambiguity_notes": {
+      "revenue and earnings estimates": "Interpreted as analyst consensus revenue and EPS estimates. EPS was used as the earnings estimate proxy; grounded via estimates.revenue.revision_direction and estimates.eps.revision_direction.",
+      "being revised downward": "Interpreted as revision direction equal to 'falling' rather than manually deriving slope from estimate history. This is grounded because direct revision-direction items exist in the catalog.",
+      "over the next two quarters": "Interpreted as the near-term forward estimate window covered by the estimate revision direction resources, using a 2-quarter horizon in the fetch metadata. Direct quarter-by-quarter forward revision history for exactly each of the next two quarters was not separately confirmed; this is partially grounded via the available revision-direction estimate resources."
+    },
+    "reasoning": "The question is a composite boolean asking whether both forward revenue and earnings expectations are moving lower. The plan fetches direct analyst revision-direction signals for revenue and EPS, tests each for 'falling,' and then combines them with a final boolean compare to determine whether both are being revised downward."
+  },
+  "trace": [
+    {
+      "tool": "search_non_macro_catalog",
+      "args": {
+        "query": "ARDC analyst revenue estimates history next two quarters",
+        "top_k": 5
+      },
+      "result": "[{'item_id': 'estimates.revenue.next_quarter', 'label': 'Analyst Revenue Estimate Next Quarter', 'description': 'Consensus revenue estimate for the next quarter.', 'data_type': 'single_value', 'tool_fn': 'get_estimates', 'tool_params': {}, 'tool_field': 'data.revenue_estimate_next_quarter', 'aliases_json': '[\"next quarter revenue estimate\", \"forward revenue estimate\", \"future revenue forecast\"]', 'category': 'estimates', 'source': 'yfinance', 'notes': None, 'rank': -13.120922810987125, 'score': "
+    },
+    {
+      "tool": "search_non_macro_catalog",
+      "args": {
+        "query": "ARDC analyst earnings estimates history next two quarters EPS revisions",
+        "top_k": 5
+      },
+      "result": "[{'item_id': 'estimates.eps.history', 'label': 'Analyst EPS Estimate History', 'description': 'Per-quarter EPS consensus over the past N quarters: shows how estimates evolved before each earnings report.', 'data_type': 'timeseries', 'tool_fn': 'get_estimate_history', 'tool_params': {}, 'tool_field': 'data.eps_history', 'aliases_json': '[\"EPS estimate trend\", \"earnings estimate history\", \"estimate revision history\", \"EPS revision trend\"]', 'category': 'estimates', 'source': 'Dolthub', 'notes': No"
+    },
+    {
+      "tool": "search_non_macro_catalog",
+      "args": {
+        "query": "ARDC analyst estimate revisions revenue earnings",
+        "top_k": 10
+      },
+      "result": "[{'item_id': 'estimates.revenue.current_quarter', 'label': 'Analyst Revenue Estimate Current Quarter', 'description': 'Consensus revenue estimate for the current quarter.', 'data_type': 'single_value', 'tool_fn': 'get_estimates', 'tool_params': {}, 'tool_field': 'data.revenue_estimate_current_quarter', 'aliases_json': '[\"revenue estimate\", \"sales estimate current quarter\", \"consensus revenue\", \"analyst revenue forecast\"]', 'category': 'estimates', 'source': 'yfinance', 'notes': None, 'rank': -12"
+    },
+    {
+      "tool": "lookup_capability",
+      "args": {
+        "resource_type": "non_macro_item",
+        "resource_id": "estimates.revenue.history"
+      },
+      "result": "fetch_shape=<FetchShape.RECORD: 'record'> numeric=True history_materializable=True temporal_analytics_eligible=True comparison_modes_supported=[<ComparisonMode.SELF_HISTORY: 'self_history'>] materialization_routes=[] requires_query_text=False"
+    },
+    {
+      "tool": "lookup_capability",
+      "args": {
+        "resource_type": "non_macro_item",
+        "resource_id": "estimates.eps.history"
+      },
+      "result": "fetch_shape=<FetchShape.RECORD: 'record'> numeric=True history_materializable=True temporal_analytics_eligible=True comparison_modes_supported=[<ComparisonMode.SELF_HISTORY: 'self_history'>] materialization_routes=[] requires_query_text=False"
+    },
+    {
+      "tool": "lookup_capability",
+      "args": {
+        "resource_type": "non_macro_item",
+        "resource_id": "estimates.revenue.revision_direction"
+      },
+      "result": "fetch_shape=<FetchShape.RECORD: 'record'> numeric=True history_materializable=True temporal_analytics_eligible=True comparison_modes_supported=[<ComparisonMode.SELF_HISTORY: 'self_history'>] materialization_routes=[] requires_query_text=False"
+    },
+    {
+      "tool": "lookup_capability",
+      "args": {
+        "resource_type": "non_macro_item",
+        "resource_id": "estimates.eps.revision_direction"
+      },
+      "result": "fetch_shape=<FetchShape.RECORD: 'record'> numeric=True history_materializable=True temporal_analytics_eligible=True comparison_modes_supported=[<ComparisonMode.SELF_HISTORY: 'self_history'>] materialization_routes=[] requires_query_text=False"
+    }
+  ],
+  "tokens": {
+    "input_tokens": 26887,
+    "output_tokens": 1190,
+    "reasoning_tokens": 0,
+    "cache_read_tokens": 22272,
+    "total_tokens": 28077,
+    "llm_calls": 3,
+    "tool_calls": 7,
+    "estimated_cost_usd": 0.0349555
+  },
+  "error": null,
+  "duration_seconds": 16.050130128860474
+}

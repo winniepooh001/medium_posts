@@ -1,0 +1,138 @@
+{
+  "question_id": "Q0029",
+  "plan": {
+    "original_text": "How has Booz Allen's operating margin trended over the past two years?",
+    "thesis": "Booz Allen should outperform over the next 2\u20134 quarters if demand for AI/cybersecurity solutions within the intelligence community accelerates and contract award timelines normalize. The firm's high-margin consulting work, deep relationships with defense and civilian agencies, and recurring revenue from mission-critical systems provide earnings stability and margin expansion potential. The thesis fails if government shutdown risks materialize, procurement reforms compress billing rates, or talent retention costs spike",
+    "hypothesis_type": "temporal",
+    "answer_type": "numeric",
+    "ticker": "BAH",
+    "steps": [
+      {
+        "step_id": "s1",
+        "operation": "fetch",
+        "description": "BAH quarterly operating income history \u2014 fundamental.history.operating_income",
+        "macro_preference": false,
+        "horizon": {
+          "period": 8,
+          "frequency": "quarterly"
+        },
+        "assessment_period": null,
+        "expected_output": "timeseries",
+        "result_type": null,
+        "inputs": [],
+        "params": {
+          "item_id": "fundamental.history.operating_income"
+        },
+        "output_key": "bah_operating_income_ts",
+        "derivation": null
+      },
+      {
+        "step_id": "s2",
+        "operation": "fetch",
+        "description": "BAH quarterly revenue history \u2014 fundamental.history.revenue",
+        "macro_preference": false,
+        "horizon": {
+          "period": 8,
+          "frequency": "quarterly"
+        },
+        "assessment_period": null,
+        "expected_output": "timeseries",
+        "result_type": null,
+        "inputs": [],
+        "params": {
+          "item_id": "fundamental.history.revenue"
+        },
+        "output_key": "bah_revenue_ts",
+        "derivation": null
+      },
+      {
+        "step_id": "s3",
+        "operation": "fetch",
+        "description": "BAH quarterly operating margin derived from operating income divided by revenue",
+        "macro_preference": false,
+        "horizon": {
+          "period": 8,
+          "frequency": "quarterly"
+        },
+        "assessment_period": null,
+        "expected_output": "timeseries",
+        "result_type": null,
+        "inputs": [],
+        "params": {},
+        "output_key": "derived_bah_operating_margin",
+        "derivation": {
+          "numerator": "operating_income",
+          "denominator": "revenue",
+          "operation": "ratio"
+        }
+      },
+      {
+        "step_id": "s4",
+        "operation": "trend",
+        "description": "Trend in BAH operating margin over the past two years",
+        "macro_preference": null,
+        "horizon": null,
+        "assessment_period": null,
+        "expected_output": null,
+        "result_type": "numeric",
+        "inputs": [
+          "$s3"
+        ],
+        "params": {},
+        "output_key": "bah_operating_margin_trend",
+        "derivation": null
+      }
+    ],
+    "ambiguity_notes": {
+      "operating margin": "grounded as operating income divided by revenue because direct snapshot operating margin exists, but quarterly historical operating margin was not directly available; derived from grounded timeseries components fundamental.history.operating_income and fundamental.history.revenue",
+      "past two years": "grounded as the last 8 quarterly observations"
+    },
+    "reasoning": "The question asks for a temporal direction of operating margin, so the plan must obtain a quarterly operating margin timeseries for the last two years and then compute its trend. Because only operating income and revenue histories were directly found, operating margin is derived explicitly before applying the trend operation."
+  },
+  "trace": [
+    {
+      "tool": "search_non_macro_catalog",
+      "args": {
+        "query": "BAH operating margin history quarterly",
+        "top_k": 5
+      },
+      "result": "[{'item_id': 'fundamental.history.operating_income', 'label': 'Operating Income Quarterly History', 'description': 'EBIT for each of the past N quarters. Use for margin trend analysis.', 'data_type': 'timeseries', 'tool_fn': 'get_fundamentals', 'tool_params': {'period': 'quarterly'}, 'tool_field': 'data.history', 'aliases_json': '[\"EBIT trend\", \"operating income trend\", \"operating profit history\"]', 'category': 'fundamental', 'source': 'yfinance / defeatbeta', 'notes': \"Extract field 'operating_"
+    },
+    {
+      "tool": "search_non_macro_catalog",
+      "args": {
+        "query": "BAH revenue history quarterly",
+        "top_k": 5
+      },
+      "result": "[{'item_id': 'fundamental.history.revenue', 'label': 'Revenue Quarterly History', 'description': 'Revenue for each of the past N quarters. Use for trend and seasonality analysis. Does NOT include forward estimates.', 'data_type': 'timeseries', 'tool_fn': 'get_fundamentals', 'tool_params': {'period': 'quarterly'}, 'tool_field': 'data.history', 'aliases_json': '[\"revenue\", \"revenue history\", \"revenue quarterly\", \"revenue trend\"]', 'category': 'fundamental', 'source': 'yfinance / defeatbeta', 'note"
+    },
+    {
+      "tool": "lookup_capability",
+      "args": {
+        "resource_type": "non_macro_item",
+        "resource_id": "fundamental.history.operating_income"
+      },
+      "result": "fetch_shape=<FetchShape.TIMESERIES: 'timeseries'> numeric=True history_materializable=False temporal_analytics_eligible=True comparison_modes_supported=[<ComparisonMode.SELF_HISTORY: 'self_history'>, <ComparisonMode.CONDITIONAL_HISTORY: 'conditional_history'>] materialization_routes=[] requires_query_text=False"
+    },
+    {
+      "tool": "lookup_capability",
+      "args": {
+        "resource_type": "non_macro_item",
+        "resource_id": "fundamental.snapshot.operating_margin"
+      },
+      "result": "fetch_shape=<FetchShape.RECORD: 'record'> numeric=False history_materializable=True temporal_analytics_eligible=True comparison_modes_supported=[<ComparisonMode.SELF_HISTORY: 'self_history'>] materialization_routes=['derive_from_components'] requires_query_text=False"
+    }
+  ],
+  "tokens": {
+    "input_tokens": 22544,
+    "output_tokens": 913,
+    "reasoning_tokens": 0,
+    "cache_read_tokens": 19584,
+    "total_tokens": 23457,
+    "llm_calls": 3,
+    "tool_calls": 4,
+    "estimated_cost_usd": 0.025991
+  },
+  "error": null,
+  "duration_seconds": 12.632534980773926
+}

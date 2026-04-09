@@ -1,0 +1,191 @@
+{
+  "question_id": "Q0016",
+  "plan": {
+    "original_text": "How has ARDC's net interest margin changed over the last year?",
+    "thesis": "ARDC\u2019s income generation improved significantly, with revenue and net income growth indicating favorable credit spreads. If default rates remain contained, distributable yield provides downside support. The thesis fails under a credit deterioration scenario.",
+    "hypothesis_type": "temporal",
+    "answer_type": "numeric",
+    "ticker": "ARDC",
+    "steps": [
+      {
+        "step_id": "s1",
+        "operation": "fetch",
+        "description": "ARDC quarterly net income history \u2014 fundamental.history.net_income",
+        "macro_preference": false,
+        "horizon": {
+          "period": 4,
+          "frequency": "quarterly"
+        },
+        "assessment_period": null,
+        "expected_output": "timeseries",
+        "result_type": null,
+        "inputs": [],
+        "params": {
+          "item_id": "fundamental.history.net_income"
+        },
+        "output_key": "ardc_net_income_ts",
+        "derivation": null
+      },
+      {
+        "step_id": "s2",
+        "operation": "fetch",
+        "description": "ARDC quarterly revenue history \u2014 fundamental.history.revenue",
+        "macro_preference": false,
+        "horizon": {
+          "period": 4,
+          "frequency": "quarterly"
+        },
+        "assessment_period": null,
+        "expected_output": "timeseries",
+        "result_type": null,
+        "inputs": [],
+        "params": {
+          "item_id": "fundamental.history.revenue"
+        },
+        "output_key": "ardc_revenue_ts",
+        "derivation": null
+      },
+      {
+        "step_id": "s3",
+        "operation": "delta",
+        "description": "ARDC change in net-income-based margin over the last year using quarterly history",
+        "macro_preference": null,
+        "horizon": null,
+        "assessment_period": null,
+        "expected_output": null,
+        "result_type": "numeric",
+        "inputs": [
+          "$s1"
+        ],
+        "params": {},
+        "output_key": "ardc_net_income_delta",
+        "derivation": null
+      },
+      {
+        "step_id": "s4",
+        "operation": "delta",
+        "description": "ARDC change in revenue over the last year using quarterly history",
+        "macro_preference": null,
+        "horizon": null,
+        "assessment_period": null,
+        "expected_output": null,
+        "result_type": "numeric",
+        "inputs": [
+          "$s2"
+        ],
+        "params": {},
+        "output_key": "ardc_revenue_delta",
+        "derivation": null
+      },
+      {
+        "step_id": "s5",
+        "operation": "sensitivity",
+        "description": "Estimate ARDC net-interest-margin proxy change over the last year from net income relative to revenue change",
+        "macro_preference": null,
+        "horizon": null,
+        "assessment_period": null,
+        "expected_output": null,
+        "result_type": "numeric",
+        "inputs": [
+          "$s1",
+          "$s2"
+        ],
+        "params": {},
+        "output_key": "ardc_margin_change_proxy",
+        "derivation": null
+      }
+    ],
+    "ambiguity_notes": {
+      "net interest margin": "unresolved \u2014 no direct ARDC net interest margin series was found in the accessible non-macro catalog. Available direct history includes revenue and net income, plus a snapshot net profit margin resource that is not temporally eligible. The plan therefore uses a low-fidelity proxy based on available quarterly net income and revenue history, but this is not equivalent to true net interest margin.",
+      "ARDC issuer structure": "proxy \u2014 ARDC is a credit-focused fund/BDC-like vehicle, so 'net interest margin' may refer more precisely to investment spread economics or net investment income margin rather than a standard bank NIM metric.",
+      "grounding_status": "core target metric unresolved; inputs grounded."
+    },
+    "reasoning": "The question asks for a one-year change in a margin metric, which requires historical timeseries data. Because no directly grounded net interest margin history was discoverable for ARDC, the plan uses available quarterly net income and revenue history as a proxy to approximate margin change, while clearly flagging that this is not a true net interest margin measure."
+  },
+  "trace": [
+    {
+      "tool": "search_non_macro_catalog",
+      "args": {
+        "query": "ARDC net interest margin history quarterly annual fundamental",
+        "top_k": 5
+      },
+      "result": "[{'item_id': 'fundamental.history.net_income', 'label': 'Net Income Quarterly History', 'description': 'Net income for each of the past N quarters.', 'data_type': 'timeseries', 'tool_fn': 'get_fundamentals', 'tool_params': {'period': 'quarterly'}, 'tool_field': 'data.history', 'aliases_json': '[\"quarterly earnings trend\", \"net profit trend\", \"quarterly net income\", \"earnings history\"]', 'category': 'fundamental', 'source': 'yfinance / defeatbeta', 'notes': \"Extract field 'net_income' from each h"
+    },
+    {
+      "tool": "search_non_macro_catalog",
+      "args": {
+        "query": "ARDC net investment income history quarterly",
+        "top_k": 5
+      },
+      "result": "[{'item_id': 'fundamental.history.net_income', 'label': 'Net Income Quarterly History', 'description': 'Net income for each of the past N quarters.', 'data_type': 'timeseries', 'tool_fn': 'get_fundamentals', 'tool_params': {'period': 'quarterly'}, 'tool_field': 'data.history', 'aliases_json': '[\"quarterly earnings trend\", \"net profit trend\", \"quarterly net income\", \"earnings history\"]', 'category': 'fundamental', 'source': 'yfinance / defeatbeta', 'notes': \"Extract field 'net_income' from each h"
+    },
+    {
+      "tool": "search_non_macro_catalog",
+      "args": {
+        "query": "ARDC interest income history quarterly",
+        "top_k": 5
+      },
+      "result": "[{'item_id': 'fundamental.history.net_income', 'label': 'Net Income Quarterly History', 'description': 'Net income for each of the past N quarters.', 'data_type': 'timeseries', 'tool_fn': 'get_fundamentals', 'tool_params': {'period': 'quarterly'}, 'tool_field': 'data.history', 'aliases_json': '[\"quarterly earnings trend\", \"net profit trend\", \"quarterly net income\", \"earnings history\"]', 'category': 'fundamental', 'source': 'yfinance / defeatbeta', 'notes': \"Extract field 'net_income' from each h"
+    },
+    {
+      "tool": "search_non_macro_catalog",
+      "args": {
+        "query": "ARDC investment income history quarterly",
+        "top_k": 5
+      },
+      "result": "[{'item_id': 'fundamental.history.net_income', 'label': 'Net Income Quarterly History', 'description': 'Net income for each of the past N quarters.', 'data_type': 'timeseries', 'tool_fn': 'get_fundamentals', 'tool_params': {'period': 'quarterly'}, 'tool_field': 'data.history', 'aliases_json': '[\"quarterly earnings trend\", \"net profit trend\", \"quarterly net income\", \"earnings history\"]', 'category': 'fundamental', 'source': 'yfinance / defeatbeta', 'notes': \"Extract field 'net_income' from each h"
+    },
+    {
+      "tool": "search_non_macro_catalog",
+      "args": {
+        "query": "ARDC net interest margin",
+        "top_k": 5
+      },
+      "result": "[{'item_id': 'fundamental.snapshot.profit_margin', 'label': 'Net Profit Margin', 'description': 'Net income as a percentage of revenue (TTM). The bottom-line profitability measure after all expenses and taxes.', 'data_type': 'single_value', 'tool_fn': 'get_fundamentals', 'tool_params': {}, 'tool_field': 'data.snapshot.profit_margin', 'aliases_json': '[\"net margin\", \"bottom line margin\", \"net income margin\", \"after tax margin\", \"return on sales\"]', 'category': 'fundamental', 'source': 'yfinance /"
+    },
+    {
+      "tool": "search_non_macro_catalog",
+      "args": {
+        "query": "ARDC revenue quarterly history",
+        "top_k": 5
+      },
+      "result": "[{'item_id': 'fundamental.history.revenue', 'label': 'Revenue Quarterly History', 'description': 'Revenue for each of the past N quarters. Use for trend and seasonality analysis. Does NOT include forward estimates.', 'data_type': 'timeseries', 'tool_fn': 'get_fundamentals', 'tool_params': {'period': 'quarterly'}, 'tool_field': 'data.history', 'aliases_json': '[\"revenue\", \"revenue history\", \"revenue quarterly\", \"revenue trend\"]', 'category': 'fundamental', 'source': 'yfinance / defeatbeta', 'note"
+    },
+    {
+      "tool": "lookup_capability",
+      "args": {
+        "resource_type": "non_macro_item",
+        "resource_id": "fundamental.history.revenue"
+      },
+      "result": "fetch_shape=<FetchShape.TIMESERIES: 'timeseries'> numeric=True history_materializable=False temporal_analytics_eligible=True comparison_modes_supported=[<ComparisonMode.SELF_HISTORY: 'self_history'>, <ComparisonMode.CONDITIONAL_HISTORY: 'conditional_history'>] materialization_routes=[] requires_query_text=False"
+    },
+    {
+      "tool": "lookup_capability",
+      "args": {
+        "resource_type": "non_macro_item",
+        "resource_id": "fundamental.history.net_income"
+      },
+      "result": "fetch_shape=<FetchShape.TIMESERIES: 'timeseries'> numeric=True history_materializable=False temporal_analytics_eligible=True comparison_modes_supported=[<ComparisonMode.SELF_HISTORY: 'self_history'>, <ComparisonMode.CONDITIONAL_HISTORY: 'conditional_history'>] materialization_routes=[] requires_query_text=False"
+    },
+    {
+      "tool": "lookup_capability",
+      "args": {
+        "resource_type": "non_macro_item",
+        "resource_id": "fundamental.snapshot.profit_margin"
+      },
+      "result": "fetch_shape=<FetchShape.RECORD: 'record'> numeric=False history_materializable=False temporal_analytics_eligible=False comparison_modes_supported=[<ComparisonMode.NONE: 'none'>] materialization_routes=[] requires_query_text=False"
+    }
+  ],
+  "tokens": {
+    "input_tokens": 38576,
+    "output_tokens": 1181,
+    "reasoning_tokens": 0,
+    "cache_read_tokens": 31232,
+    "total_tokens": 39757,
+    "llm_calls": 4,
+    "tool_calls": 9,
+    "estimated_cost_usd": 0.043883000000000005
+  },
+  "error": null,
+  "duration_seconds": 19.203646421432495
+}

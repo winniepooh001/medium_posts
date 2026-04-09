@@ -1,0 +1,199 @@
+{
+  "question_id": "Q0050",
+  "plan": {
+    "original_text": "Are CALM's operating margins compressing despite revenue growth over the past two quarters?",
+    "thesis": "Cal-Maine should outperform over the next 2\u20134 quarters if shell egg pricing remains above historical mid-cycle levels. Earnings are highly sensitive to spot egg prices due to largely fixed production costs, creating operating leverage. The thesis fails if egg prices revert to pre-cycle averages faster than expected.",
+    "hypothesis_type": "composite",
+    "answer_type": "text",
+    "ticker": "CALM",
+    "steps": [
+      {
+        "step_id": "s1",
+        "operation": "fetch",
+        "description": "CALM quarterly operating income history \u2014 fundamental.history.operating_income",
+        "macro_preference": false,
+        "horizon": {
+          "period": 4,
+          "frequency": "quarterly"
+        },
+        "assessment_period": null,
+        "expected_output": "timeseries",
+        "result_type": null,
+        "inputs": [],
+        "params": {
+          "item_id": "fundamental.history.operating_income"
+        },
+        "output_key": "calm_operating_income_qtr_ts",
+        "derivation": null
+      },
+      {
+        "step_id": "s2",
+        "operation": "fetch",
+        "description": "CALM quarterly revenue history \u2014 fundamental.history.revenue",
+        "macro_preference": false,
+        "horizon": {
+          "period": 4,
+          "frequency": "quarterly"
+        },
+        "assessment_period": null,
+        "expected_output": "timeseries",
+        "result_type": null,
+        "inputs": [],
+        "params": {
+          "item_id": "fundamental.history.revenue"
+        },
+        "output_key": "calm_revenue_qtr_ts",
+        "derivation": null
+      },
+      {
+        "step_id": "s3",
+        "operation": "fetch",
+        "description": "CALM derived quarterly operating margin from operating income divided by revenue",
+        "macro_preference": false,
+        "horizon": {
+          "period": 4,
+          "frequency": "quarterly"
+        },
+        "assessment_period": null,
+        "expected_output": "timeseries",
+        "result_type": null,
+        "inputs": [],
+        "params": {},
+        "output_key": "derived_calm_operating_margin_qtr_ts",
+        "derivation": {
+          "numerator": "operating_income",
+          "denominator": "revenue",
+          "operation": "ratio"
+        }
+      },
+      {
+        "step_id": "s4",
+        "operation": "trend",
+        "description": "CALM operating margin trend over the past two quarters",
+        "macro_preference": null,
+        "horizon": null,
+        "assessment_period": null,
+        "expected_output": null,
+        "result_type": "numeric",
+        "inputs": [
+          "$s3"
+        ],
+        "params": {},
+        "output_key": "calm_operating_margin_trend",
+        "derivation": null
+      },
+      {
+        "step_id": "s5",
+        "operation": "growth",
+        "description": "CALM revenue quarter-over-quarter growth over the past two quarters",
+        "macro_preference": null,
+        "horizon": null,
+        "assessment_period": null,
+        "expected_output": null,
+        "result_type": "numeric",
+        "inputs": [
+          "$s2"
+        ],
+        "params": {
+          "period": "qoq"
+        },
+        "output_key": "calm_revenue_qoq_growth",
+        "derivation": null
+      },
+      {
+        "step_id": "s6",
+        "operation": "trend",
+        "description": "CALM revenue growth trend over the past two quarters",
+        "macro_preference": null,
+        "horizon": null,
+        "assessment_period": null,
+        "expected_output": null,
+        "result_type": "numeric",
+        "inputs": [
+          "$s5"
+        ],
+        "params": {},
+        "output_key": "calm_revenue_growth_trend",
+        "derivation": null
+      },
+      {
+        "step_id": "s7",
+        "operation": "assess",
+        "description": "Assess whether CALM operating margins are compressing despite revenue growth over the past two quarters",
+        "macro_preference": null,
+        "horizon": null,
+        "assessment_period": null,
+        "expected_output": null,
+        "result_type": "verdict",
+        "inputs": [
+          "$s4",
+          "$s5",
+          "$s6"
+        ],
+        "params": {},
+        "output_key": "calm_margin_compression_despite_revenue_growth_assessment",
+        "derivation": null
+      }
+    ],
+    "ambiguity_notes": {
+      "operating margins": "grounded as a derived quarterly operating margin timeseries using fundamental.history.operating_income divided by fundamental.history.revenue, because only a snapshot operating_margin series was directly available and not a historical margin timeseries.",
+      "revenue growth": "grounded as quarter-over-quarter growth computed from fundamental.history.revenue over recent quarterly history.",
+      "past two quarters": "interpreted as using recent quarterly history sufficient to evaluate the latest two-quarter directional pattern; fetched 4 quarters to support margin derivation and qoq growth computation."
+    },
+    "reasoning": "The question is a composite of two linked conditions: whether operating margins are compressing and whether revenue is still growing. Since no historical operating margin series was directly available, the plan derives margin from quarterly operating income and revenue, then evaluates margin direction and revenue growth before making a terminal qualitative assessment."
+  },
+  "trace": [
+    {
+      "tool": "search_non_macro_catalog",
+      "args": {
+        "query": "CALM operating margin history quarterly",
+        "top_k": 5
+      },
+      "result": "[{'item_id': 'fundamental.history.operating_income', 'label': 'Operating Income Quarterly History', 'description': 'EBIT for each of the past N quarters. Use for margin trend analysis.', 'data_type': 'timeseries', 'tool_fn': 'get_fundamentals', 'tool_params': {'period': 'quarterly'}, 'tool_field': 'data.history', 'aliases_json': '[\"EBIT trend\", \"operating income trend\", \"operating profit history\"]', 'category': 'fundamental', 'source': 'yfinance / defeatbeta', 'notes': \"Extract field 'operating_"
+    },
+    {
+      "tool": "search_non_macro_catalog",
+      "args": {
+        "query": "CALM revenue history quarterly",
+        "top_k": 5
+      },
+      "result": "[{'item_id': 'fundamental.history.revenue', 'label': 'Revenue Quarterly History', 'description': 'Revenue for each of the past N quarters. Use for trend and seasonality analysis. Does NOT include forward estimates.', 'data_type': 'timeseries', 'tool_fn': 'get_fundamentals', 'tool_params': {'period': 'quarterly'}, 'tool_field': 'data.history', 'aliases_json': '[\"revenue\", \"revenue history\", \"revenue quarterly\", \"revenue trend\"]', 'category': 'fundamental', 'source': 'yfinance / defeatbeta', 'note"
+    },
+    {
+      "tool": "lookup_capability",
+      "args": {
+        "resource_type": "non_macro_item",
+        "resource_id": "fundamental.history.operating_income"
+      },
+      "result": "fetch_shape=<FetchShape.TIMESERIES: 'timeseries'> numeric=True history_materializable=False temporal_analytics_eligible=True comparison_modes_supported=[<ComparisonMode.SELF_HISTORY: 'self_history'>, <ComparisonMode.CONDITIONAL_HISTORY: 'conditional_history'>] materialization_routes=[] requires_query_text=False"
+    },
+    {
+      "tool": "lookup_capability",
+      "args": {
+        "resource_type": "non_macro_item",
+        "resource_id": "fundamental.history.revenue"
+      },
+      "result": "fetch_shape=<FetchShape.TIMESERIES: 'timeseries'> numeric=True history_materializable=False temporal_analytics_eligible=True comparison_modes_supported=[<ComparisonMode.SELF_HISTORY: 'self_history'>, <ComparisonMode.CONDITIONAL_HISTORY: 'conditional_history'>] materialization_routes=[] requires_query_text=False"
+    },
+    {
+      "tool": "search_non_macro_catalog",
+      "args": {
+        "query": "CALM operating margin quarterly history margin percent",
+        "top_k": 5
+      },
+      "result": "[{'item_id': 'fundamental.snapshot.operating_margin', 'label': 'Operating Margin Percent', 'description': 'Operating income as a percentage of revenue (TTM). Includes COGS, R&D, and SG&A. Does NOT include interest or taxes.', 'data_type': 'single_value', 'tool_fn': 'get_fundamentals', 'tool_params': {}, 'tool_field': 'data.snapshot.operating_margin', 'aliases_json': '[\"EBIT margin\", \"operating profitability\", \"EBIT percent\", \"operating income margin\", \"operating efficiency\"]', 'category': 'funda"
+    }
+  ],
+  "tokens": {
+    "input_tokens": 24446,
+    "output_tokens": 1313,
+    "reasoning_tokens": 0,
+    "cache_read_tokens": 20608,
+    "total_tokens": 25759,
+    "llm_calls": 3,
+    "tool_calls": 5,
+    "estimated_cost_usd": 0.034442
+  },
+  "error": null,
+  "duration_seconds": 15.517371892929077
+}

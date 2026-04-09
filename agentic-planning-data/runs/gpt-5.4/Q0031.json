@@ -1,0 +1,83 @@
+{
+  "question_id": "Q0031",
+  "plan": {
+    "original_text": "What recent analyst rating changes have occurred for Booz Allen?",
+    "thesis": "Booz Allen should outperform over the next 2\u20134 quarters if demand for AI/cybersecurity solutions within the intelligence community accelerates and contract award timelines normalize. The firm's high-margin consulting work, deep relationships with defense and civilian agencies, and recurring revenue from mission-critical systems provide earnings stability and margin expansion potential. The thesis fails if government shutdown risks materialize, procurement reforms compress billing rates, or talent retention costs spike",
+    "hypothesis_type": "level",
+    "answer_type": "text",
+    "ticker": "BAH",
+    "steps": [
+      {
+        "step_id": "s1",
+        "operation": "fetch",
+        "description": "Booz Allen recent analyst rating changes record/history \u2014 sentiment.ratings.history",
+        "macro_preference": false,
+        "horizon": {
+          "period": 1,
+          "frequency": null
+        },
+        "assessment_period": null,
+        "expected_output": "record",
+        "result_type": null,
+        "inputs": [],
+        "params": {
+          "item_id": "sentiment.ratings.history"
+        },
+        "output_key": "bah_analyst_rating_changes_record",
+        "derivation": null
+      },
+      {
+        "step_id": "s2",
+        "operation": "assess",
+        "description": "Summarize the recent analyst rating changes for Booz Allen from the fetched rating-change record",
+        "macro_preference": null,
+        "horizon": null,
+        "assessment_period": null,
+        "expected_output": null,
+        "result_type": "verdict",
+        "inputs": [
+          "$s1"
+        ],
+        "params": {},
+        "output_key": "bah_recent_analyst_rating_changes_summary",
+        "derivation": null
+      }
+    ],
+    "ambiguity_notes": {
+      "recent": "Interpreted as the latest available analyst rating-change records in the catalog rather than a fixed day count, because the discovered resource is a change-history record feed.",
+      "analyst rating changes": "Grounded to sentiment.ratings.history, which provides per-change records including date, firm, from grade, to grade, and action.",
+      "grounding_status": "grounded"
+    },
+    "reasoning": "The question asks for a narrative summary of recent analyst rating actions rather than a numeric comparison. The plan fetches the analyst rating-change record resource for BAH and then assesses/summarizes the latest changes into a text answer."
+  },
+  "trace": [
+    {
+      "tool": "search_non_macro_catalog",
+      "args": {
+        "query": "BAH analyst rating changes recent analyst revisions upgrades downgrades",
+        "top_k": 5
+      },
+      "result": "[{'item_id': 'sentiment.ratings.upgrades', 'label': 'Analyst Upgrade Count', 'description': 'Number of analyst rating upgrades over the lookback period.', 'data_type': 'single_value', 'tool_fn': 'get_rating_changes', 'tool_params': {}, 'tool_field': 'data.summary.upgrades', 'aliases_json': '[\"upgrades\", \"analyst upgrades\", \"positive rating changes\", \"buy upgrades\", \"analyst bullish\"]', 'category': 'sentiment', 'source': 'yfinance', 'notes': None, 'rank': -22.96672117428775, 'score': 0.9582754773"
+    },
+    {
+      "tool": "lookup_capability",
+      "args": {
+        "resource_type": "non_macro_item",
+        "resource_id": "sentiment.ratings.history"
+      },
+      "result": "fetch_shape=<FetchShape.RECORD: 'record'> numeric=False history_materializable=False temporal_analytics_eligible=False comparison_modes_supported=[<ComparisonMode.NONE: 'none'>] materialization_routes=[] requires_query_text=False"
+    }
+  ],
+  "tokens": {
+    "input_tokens": 21504,
+    "output_tokens": 595,
+    "reasoning_tokens": 0,
+    "cache_read_tokens": 19584,
+    "total_tokens": 22099,
+    "llm_calls": 3,
+    "tool_calls": 2,
+    "estimated_cost_usd": 0.018621
+  },
+  "error": null,
+  "duration_seconds": 10.870345830917358
+}

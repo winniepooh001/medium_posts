@@ -1,0 +1,218 @@
+{
+  "question_id": "Q0026",
+  "plan": {
+    "original_text": "Is ARDC's distributable yield declining despite stable or increasing revenue?",
+    "thesis": "ARDC\u2019s income generation improved significantly, with revenue and net income growth indicating favorable credit spreads. If default rates remain contained, distributable yield provides downside support. The thesis fails under a credit deterioration scenario.",
+    "hypothesis_type": "composite",
+    "answer_type": "text",
+    "ticker": "ARDC",
+    "steps": [
+      {
+        "step_id": "s1",
+        "operation": "fetch",
+        "description": "ARDC current dividend yield snapshot \u2014 profiler.calendar.dividend_yield",
+        "macro_preference": false,
+        "horizon": {
+          "period": 1,
+          "frequency": null
+        },
+        "assessment_period": null,
+        "expected_output": "record",
+        "result_type": null,
+        "inputs": [],
+        "params": {
+          "item_id": "profiler.calendar.dividend_yield"
+        },
+        "output_key": "ardc_dividend_yield_snapshot",
+        "derivation": null
+      },
+      {
+        "step_id": "s2",
+        "operation": "fetch",
+        "description": "ARDC quarterly revenue history \u2014 fundamental.history.revenue",
+        "macro_preference": false,
+        "horizon": {
+          "period": 8,
+          "frequency": "quarterly"
+        },
+        "assessment_period": null,
+        "expected_output": "timeseries",
+        "result_type": null,
+        "inputs": [],
+        "params": {
+          "item_id": "fundamental.history.revenue"
+        },
+        "output_key": "ardc_revenue_ts",
+        "derivation": null
+      },
+      {
+        "step_id": "s3",
+        "operation": "growth",
+        "description": "ARDC revenue year-over-year growth rate",
+        "macro_preference": null,
+        "horizon": null,
+        "assessment_period": null,
+        "expected_output": null,
+        "result_type": "numeric",
+        "inputs": [
+          "$s2"
+        ],
+        "params": {
+          "period": "yoy"
+        },
+        "output_key": "ardc_revenue_yoy_growth",
+        "derivation": null
+      },
+      {
+        "step_id": "s4",
+        "operation": "trend",
+        "description": "Trend in ARDC revenue growth to determine whether revenue is stable or increasing",
+        "macro_preference": null,
+        "horizon": null,
+        "assessment_period": null,
+        "expected_output": null,
+        "result_type": "numeric",
+        "inputs": [
+          "$s3"
+        ],
+        "params": {},
+        "output_key": "ardc_revenue_growth_trend",
+        "derivation": null
+      },
+      {
+        "step_id": "s5",
+        "operation": "fetch",
+        "description": "ARDC quarterly net income history as proxy for distributable income trend context \u2014 fundamental.history.net_income",
+        "macro_preference": false,
+        "horizon": {
+          "period": 8,
+          "frequency": "quarterly"
+        },
+        "assessment_period": null,
+        "expected_output": "timeseries",
+        "result_type": null,
+        "inputs": [],
+        "params": {
+          "item_id": "fundamental.history.net_income"
+        },
+        "output_key": "ardc_net_income_ts",
+        "derivation": null
+      },
+      {
+        "step_id": "s6",
+        "operation": "growth",
+        "description": "ARDC net income year-over-year growth rate for supporting income-generation context",
+        "macro_preference": null,
+        "horizon": null,
+        "assessment_period": null,
+        "expected_output": null,
+        "result_type": "numeric",
+        "inputs": [
+          "$s5"
+        ],
+        "params": {
+          "period": "yoy"
+        },
+        "output_key": "ardc_net_income_yoy_growth",
+        "derivation": null
+      },
+      {
+        "step_id": "s7",
+        "operation": "assess",
+        "description": "Assess whether ARDC distributable yield is declining despite stable or increasing revenue, using available yield snapshot plus revenue and net income trend context",
+        "macro_preference": null,
+        "horizon": null,
+        "assessment_period": null,
+        "expected_output": null,
+        "result_type": "verdict",
+        "inputs": [
+          "$s1",
+          "$s3",
+          "$s4",
+          "$s6"
+        ],
+        "params": {},
+        "output_key": "ardc_distributable_yield_vs_revenue_assessment",
+        "derivation": null
+      }
+    ],
+    "ambiguity_notes": {
+      "distributable yield": "unresolved \u2014 no direct ARDC distributable yield history or timeseries resource was found in the non-macro catalog. Used profiler.calendar.dividend_yield as a proxy snapshot for current income yield, but this does not support decline/trend analysis.",
+      "declining": "unsupported with available catalog evidence because the only yield-related match was a snapshot record, not a temporal series eligible for trend computation.",
+      "revenue": "grounded \u2014 mapped to fundamental.history.revenue, a quarterly timeseries with temporal analytics support.",
+      "stable or increasing revenue": "interpreted as requiring revenue history plus explicit yoy growth computation and a trend step on that growth series.",
+      "income generation context": "proxy \u2014 added fundamental.history.net_income to support thesis context because distributable income was not directly discoverable."
+    },
+    "reasoning": "The question is composite because it asks for a judgment about one metric's decline conditional on another metric being stable or increasing. The plan explicitly computes revenue growth and its trend, but because only a current yield snapshot was discoverable for ARDC, the terminal step is an assess verdict rather than a boolean compare, with the yield component flagged as unresolved for true temporal confirmation."
+  },
+  "trace": [
+    {
+      "tool": "search_non_macro_catalog",
+      "args": {
+        "query": "ARDC distributable yield history yield timeseries",
+        "top_k": 5
+      },
+      "result": "[{'item_id': 'profiler.calendar.dividend_yield', 'label': 'Dividend Yield', 'description': 'Annual dividend per share divided by current price. Does NOT include special or variable dividends.', 'data_type': 'single_value', 'tool_fn': 'get_calendar', 'tool_params': {}, 'tool_field': 'data.dividend_yield', 'aliases_json': '[\"yield\", \"dividend yield\", \"income yield\", \"cash yield\", \"dividend percent\"]', 'category': 'profiler', 'source': 'yfinance', 'notes': None, 'rank': -18.444806195903517, 'score'"
+    },
+    {
+      "tool": "search_non_macro_catalog",
+      "args": {
+        "query": "ARDC revenue history quarterly timeseries",
+        "top_k": 5
+      },
+      "result": "[{'item_id': 'fundamental.history.revenue', 'label': 'Revenue Quarterly History', 'description': 'Revenue for each of the past N quarters. Use for trend and seasonality analysis. Does NOT include forward estimates.', 'data_type': 'timeseries', 'tool_fn': 'get_fundamentals', 'tool_params': {'period': 'quarterly'}, 'tool_field': 'data.history', 'aliases_json': '[\"revenue\", \"revenue history\", \"revenue quarterly\", \"revenue trend\"]', 'category': 'fundamental', 'source': 'yfinance / defeatbeta', 'note"
+    },
+    {
+      "tool": "search_non_macro_catalog",
+      "args": {
+        "query": "ARDC net investment income history quarterly timeseries",
+        "top_k": 5
+      },
+      "result": "[{'item_id': 'fundamental.history.net_income', 'label': 'Net Income Quarterly History', 'description': 'Net income for each of the past N quarters.', 'data_type': 'timeseries', 'tool_fn': 'get_fundamentals', 'tool_params': {'period': 'quarterly'}, 'tool_field': 'data.history', 'aliases_json': '[\"quarterly earnings trend\", \"net profit trend\", \"quarterly net income\", \"earnings history\"]', 'category': 'fundamental', 'source': 'yfinance / defeatbeta', 'notes': \"Extract field 'net_income' from each h"
+    },
+    {
+      "tool": "lookup_capability",
+      "args": {
+        "resource_type": "non_macro_item",
+        "resource_id": "profiler.calendar.dividend_yield"
+      },
+      "result": "fetch_shape=<FetchShape.RECORD: 'record'> numeric=False history_materializable=False temporal_analytics_eligible=False comparison_modes_supported=[<ComparisonMode.NONE: 'none'>] materialization_routes=[] requires_query_text=False"
+    },
+    {
+      "tool": "lookup_capability",
+      "args": {
+        "resource_type": "non_macro_item",
+        "resource_id": "fundamental.history.revenue"
+      },
+      "result": "fetch_shape=<FetchShape.TIMESERIES: 'timeseries'> numeric=True history_materializable=False temporal_analytics_eligible=True comparison_modes_supported=[<ComparisonMode.SELF_HISTORY: 'self_history'>, <ComparisonMode.CONDITIONAL_HISTORY: 'conditional_history'>] materialization_routes=[] requires_query_text=False"
+    },
+    {
+      "tool": "lookup_capability",
+      "args": {
+        "resource_type": "non_macro_item",
+        "resource_id": "fundamental.history.net_income"
+      },
+      "result": "fetch_shape=<FetchShape.TIMESERIES: 'timeseries'> numeric=True history_materializable=False temporal_analytics_eligible=True comparison_modes_supported=[<ComparisonMode.SELF_HISTORY: 'self_history'>, <ComparisonMode.CONDITIONAL_HISTORY: 'conditional_history'>] materialization_routes=[] requires_query_text=False"
+    },
+    {
+      "tool": "search_non_macro_catalog",
+      "args": {
+        "query": "ARDC dividend history cash distributions timeseries",
+        "top_k": 10
+      },
+      "result": "[{'item_id': 'profiler.calendar.dividend_yield', 'label': 'Dividend Yield', 'description': 'Annual dividend per share divided by current price. Does NOT include special or variable dividends.', 'data_type': 'single_value', 'tool_fn': 'get_calendar', 'tool_params': {}, 'tool_field': 'data.dividend_yield', 'aliases_json': '[\"yield\", \"dividend yield\", \"income yield\", \"cash yield\", \"dividend percent\"]', 'category': 'profiler', 'source': 'yfinance', 'notes': None, 'rank': -11.424383169131213, 'score'"
+    }
+  ],
+  "tokens": {
+    "input_tokens": 36756,
+    "output_tokens": 1448,
+    "reasoning_tokens": 0,
+    "cache_read_tokens": 25216,
+    "total_tokens": 38204,
+    "llm_calls": 4,
+    "tool_calls": 7,
+    "estimated_cost_usd": 0.056873999999999994
+  },
+  "error": null,
+  "duration_seconds": 42.76595187187195
+}
