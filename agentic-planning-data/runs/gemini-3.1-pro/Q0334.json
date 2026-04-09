@@ -1,0 +1,278 @@
+{
+  "question_id": "Q0334",
+  "plan": {
+    "original_text": "What data would suggest that the increase in short interest is signaling broader negative sentiment or an impending decline in Cal-Maine's stock price?",
+    "thesis": "Cal-Maine should outperform over the next 2\u20134 quarters if shell egg pricing remains above historical mid-cycle levels. Earnings are highly sensitive to spot egg prices due to largely fixed production costs, creating operating leverage. The thesis fails if egg prices revert to pre-cycle averages faster than expected.",
+    "hypothesis_type": "composite",
+    "answer_type": "text",
+    "ticker": "CALM",
+    "steps": [
+      {
+        "step_id": "s1",
+        "operation": "fetch",
+        "description": "CALM short interest history \u2014 quant.short.history",
+        "macro_preference": false,
+        "horizon": {
+          "period": 6,
+          "frequency": "monthly"
+        },
+        "assessment_period": null,
+        "expected_output": "timeseries",
+        "result_type": null,
+        "inputs": [],
+        "params": {
+          "item_id": "quant.short.history"
+        },
+        "output_key": "calm_short_interest_ts",
+        "derivation": null
+      },
+      {
+        "step_id": "s2",
+        "operation": "trend",
+        "description": "Trend of CALM short interest",
+        "macro_preference": null,
+        "horizon": null,
+        "assessment_period": null,
+        "expected_output": null,
+        "result_type": "numeric",
+        "inputs": [
+          "$s1"
+        ],
+        "params": {},
+        "output_key": "calm_short_interest_trend",
+        "derivation": null
+      },
+      {
+        "step_id": "s3",
+        "operation": "fetch",
+        "description": "CALM short interest percent of float \u2014 quant.short.pct_float",
+        "macro_preference": false,
+        "horizon": {
+          "period": 1,
+          "frequency": null
+        },
+        "assessment_period": null,
+        "expected_output": "scalar",
+        "result_type": null,
+        "inputs": [],
+        "params": {
+          "item_id": "quant.short.pct_float"
+        },
+        "output_key": "calm_short_pct_float",
+        "derivation": null
+      },
+      {
+        "step_id": "s4",
+        "operation": "fetch",
+        "description": "CALM options put/call ratio \u2014 quant.options.put_call_ratio",
+        "macro_preference": false,
+        "horizon": {
+          "period": 1,
+          "frequency": null
+        },
+        "assessment_period": null,
+        "expected_output": "scalar",
+        "result_type": null,
+        "inputs": [],
+        "params": {
+          "item_id": "quant.options.put_call_ratio"
+        },
+        "output_key": "calm_put_call_ratio",
+        "derivation": null
+      },
+      {
+        "step_id": "s5",
+        "operation": "fetch",
+        "description": "CALM analyst rating net direction \u2014 sentiment.ratings.net_direction",
+        "macro_preference": false,
+        "horizon": {
+          "period": 1,
+          "frequency": null
+        },
+        "assessment_period": null,
+        "expected_output": "record",
+        "result_type": null,
+        "inputs": [],
+        "params": {
+          "item_id": "sentiment.ratings.net_direction"
+        },
+        "output_key": "calm_analyst_sentiment",
+        "derivation": null
+      },
+      {
+        "step_id": "s6",
+        "operation": "fetch",
+        "description": "CALM insider sentiment score \u2014 ownership.insider.sentiment",
+        "macro_preference": false,
+        "horizon": {
+          "period": 1,
+          "frequency": null
+        },
+        "assessment_period": null,
+        "expected_output": "scalar",
+        "result_type": null,
+        "inputs": [],
+        "params": {
+          "item_id": "ownership.insider.sentiment"
+        },
+        "output_key": "calm_insider_sentiment",
+        "derivation": null
+      },
+      {
+        "step_id": "s7",
+        "operation": "fetch",
+        "description": "CALM stock price history \u2014 quant.price.history",
+        "macro_preference": false,
+        "horizon": {
+          "period": 6,
+          "frequency": "monthly"
+        },
+        "assessment_period": null,
+        "expected_output": "timeseries",
+        "result_type": null,
+        "inputs": [],
+        "params": {
+          "item_id": "quant.price.history"
+        },
+        "output_key": "calm_price_ts",
+        "derivation": null
+      },
+      {
+        "step_id": "s8",
+        "operation": "trend",
+        "description": "Trend of CALM stock price",
+        "macro_preference": null,
+        "horizon": null,
+        "assessment_period": null,
+        "expected_output": null,
+        "result_type": "numeric",
+        "inputs": [
+          "$s7"
+        ],
+        "params": {},
+        "output_key": "calm_price_trend",
+        "derivation": null
+      },
+      {
+        "step_id": "s9",
+        "operation": "assess",
+        "description": "Assess whether the combination of short interest trend, put/call ratio, analyst sentiment, insider sentiment, and price trend indicates broader negative sentiment or an impending price decline.",
+        "macro_preference": null,
+        "horizon": null,
+        "assessment_period": null,
+        "expected_output": null,
+        "result_type": "verdict",
+        "inputs": [
+          "$s2",
+          "$s3",
+          "$s4",
+          "$s5",
+          "$s6",
+          "$s8"
+        ],
+        "params": {},
+        "output_key": "negative_sentiment_assessment",
+        "derivation": null
+      }
+    ],
+    "ambiguity_notes": {
+      "broader negative sentiment": "Interpreted as a combination of high put/call ratio, negative analyst rating changes, and negative insider sentiment.",
+      "impending decline in stock price": "Interpreted as a negative price trend coupled with rising short interest and high short percent of float."
+    },
+    "reasoning": "To determine if rising short interest signals broader negative sentiment or an impending price decline, we must analyze corroborating indicators. We fetch the short interest trend and level, options put/call ratio, analyst rating changes, insider sentiment, and recent price trend, then assess them collectively to form a verdict."
+  },
+  "trace": [
+    {
+      "tool": "search_non_macro_catalog",
+      "args": {
+        "top_k": 5,
+        "query": "short interest"
+      },
+      "result": "[{'item_id': 'quant.short.history', 'label': 'Short Interest History', 'description': 'Short interest percent and ratio over the past N reporting periods (typically bi-weekly).', 'data_type': 'timeseries', 'tool_fn': 'get_short_interest', 'tool_params': {'include_history': True}, 'tool_field': 'data.history', 'aliases_json': '[\"short interest trend\", \"short history\", \"short interest over time\", \"historical short position\"]', 'category': 'quant', 'source': 'yfinance', 'notes': None, 'rank': -17.6"
+    },
+    {
+      "tool": "search_non_macro_catalog",
+      "args": {
+        "top_k": 5,
+        "query": "sentiment"
+      },
+      "result": "[{'item_id': 'ownership.govt_trades.net_sentiment', 'label': 'Congressional Trade Net Sentiment', 'description': 'Net directional sentiment from congressional trades: bullish (more purchases), bearish (more sales), or neutral.', 'data_type': 'single_value', 'tool_fn': 'get_government_trades', 'tool_params': {}, 'tool_field': 'data.net_sentiment', 'aliases_json': '[\"congressional trade sentiment\", \"politician buy sell ratio\", \"Congress stock sentiment\", \"political buying pressure\"]', 'category': "
+    },
+    {
+      "tool": "search_non_macro_catalog",
+      "args": {
+        "top_k": 5,
+        "query": "put call ratio"
+      },
+      "result": "[{'item_id': 'quant.options.put_call_ratio', 'label': 'Options Put Call Ratio', 'description': 'Total put open interest divided by call open interest. Above 1 = more bearish positioning; below 1 = bullish.', 'data_type': 'single_value', 'tool_fn': 'get_options_overview', 'tool_params': {}, 'tool_field': 'data.put_call_ratio', 'aliases_json': '[\"put call ratio\", \"PCR\", \"options sentiment\", \"put to call ratio\", \"options bearish bullish indicator\"]', 'category': 'quant', 'source': 'yfinance / MASSI"
+    },
+    {
+      "tool": "search_non_macro_catalog",
+      "args": {
+        "query": "price",
+        "top_k": 5
+      },
+      "result": "[{'item_id': 'estimates.target.mean', 'label': 'Analyst Price Target Mean', 'description': 'Mean (average) price target across all covering analysts.', 'data_type': 'single_value', 'tool_fn': 'get_price_target', 'tool_params': {}, 'tool_field': 'data.target_mean', 'aliases_json': '[\"price target\", \"analyst target price\", \"mean price target\", \"consensus price target\", \"Wall Street price target\"]', 'category': 'estimates', 'source': 'yfinance', 'notes': None, 'rank': -3.2920714557761546, 'score': "
+    },
+    {
+      "tool": "lookup_capability",
+      "args": {
+        "resource_id": "quant.short.history",
+        "resource_type": "non_macro_item"
+      },
+      "result": "fetch_shape=<FetchShape.RECORD: 'record'> numeric=True history_materializable=True temporal_analytics_eligible=True comparison_modes_supported=[<ComparisonMode.SELF_HISTORY: 'self_history'>] materialization_routes=[] requires_query_text=False"
+    },
+    {
+      "tool": "lookup_capability",
+      "args": {
+        "resource_id": "quant.price.history",
+        "resource_type": "non_macro_item"
+      },
+      "result": "fetch_shape=<FetchShape.RECORD: 'record'> numeric=True history_materializable=True temporal_analytics_eligible=True comparison_modes_supported=[<ComparisonMode.SELF_HISTORY: 'self_history'>] materialization_routes=[] requires_query_text=False"
+    },
+    {
+      "tool": "lookup_capability",
+      "args": {
+        "resource_id": "quant.short.pct_float",
+        "resource_type": "non_macro_item"
+      },
+      "result": "fetch_shape=<FetchShape.RECORD: 'record'> numeric=True history_materializable=True temporal_analytics_eligible=True comparison_modes_supported=[<ComparisonMode.SELF_HISTORY: 'self_history'>] materialization_routes=[] requires_query_text=False"
+    },
+    {
+      "tool": "lookup_capability",
+      "args": {
+        "resource_type": "non_macro_item",
+        "resource_id": "quant.options.put_call_ratio"
+      },
+      "result": "fetch_shape=<FetchShape.RECORD: 'record'> numeric=True history_materializable=True temporal_analytics_eligible=True comparison_modes_supported=[<ComparisonMode.SELF_HISTORY: 'self_history'>] materialization_routes=[] requires_query_text=False"
+    },
+    {
+      "tool": "lookup_capability",
+      "args": {
+        "resource_id": "sentiment.ratings.net_direction",
+        "resource_type": "non_macro_item"
+      },
+      "result": "fetch_shape=<FetchShape.RECORD: 'record'> numeric=False history_materializable=False temporal_analytics_eligible=False comparison_modes_supported=[<ComparisonMode.NONE: 'none'>] materialization_routes=[] requires_query_text=False"
+    },
+    {
+      "tool": "lookup_capability",
+      "args": {
+        "resource_id": "ownership.insider.sentiment",
+        "resource_type": "non_macro_item"
+      },
+      "result": "fetch_shape=<FetchShape.RECORD: 'record'> numeric=True history_materializable=True temporal_analytics_eligible=True comparison_modes_supported=[<ComparisonMode.SELF_HISTORY: 'self_history'>] materialization_routes=[] requires_query_text=False"
+    }
+  ],
+  "tokens": {
+    "input_tokens": 0,
+    "output_tokens": 0,
+    "reasoning_tokens": 0,
+    "cache_read_tokens": 0,
+    "total_tokens": 0,
+    "llm_calls": 0,
+    "tool_calls": 10,
+    "estimated_cost_usd": 0.0
+  },
+  "error": null,
+  "duration_seconds": 52.182145833969116
+}

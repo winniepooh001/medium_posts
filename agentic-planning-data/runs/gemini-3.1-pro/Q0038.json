@@ -1,0 +1,50 @@
+{
+  "question_id": "Q0038",
+  "plan": null,
+  "trace": [
+    {
+      "tool": "search_non_macro_catalog",
+      "args": {
+        "top_k": 5,
+        "query": "Booz Allen revenue"
+      },
+      "result": "[{'item_id': 'estimates.revenue.next_quarter', 'label': 'Analyst Revenue Estimate Next Quarter', 'description': 'Consensus revenue estimate for the next quarter.', 'data_type': 'single_value', 'tool_fn': 'get_estimates', 'tool_params': {}, 'tool_field': 'data.revenue_estimate_next_quarter', 'aliases_json': '[\"next quarter revenue estimate\", \"forward revenue estimate\", \"future revenue forecast\"]', 'category': 'estimates', 'source': 'yfinance', 'notes': None, 'rank': -4.313987230722273, 'score': 0"
+    },
+    {
+      "tool": "search_non_macro_catalog",
+      "args": {
+        "query": "Booz Allen operating margin",
+        "top_k": 5
+      },
+      "result": "[{'item_id': 'fundamental.snapshot.operating_margin', 'label': 'Operating Margin Percent', 'description': 'Operating income as a percentage of revenue (TTM). Includes COGS, R&D, and SG&A. Does NOT include interest or taxes.', 'data_type': 'single_value', 'tool_fn': 'get_fundamentals', 'tool_params': {}, 'tool_field': 'data.snapshot.operating_margin', 'aliases_json': '[\"EBIT margin\", \"operating profitability\", \"EBIT percent\", \"operating income margin\", \"operating efficiency\"]', 'category': 'funda"
+    },
+    {
+      "tool": "lookup_capability",
+      "args": {
+        "resource_id": "fundamental.history.revenue",
+        "resource_type": "non_macro_item"
+      },
+      "result": "fetch_shape=<FetchShape.TIMESERIES: 'timeseries'> numeric=True history_materializable=False temporal_analytics_eligible=True comparison_modes_supported=[<ComparisonMode.SELF_HISTORY: 'self_history'>, <ComparisonMode.CONDITIONAL_HISTORY: 'conditional_history'>] materialization_routes=[] requires_query_text=False"
+    },
+    {
+      "tool": "lookup_capability",
+      "args": {
+        "resource_id": "fundamental.history.operating_income",
+        "resource_type": "non_macro_item"
+      },
+      "result": "fetch_shape=<FetchShape.TIMESERIES: 'timeseries'> numeric=True history_materializable=False temporal_analytics_eligible=True comparison_modes_supported=[<ComparisonMode.SELF_HISTORY: 'self_history'>, <ComparisonMode.CONDITIONAL_HISTORY: 'conditional_history'>] materialization_routes=[] requires_query_text=False"
+    }
+  ],
+  "tokens": {
+    "input_tokens": 0,
+    "output_tokens": 0,
+    "reasoning_tokens": 0,
+    "cache_read_tokens": 0,
+    "total_tokens": 0,
+    "llm_calls": 0,
+    "tool_calls": 4,
+    "estimated_cost_usd": 0.0
+  },
+  "error": "Failed to produce HypothesisPlan from agent output",
+  "duration_seconds": 93.62571239471436
+}

@@ -1,0 +1,58 @@
+{
+  "question_id": "Q0376",
+  "plan": null,
+  "trace": [
+    {
+      "tool": "search_non_macro_catalog",
+      "args": {
+        "query": "competitive landscape shell egg industry new entrants",
+        "top_k": 5
+      },
+      "result": "[{'item_id': 'profiler.meta.industry', 'label': 'Company Industry', 'description': 'Detailed industry classification within the sector.', 'data_type': 'single_value', 'tool_fn': 'get_company_meta', 'tool_params': {}, 'tool_field': 'data.industry', 'aliases_json': '[\"industry\", \"company industry\", \"industry group\", \"sub-industry\", \"GICS industry\"]', 'category': 'profiler', 'source': 'yfinance', 'notes': None, 'rank': -8.67361885509365, 'score': 0.8966260698318241, 'aliases': ['industry', 'company"
+    },
+    {
+      "tool": "search_non_macro_catalog",
+      "args": {
+        "top_k": 5,
+        "query": "news filings competitors"
+      },
+      "result": "[{'item_id': 'sentiment.news.articles', 'label': 'Recent News Articles', 'description': 'News articles from the past 30 days. Returns titles, summaries, sources, and dates. Does NOT perform sentiment scoring \u2014 use get_rating_changes for analyst sentiment.', 'data_type': 'text', 'tool_fn': 'search_news', 'tool_params': {'days': 30, 'limit': 20}, 'tool_field': None, 'aliases_json': '[\"news\", \"recent news\", \"headlines\", \"news coverage\", \"press coverage\", \"media coverage\", \"news articles\"]', 'catego"
+    },
+    {
+      "tool": "search_non_macro_catalog",
+      "args": {
+        "query": "10-K annual report risk factors competition",
+        "top_k": 5
+      },
+      "result": "[{'item_id': 'fundamental.filing.text', 'label': 'SEC Filing Document Text', 'description': 'Full text of SEC filings (10-K, 10-Q, 8-K). Includes MD&A, risk factors, financial statements narrative. Does NOT include raw financial tables \u2014 use get_fundamentals for those.', 'data_type': 'text', 'tool_fn': 'get_security_filing', 'tool_params': {}, 'tool_field': 'data.sections', 'aliases_json': '[\"10-K text\", \"10-Q text\", \"SEC filing\", \"annual report text\", \"EDGAR filing\", \"financial filing\", \"regula"
+    },
+    {
+      "tool": "lookup_capability",
+      "args": {
+        "resource_id": "fundamental.filing.text",
+        "resource_type": "non_macro_item"
+      },
+      "result": "fetch_shape=<FetchShape.TEXT_SUMMARY: 'text_summary'> numeric=False history_materializable=False temporal_analytics_eligible=False comparison_modes_supported=[<ComparisonMode.NONE: 'none'>] materialization_routes=['text_only'] requires_query_text=True"
+    },
+    {
+      "tool": "lookup_capability",
+      "args": {
+        "resource_id": "sentiment.news.articles",
+        "resource_type": "non_macro_item"
+      },
+      "result": "fetch_shape=<FetchShape.RECORD: 'record'> numeric=False history_materializable=False temporal_analytics_eligible=False comparison_modes_supported=[<ComparisonMode.NONE: 'none'>] materialization_routes=[] requires_query_text=False"
+    }
+  ],
+  "tokens": {
+    "input_tokens": 0,
+    "output_tokens": 0,
+    "reasoning_tokens": 0,
+    "cache_read_tokens": 0,
+    "total_tokens": 0,
+    "llm_calls": 0,
+    "tool_calls": 5,
+    "estimated_cost_usd": 0.0
+  },
+  "error": "Failed to produce HypothesisPlan from agent output",
+  "duration_seconds": 46.57801342010498
+}

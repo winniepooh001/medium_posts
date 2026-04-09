@@ -1,0 +1,134 @@
+{
+  "question_id": "Q0004",
+  "plan": {
+    "original_text": "What recent analyst rating changes have occurred for ACMR, and what were the catalysts?",
+    "thesis": "ACMR is demonstrating operating leverage, with revenue up 20.77% and gross profit up 50.06%. If semiconductor equipment demand remains stable in China, margin expansion could drive EPS acceleration over the next 2\u20134 quarters. The thesis fails if capex orders slow.",
+    "hypothesis_type": "composite",
+    "answer_type": "text",
+    "ticker": "ACMR",
+    "steps": [
+      {
+        "step_id": "s1",
+        "operation": "fetch",
+        "description": "ACMR analyst rating changes history \u2014 sentiment.ratings.history",
+        "macro_preference": false,
+        "horizon": {
+          "period": 6,
+          "frequency": "monthly"
+        },
+        "assessment_period": null,
+        "expected_output": "record",
+        "result_type": null,
+        "inputs": [],
+        "params": {
+          "item_id": "sentiment.ratings.history"
+        },
+        "output_key": "acmr_rating_changes",
+        "derivation": null
+      },
+      {
+        "step_id": "s2",
+        "operation": "fetch",
+        "description": "ACMR recent news articles for catalysts \u2014 sentiment.news.articles",
+        "macro_preference": false,
+        "horizon": {
+          "period": 1,
+          "frequency": "monthly"
+        },
+        "assessment_period": null,
+        "expected_output": "text_summary",
+        "result_type": null,
+        "inputs": [],
+        "params": {
+          "item_id": "sentiment.news.articles"
+        },
+        "output_key": "acmr_recent_news",
+        "derivation": null
+      },
+      {
+        "step_id": "s3",
+        "operation": "assess",
+        "description": "Evaluate the recent analyst rating changes and recent news to identify the catalysts for ACMR.",
+        "macro_preference": null,
+        "horizon": null,
+        "assessment_period": null,
+        "expected_output": null,
+        "result_type": "verdict",
+        "inputs": [
+          "$s1",
+          "$s2"
+        ],
+        "params": {},
+        "output_key": "acmr_rating_catalysts_verdict",
+        "derivation": null
+      }
+    ],
+    "ambiguity_notes": {
+      "recent analyst rating changes": "grounded \u2014 Resolved to sentiment.ratings.history to get the structured record of recent upgrades, downgrades, and initiations.",
+      "catalysts": "grounded \u2014 Resolved to sentiment.news.articles to provide qualitative context and narrative on what drove the analyst actions."
+    },
+    "reasoning": "To determine the recent analyst rating changes and their underlying catalysts, we first fetch the history of analyst rating actions for ACMR. We then fetch recent news articles to provide qualitative context, and assess both inputs to synthesize the drivers behind the analysts' decisions."
+  },
+  "trace": [
+    {
+      "tool": "search_non_macro_catalog",
+      "args": {
+        "query": "analyst ratings upgrades downgrades recommendations",
+        "top_k": 5
+      },
+      "result": "[{'item_id': 'sentiment.ratings.net_direction', 'label': 'Analyst Rating Net Direction', 'description': 'Net of upgrades minus downgrades with total change count. Positive net = improving analyst sentiment overall.', 'data_type': 'single_value', 'tool_fn': 'get_rating_changes', 'tool_params': {}, 'tool_field': 'data.summary', 'aliases_json': '[\"analyst consensus trend\", \"net rating sentiment\", \"upgrade downgrade balance\", \"analyst momentum\"]', 'category': 'sentiment', 'source': 'yfinance', 'note"
+    },
+    {
+      "tool": "search_non_macro_catalog",
+      "args": {
+        "query": "analyst reports news catalysts",
+        "top_k": 5
+      },
+      "result": "[{'item_id': 'sentiment.news.articles', 'label': 'Recent News Articles', 'description': 'News articles from the past 30 days. Returns titles, summaries, sources, and dates. Does NOT perform sentiment scoring \u2014 use get_rating_changes for analyst sentiment.', 'data_type': 'text', 'tool_fn': 'search_news', 'tool_params': {'days': 30, 'limit': 20}, 'tool_field': None, 'aliases_json': '[\"news\", \"recent news\", \"headlines\", \"news coverage\", \"press coverage\", \"media coverage\", \"news articles\"]', 'catego"
+    },
+    {
+      "tool": "lookup_capability",
+      "args": {
+        "resource_id": "sentiment.ratings.net_direction",
+        "resource_type": "non_macro_item"
+      },
+      "result": "fetch_shape=<FetchShape.RECORD: 'record'> numeric=False history_materializable=False temporal_analytics_eligible=False comparison_modes_supported=[<ComparisonMode.NONE: 'none'>] materialization_routes=[] requires_query_text=False"
+    },
+    {
+      "tool": "search_non_macro_catalog",
+      "args": {
+        "top_k": 5,
+        "query": "analyst rating changes list"
+      },
+      "result": "[{'item_id': 'sentiment.ratings.history', 'label': 'Analyst Rating Changes History', 'description': 'Per-change record: date, firm, from grade, to grade, action. Use for trend in analyst sentiment over time.', 'data_type': 'timeseries', 'tool_fn': 'get_rating_changes', 'tool_params': {}, 'tool_field': 'data.changes', 'aliases_json': '[\"rating history\", \"analyst rating trend\", \"buy hold sell history\", \"analyst sentiment history\", \"rating changes list\"]', 'category': 'sentiment', 'source': 'yfinan"
+    },
+    {
+      "tool": "lookup_capability",
+      "args": {
+        "resource_type": "non_macro_item",
+        "resource_id": "sentiment.ratings.history"
+      },
+      "result": "fetch_shape=<FetchShape.RECORD: 'record'> numeric=False history_materializable=False temporal_analytics_eligible=False comparison_modes_supported=[<ComparisonMode.NONE: 'none'>] materialization_routes=[] requires_query_text=False"
+    },
+    {
+      "tool": "lookup_capability",
+      "args": {
+        "resource_type": "non_macro_item",
+        "resource_id": "sentiment.news.articles"
+      },
+      "result": "fetch_shape=<FetchShape.RECORD: 'record'> numeric=False history_materializable=False temporal_analytics_eligible=False comparison_modes_supported=[<ComparisonMode.NONE: 'none'>] materialization_routes=[] requires_query_text=False"
+    }
+  ],
+  "tokens": {
+    "input_tokens": 0,
+    "output_tokens": 0,
+    "reasoning_tokens": 0,
+    "cache_read_tokens": 0,
+    "total_tokens": 0,
+    "llm_calls": 0,
+    "tool_calls": 6,
+    "estimated_cost_usd": 0.0
+  },
+  "error": null,
+  "duration_seconds": 55.67695164680481
+}

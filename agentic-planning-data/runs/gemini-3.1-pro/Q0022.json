@@ -1,0 +1,74 @@
+{
+  "question_id": "Q0022",
+  "plan": null,
+  "trace": [
+    {
+      "tool": "search_non_macro_catalog",
+      "args": {
+        "top_k": 5,
+        "query": "ARDC net interest margin"
+      },
+      "result": "[{'item_id': 'fundamental.snapshot.profit_margin', 'label': 'Net Profit Margin', 'description': 'Net income as a percentage of revenue (TTM). The bottom-line profitability measure after all expenses and taxes.', 'data_type': 'single_value', 'tool_fn': 'get_fundamentals', 'tool_params': {}, 'tool_field': 'data.snapshot.profit_margin', 'aliases_json': '[\"net margin\", \"bottom line margin\", \"net income margin\", \"after tax margin\", \"return on sales\"]', 'category': 'fundamental', 'source': 'yfinance /"
+    },
+    {
+      "tool": "search_non_macro_catalog",
+      "args": {
+        "query": "interest income",
+        "top_k": 5
+      },
+      "result": "[{'item_id': 'fundamental.snapshot.operating_margin', 'label': 'Operating Margin Percent', 'description': 'Operating income as a percentage of revenue (TTM). Includes COGS, R&D, and SG&A. Does NOT include interest or taxes.', 'data_type': 'single_value', 'tool_fn': 'get_fundamentals', 'tool_params': {}, 'tool_field': 'data.snapshot.operating_margin', 'aliases_json': '[\"EBIT margin\", \"operating profitability\", \"EBIT percent\", \"operating income margin\", \"operating efficiency\"]', 'category': 'funda"
+    },
+    {
+      "tool": "search_non_macro_catalog",
+      "args": {
+        "top_k": 5,
+        "query": "revenue history"
+      },
+      "result": "[{'item_id': 'fundamental.history.revenue', 'label': 'Revenue Quarterly History', 'description': 'Revenue for each of the past N quarters. Use for trend and seasonality analysis. Does NOT include forward estimates.', 'data_type': 'timeseries', 'tool_fn': 'get_fundamentals', 'tool_params': {'period': 'quarterly'}, 'tool_field': 'data.history', 'aliases_json': '[\"revenue\", \"revenue history\", \"revenue quarterly\", \"revenue trend\"]', 'category': 'fundamental', 'source': 'yfinance / defeatbeta', 'note"
+    },
+    {
+      "tool": "search_non_macro_catalog",
+      "args": {
+        "query": "total assets history",
+        "top_k": 5
+      },
+      "result": "[{'item_id': 'fundamental.snapshot.roa', 'label': 'Return on Assets', 'description': 'Net income divided by total assets (TTM). Measures capital productivity across both debt and equity-funded assets.', 'data_type': 'single_value', 'tool_fn': 'get_fundamentals', 'tool_params': {}, 'tool_field': 'data.snapshot.roa', 'aliases_json': '[\"ROA\", \"asset return\", \"asset efficiency\", \"asset utilization return\"]', 'category': 'fundamental', 'source': 'yfinance / defeatbeta', 'notes': None, 'rank': -8.5508"
+    },
+    {
+      "tool": "lookup_capability",
+      "args": {
+        "resource_id": "fundamental.history.revenue",
+        "resource_type": "non_macro_item"
+      },
+      "result": "fetch_shape=<FetchShape.TIMESERIES: 'timeseries'> numeric=True history_materializable=False temporal_analytics_eligible=True comparison_modes_supported=[<ComparisonMode.SELF_HISTORY: 'self_history'>, <ComparisonMode.CONDITIONAL_HISTORY: 'conditional_history'>] materialization_routes=[] requires_query_text=False"
+    },
+    {
+      "tool": "lookup_capability",
+      "args": {
+        "resource_id": "fundamental.history.net_income",
+        "resource_type": "non_macro_item"
+      },
+      "result": "fetch_shape=<FetchShape.TIMESERIES: 'timeseries'> numeric=True history_materializable=False temporal_analytics_eligible=True comparison_modes_supported=[<ComparisonMode.SELF_HISTORY: 'self_history'>, <ComparisonMode.CONDITIONAL_HISTORY: 'conditional_history'>] materialization_routes=[] requires_query_text=False"
+    },
+    {
+      "tool": "search_non_macro_catalog",
+      "args": {
+        "query": "net interest margin history",
+        "top_k": 5
+      },
+      "result": "[{'item_id': 'fundamental.snapshot.profit_margin', 'label': 'Net Profit Margin', 'description': 'Net income as a percentage of revenue (TTM). The bottom-line profitability measure after all expenses and taxes.', 'data_type': 'single_value', 'tool_fn': 'get_fundamentals', 'tool_params': {}, 'tool_field': 'data.snapshot.profit_margin', 'aliases_json': '[\"net margin\", \"bottom line margin\", \"net income margin\", \"after tax margin\", \"return on sales\"]', 'category': 'fundamental', 'source': 'yfinance /"
+    }
+  ],
+  "tokens": {
+    "input_tokens": 0,
+    "output_tokens": 0,
+    "reasoning_tokens": 0,
+    "cache_read_tokens": 0,
+    "total_tokens": 0,
+    "llm_calls": 0,
+    "tool_calls": 7,
+    "estimated_cost_usd": 0.0
+  },
+  "error": "Failed to produce HypothesisPlan from agent output",
+  "duration_seconds": 78.84886455535889
+}

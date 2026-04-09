@@ -1,0 +1,420 @@
+{
+  "question_id": "Q0321",
+  "plan": {
+    "original_text": "How does Cal-Maine's cost structure compare to its competitors, and what scenarios could lead to a competitive disadvantage in terms of pricing?",
+    "thesis": "Cal-Maine should outperform over the next 2\u20134 quarters if shell egg pricing remains above historical mid-cycle levels. Earnings are highly sensitive to spot egg prices due to largely fixed production costs, creating operating leverage. The thesis fails if egg prices revert to pre-cycle averages faster than expected.",
+    "hypothesis_type": "composite",
+    "answer_type": "text",
+    "ticker": "CALM",
+    "steps": [
+      {
+        "step_id": "s1",
+        "operation": "fetch",
+        "description": "CALM operating margin snapshot \u2014 fundamental.snapshot.operating_margin",
+        "macro_preference": false,
+        "horizon": {
+          "period": 1,
+          "frequency": null
+        },
+        "assessment_period": null,
+        "expected_output": "scalar",
+        "result_type": null,
+        "inputs": [],
+        "params": {
+          "item_id": "fundamental.snapshot.operating_margin"
+        },
+        "output_key": "calm_op_margin",
+        "derivation": null
+      },
+      {
+        "step_id": "s2",
+        "operation": "fetch",
+        "description": "VITL (Vital Farms) operating margin snapshot \u2014 fundamental.snapshot.operating_margin",
+        "macro_preference": false,
+        "horizon": {
+          "period": 1,
+          "frequency": null
+        },
+        "assessment_period": null,
+        "expected_output": "scalar",
+        "result_type": null,
+        "inputs": [],
+        "params": {
+          "item_id": "fundamental.snapshot.operating_margin",
+          "ticker": "VITL"
+        },
+        "output_key": "vitl_op_margin",
+        "derivation": null
+      },
+      {
+        "step_id": "s3",
+        "operation": "fetch",
+        "description": "POST (Post Holdings) operating margin snapshot \u2014 fundamental.snapshot.operating_margin",
+        "macro_preference": false,
+        "horizon": {
+          "period": 1,
+          "frequency": null
+        },
+        "assessment_period": null,
+        "expected_output": "scalar",
+        "result_type": null,
+        "inputs": [],
+        "params": {
+          "item_id": "fundamental.snapshot.operating_margin",
+          "ticker": "POST"
+        },
+        "output_key": "post_op_margin",
+        "derivation": null
+      },
+      {
+        "step_id": "s4",
+        "operation": "aggregate",
+        "description": "Aggregate peer operating margins (mean)",
+        "macro_preference": null,
+        "horizon": null,
+        "assessment_period": null,
+        "expected_output": null,
+        "result_type": "numeric",
+        "inputs": [
+          "$s2",
+          "$s3"
+        ],
+        "params": {
+          "method": "mean"
+        },
+        "output_key": "peer_op_margin_mean",
+        "derivation": null
+      },
+      {
+        "step_id": "s5",
+        "operation": "compare",
+        "description": "Compare CALM operating margin to peer average",
+        "macro_preference": null,
+        "horizon": null,
+        "assessment_period": null,
+        "expected_output": null,
+        "result_type": "boolean",
+        "inputs": [
+          "$s1",
+          "$s4"
+        ],
+        "params": {
+          "operator": ">"
+        },
+        "output_key": "calm_vs_peers_margin",
+        "derivation": null
+      },
+      {
+        "step_id": "s6",
+        "operation": "fetch",
+        "description": "CALM derived operating margin history",
+        "macro_preference": false,
+        "horizon": {
+          "period": 20,
+          "frequency": "quarterly"
+        },
+        "assessment_period": null,
+        "expected_output": "timeseries",
+        "result_type": null,
+        "inputs": [],
+        "params": {},
+        "output_key": "derived_calm_operating_margin_ts",
+        "derivation": {
+          "numerator": "operating_income",
+          "denominator": "revenue",
+          "operation": "ratio"
+        }
+      },
+      {
+        "step_id": "s7",
+        "operation": "fetch",
+        "description": "US Farm Egg Price Received \u2014 USDA_NASS:usda_egg_price_received",
+        "macro_preference": true,
+        "horizon": {
+          "period": 60,
+          "frequency": "monthly"
+        },
+        "assessment_period": null,
+        "expected_output": "timeseries",
+        "result_type": null,
+        "inputs": [],
+        "params": {
+          "series_id": "USDA_NASS:usda_egg_price_received"
+        },
+        "output_key": "egg_price_ts",
+        "derivation": null
+      },
+      {
+        "step_id": "s8",
+        "operation": "fetch",
+        "description": "US Corn Price Received \u2014 USDA_NASS:usda_corn_price_received",
+        "macro_preference": true,
+        "horizon": {
+          "period": 60,
+          "frequency": "monthly"
+        },
+        "assessment_period": null,
+        "expected_output": "timeseries",
+        "result_type": null,
+        "inputs": [],
+        "params": {
+          "series_id": "USDA_NASS:usda_corn_price_received"
+        },
+        "output_key": "corn_price_ts",
+        "derivation": null
+      },
+      {
+        "step_id": "s9",
+        "operation": "fetch",
+        "description": "US Soybean Meal Price \u2014 FRED:PCU31122431122441",
+        "macro_preference": true,
+        "horizon": {
+          "period": 60,
+          "frequency": "monthly"
+        },
+        "assessment_period": null,
+        "expected_output": "timeseries",
+        "result_type": null,
+        "inputs": [],
+        "params": {
+          "series_id": "FRED:PCU31122431122441"
+        },
+        "output_key": "soybean_meal_price_ts",
+        "derivation": null
+      },
+      {
+        "step_id": "s10",
+        "operation": "delta",
+        "description": "Change in US Farm Egg Price",
+        "macro_preference": null,
+        "horizon": null,
+        "assessment_period": null,
+        "expected_output": null,
+        "result_type": "numeric",
+        "inputs": [
+          "$s7"
+        ],
+        "params": {},
+        "output_key": "egg_price_delta",
+        "derivation": null
+      },
+      {
+        "step_id": "s11",
+        "operation": "delta",
+        "description": "Change in US Corn Price",
+        "macro_preference": null,
+        "horizon": null,
+        "assessment_period": null,
+        "expected_output": null,
+        "result_type": "numeric",
+        "inputs": [
+          "$s8"
+        ],
+        "params": {},
+        "output_key": "corn_price_delta",
+        "derivation": null
+      },
+      {
+        "step_id": "s12",
+        "operation": "delta",
+        "description": "Change in US Soybean Meal Price",
+        "macro_preference": null,
+        "horizon": null,
+        "assessment_period": null,
+        "expected_output": null,
+        "result_type": "numeric",
+        "inputs": [
+          "$s9"
+        ],
+        "params": {},
+        "output_key": "soybean_meal_price_delta",
+        "derivation": null
+      },
+      {
+        "step_id": "s13",
+        "operation": "sensitivity",
+        "description": "Sensitivity of CALM operating margin to changes in egg, corn, and soybean meal prices",
+        "macro_preference": null,
+        "horizon": null,
+        "assessment_period": null,
+        "expected_output": null,
+        "result_type": "numeric",
+        "inputs": [
+          "$s6",
+          "$s10",
+          "$s11",
+          "$s12"
+        ],
+        "params": {},
+        "output_key": "calm_margin_sensitivity",
+        "derivation": null
+      },
+      {
+        "step_id": "s14",
+        "operation": "fetch",
+        "description": "Qualitative context on CALM's pricing contracts vs peers (spot vs contracted)",
+        "macro_preference": null,
+        "horizon": {
+          "period": 1,
+          "frequency": null
+        },
+        "assessment_period": null,
+        "expected_output": "text_summary",
+        "result_type": null,
+        "inputs": [],
+        "params": {},
+        "output_key": "calm_pricing_context",
+        "derivation": null
+      },
+      {
+        "step_id": "s15",
+        "operation": "assess",
+        "description": "Assess scenarios leading to competitive disadvantage for CALM based on cost structure, margin sensitivity, and pricing contracts",
+        "macro_preference": null,
+        "horizon": null,
+        "assessment_period": null,
+        "expected_output": null,
+        "result_type": "verdict",
+        "inputs": [
+          "$s5",
+          "$s13",
+          "$s14"
+        ],
+        "params": {},
+        "output_key": "competitive_disadvantage_assessment",
+        "derivation": null
+      }
+    ],
+    "ambiguity_notes": {
+      "competitors": "Resolved to specific competitors Vital Farms (VITL) and Post Holdings (POST) as direct peer aggregate metrics are not available in the catalog.",
+      "cost structure": "Proxied using operating margin to capture both COGS (feed costs) and operating expenses.",
+      "feed prices": "Resolved to USDA corn prices and FRED soybean meal prices as the primary feed inputs for egg producers."
+    },
+    "reasoning": "To determine Cal-Maine's competitive cost position and vulnerability, the plan first compares its operating margin against key peers (VITL, POST). It then evaluates the sensitivity of CALM's historical margins to changes in spot egg prices and key feed costs (corn, soybean meal), combining this quantitative leverage with qualitative context on pricing contracts to assess scenarios where CALM might face a competitive disadvantage."
+  },
+  "trace": [
+    {
+      "tool": "search_non_macro_catalog",
+      "args": {
+        "query": "gross margin",
+        "top_k": 5
+      },
+      "result": "[{'item_id': 'fundamental.snapshot.gross_margin', 'label': 'Gross Margin Percent', 'description': 'Gross profit as a percentage of revenue (TTM). Measures production efficiency and pricing power. Does NOT include operating expenses, R&D, or SG&A.', 'data_type': 'single_value', 'tool_fn': 'get_fundamentals', 'tool_params': {}, 'tool_field': 'data.snapshot.gross_margin', 'aliases_json': '[\"gross margin\", \"gross margin percent\", \"gross margin trend\"]', 'category': 'fundamental', 'source': 'yfinance"
+    },
+    {
+      "tool": "search_non_macro_catalog",
+      "args": {
+        "top_k": 5,
+        "query": "operating margin"
+      },
+      "result": "[{'item_id': 'fundamental.snapshot.operating_margin', 'label': 'Operating Margin Percent', 'description': 'Operating income as a percentage of revenue (TTM). Includes COGS, R&D, and SG&A. Does NOT include interest or taxes.', 'data_type': 'single_value', 'tool_fn': 'get_fundamentals', 'tool_params': {}, 'tool_field': 'data.snapshot.operating_margin', 'aliases_json': '[\"EBIT margin\", \"operating profitability\", \"EBIT percent\", \"operating income margin\", \"operating efficiency\"]', 'category': 'funda"
+    },
+    {
+      "tool": "search_macro_catalog",
+      "args": {
+        "thesis_context": "feed costs for egg producers",
+        "query": "corn price feed",
+        "top_k": 5
+      },
+      "result": "{'results': [{'series_id': 'USDA_NASS:usda_corn_price_received', 'name': 'US Corn Price Received', 'description': 'Monthly US average corn price received by producers, dollars per bushel. Farmgate corn price signal \u2014 key input cost for livestock producers and ethanol blenders. Drives feed margin compression for CALM and other poultry/hog producers when elevated.', 'source': 'usda_nass', 'frequency': 'Monthly', 'frequency_short': 'M', 'seasonal_adjustment': None, 'geography': 'US', 'units': '$ / "
+    },
+    {
+      "tool": "search_macro_catalog",
+      "args": {
+        "top_k": 5,
+        "query": "soybean meal price",
+        "thesis_context": "feed costs for egg producers"
+      },
+      "result": "{'results': [{'series_id': 'FRED:PCU31122431122441', 'name': 'Producer Price Index by Industry: Soybean and Other Oilseed Processing: Soybean Cake and Meal', 'description': '', 'source': 'fred', 'frequency': 'Monthly', 'frequency_short': 'M', 'seasonal_adjustment': 'Not Seasonally Adjusted', 'geography': None, 'units': 'Index Dec 2009=100', 'coverage_start': '2009-12-01', 'coverage_end': '2025-12-01', 'score': 39.91359498990181, 'has_alternatives': False, 'alternative_ids': []}, {'series_id': 'F"
+    },
+    {
+      "tool": "search_non_macro_catalog",
+      "args": {
+        "query": "peers",
+        "top_k": 5
+      },
+      "result": "[]"
+    },
+    {
+      "tool": "search_non_macro_catalog",
+      "args": {
+        "query": "competitors",
+        "top_k": 5
+      },
+      "result": "[]"
+    },
+    {
+      "tool": "search_macro_catalog",
+      "args": {
+        "top_k": 5,
+        "query": "egg price",
+        "thesis_context": "spot egg prices"
+      },
+      "result": "{'results': [{'series_id': 'USDA_NASS:usda_egg_price_received', 'name': 'US Farm Egg Price Received', 'description': 'Monthly US average farm-gate egg price received by producers, dollars per dozen. Tracks farmgate pricing power for egg producers (CALM). High prices during supply disruptions improve CALM margins; retail prices follow with a lag.', 'source': 'usda_nass', 'frequency': 'Monthly', 'frequency_short': 'M', 'seasonal_adjustment': None, 'geography': 'US', 'units': '$ / Dozen', 'coverage"
+    },
+    {
+      "tool": "search_non_macro_catalog",
+      "args": {
+        "top_k": 3,
+        "query": "revenue history"
+      },
+      "result": "[{'item_id': 'fundamental.history.revenue', 'label': 'Revenue Quarterly History', 'description': 'Revenue for each of the past N quarters. Use for trend and seasonality analysis. Does NOT include forward estimates.', 'data_type': 'timeseries', 'tool_fn': 'get_fundamentals', 'tool_params': {'period': 'quarterly'}, 'tool_field': 'data.history', 'aliases_json': '[\"revenue\", \"revenue history\", \"revenue quarterly\", \"revenue trend\"]', 'category': 'fundamental', 'source': 'yfinance / defeatbeta', 'note"
+    },
+    {
+      "tool": "search_non_macro_catalog",
+      "args": {
+        "top_k": 3,
+        "query": "operating margin history"
+      },
+      "result": "[{'item_id': 'fundamental.history.operating_income', 'label': 'Operating Income Quarterly History', 'description': 'EBIT for each of the past N quarters. Use for margin trend analysis.', 'data_type': 'timeseries', 'tool_fn': 'get_fundamentals', 'tool_params': {'period': 'quarterly'}, 'tool_field': 'data.history', 'aliases_json': '[\"EBIT trend\", \"operating income trend\", \"operating profit history\"]', 'category': 'fundamental', 'source': 'yfinance / defeatbeta', 'notes': \"Extract field 'operating_"
+    },
+    {
+      "tool": "lookup_capability",
+      "args": {
+        "resource_type": "macro_series",
+        "data_type": "timeseries",
+        "resource_id": "USDA_NASS:usda_egg_price_received"
+      },
+      "result": "fetch_shape=<FetchShape.TIMESERIES: 'timeseries'> numeric=True history_materializable=False temporal_analytics_eligible=True comparison_modes_supported=[<ComparisonMode.SELF_HISTORY: 'self_history'>, <ComparisonMode.MACRO_RELATION: 'macro_relation'>, <ComparisonMode.CONDITIONAL_HISTORY: 'conditional_history'>] materialization_routes=[] requires_query_text=False"
+    },
+    {
+      "tool": "lookup_capability",
+      "args": {
+        "data_type": "timeseries",
+        "resource_id": "USDA_NASS:usda_corn_price_received",
+        "resource_type": "macro_series"
+      },
+      "result": "fetch_shape=<FetchShape.TIMESERIES: 'timeseries'> numeric=True history_materializable=False temporal_analytics_eligible=True comparison_modes_supported=[<ComparisonMode.SELF_HISTORY: 'self_history'>, <ComparisonMode.MACRO_RELATION: 'macro_relation'>, <ComparisonMode.CONDITIONAL_HISTORY: 'conditional_history'>] materialization_routes=[] requires_query_text=False"
+    },
+    {
+      "tool": "lookup_capability",
+      "args": {
+        "data_type": "timeseries",
+        "resource_id": "FRED:PCU31122431122441",
+        "resource_type": "macro_series"
+      },
+      "result": "fetch_shape=<FetchShape.TIMESERIES: 'timeseries'> numeric=True history_materializable=False temporal_analytics_eligible=True comparison_modes_supported=[<ComparisonMode.SELF_HISTORY: 'self_history'>, <ComparisonMode.MACRO_RELATION: 'macro_relation'>, <ComparisonMode.CONDITIONAL_HISTORY: 'conditional_history'>] materialization_routes=[] requires_query_text=False"
+    },
+    {
+      "tool": "lookup_capability",
+      "args": {
+        "resource_id": "fundamental.history.operating_income",
+        "data_type": "timeseries",
+        "resource_type": "non_macro_item"
+      },
+      "result": "fetch_shape=<FetchShape.TIMESERIES: 'timeseries'> numeric=True history_materializable=False temporal_analytics_eligible=True comparison_modes_supported=[<ComparisonMode.SELF_HISTORY: 'self_history'>, <ComparisonMode.CONDITIONAL_HISTORY: 'conditional_history'>] materialization_routes=[] requires_query_text=False"
+    }
+  ],
+  "tokens": {
+    "input_tokens": 0,
+    "output_tokens": 0,
+    "reasoning_tokens": 0,
+    "cache_read_tokens": 0,
+    "total_tokens": 0,
+    "llm_calls": 0,
+    "tool_calls": 13,
+    "estimated_cost_usd": 0.0
+  },
+  "error": null,
+  "duration_seconds": 101.10683965682983
+}

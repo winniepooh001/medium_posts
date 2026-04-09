@@ -1,0 +1,193 @@
+{
+  "question_id": "Q0002",
+  "plan": {
+    "original_text": "How does ACMR's revenue growth compare to its semiconductor equipment peers?",
+    "thesis": "ACMR is demonstrating operating leverage, with revenue up 20.77% and gross profit up 50.06%. If semiconductor equipment demand remains stable in China, margin expansion could drive EPS acceleration over the next 2\u20134 quarters. The thesis fails if capex orders slow.",
+    "hypothesis_type": "cross_sectional",
+    "answer_type": "boolean",
+    "ticker": "ACMR",
+    "steps": [
+      {
+        "step_id": "s1",
+        "operation": "fetch",
+        "description": "ACMR YoY revenue growth \u2014 fundamental.growth.revenue_yoy",
+        "macro_preference": false,
+        "horizon": {
+          "period": 1,
+          "frequency": null
+        },
+        "assessment_period": null,
+        "expected_output": "scalar",
+        "result_type": null,
+        "inputs": [],
+        "params": {
+          "item_id": "fundamental.growth.revenue_yoy"
+        },
+        "output_key": "acmr_revenue_growth",
+        "derivation": null
+      },
+      {
+        "step_id": "s2",
+        "operation": "fetch",
+        "description": "AMAT YoY revenue growth \u2014 fundamental.growth.revenue_yoy",
+        "macro_preference": false,
+        "horizon": {
+          "period": 1,
+          "frequency": null
+        },
+        "assessment_period": null,
+        "expected_output": "scalar",
+        "result_type": null,
+        "inputs": [],
+        "params": {
+          "item_id": "fundamental.growth.revenue_yoy"
+        },
+        "output_key": "amat_revenue_growth",
+        "derivation": null
+      },
+      {
+        "step_id": "s3",
+        "operation": "fetch",
+        "description": "LRCX YoY revenue growth \u2014 fundamental.growth.revenue_yoy",
+        "macro_preference": false,
+        "horizon": {
+          "period": 1,
+          "frequency": null
+        },
+        "assessment_period": null,
+        "expected_output": "scalar",
+        "result_type": null,
+        "inputs": [],
+        "params": {
+          "item_id": "fundamental.growth.revenue_yoy"
+        },
+        "output_key": "lrcx_revenue_growth",
+        "derivation": null
+      },
+      {
+        "step_id": "s4",
+        "operation": "fetch",
+        "description": "KLAC YoY revenue growth \u2014 fundamental.growth.revenue_yoy",
+        "macro_preference": false,
+        "horizon": {
+          "period": 1,
+          "frequency": null
+        },
+        "assessment_period": null,
+        "expected_output": "scalar",
+        "result_type": null,
+        "inputs": [],
+        "params": {
+          "item_id": "fundamental.growth.revenue_yoy"
+        },
+        "output_key": "klac_revenue_growth",
+        "derivation": null
+      },
+      {
+        "step_id": "s5",
+        "operation": "aggregate",
+        "description": "Average YoY revenue growth of semiconductor equipment peers (AMAT, LRCX, KLAC)",
+        "macro_preference": null,
+        "horizon": null,
+        "assessment_period": null,
+        "expected_output": null,
+        "result_type": "numeric",
+        "inputs": [
+          "$s2",
+          "$s3",
+          "$s4"
+        ],
+        "params": {
+          "method": "mean"
+        },
+        "output_key": "peer_avg_revenue_growth",
+        "derivation": null
+      },
+      {
+        "step_id": "s6",
+        "operation": "compare",
+        "description": "Is ACMR YoY revenue growth greater than the peer average?",
+        "macro_preference": null,
+        "horizon": null,
+        "assessment_period": null,
+        "expected_output": null,
+        "result_type": "boolean",
+        "inputs": [
+          "$s1",
+          "$s5"
+        ],
+        "params": {
+          "operator": ">"
+        },
+        "output_key": "acmr_vs_peers_growth",
+        "derivation": null
+      }
+    ],
+    "ambiguity_notes": {
+      "semiconductor equipment peers": "Interpreted as AMAT, LRCX, and KLAC, which are major semiconductor equipment manufacturers. Fetched their individual YoY revenue growth metrics to form a peer aggregate (grounded)."
+    },
+    "reasoning": "To determine how ACMR's revenue growth compares to its peers, we fetch the latest YoY revenue growth for ACMR and a representative peer group (AMAT, LRCX, KLAC). We then aggregate the peers' growth rates into a mean and compare ACMR's growth against this average to see if it is outperforming."
+  },
+  "trace": [
+    {
+      "tool": "search_non_macro_catalog",
+      "args": {
+        "top_k": 5,
+        "query": "revenue"
+      },
+      "result": "[{'item_id': 'fundamental.history.revenue', 'label': 'Revenue Quarterly History', 'description': 'Revenue for each of the past N quarters. Use for trend and seasonality analysis. Does NOT include forward estimates.', 'data_type': 'timeseries', 'tool_fn': 'get_fundamentals', 'tool_params': {'period': 'quarterly'}, 'tool_field': 'data.history', 'aliases_json': '[\"revenue\", \"revenue history\", \"revenue quarterly\", \"revenue trend\"]', 'category': 'fundamental', 'source': 'yfinance / defeatbeta', 'note"
+    },
+    {
+      "tool": "search_non_macro_catalog",
+      "args": {
+        "query": "revenue growth",
+        "top_k": 5
+      },
+      "result": "[{'item_id': 'fundamental.growth.revenue_qoq', 'label': 'Revenue Growth Quarter Over Quarter', 'description': 'Sequential quarter revenue growth rate.', 'data_type': 'single_value', 'tool_fn': 'get_fundamentals', 'tool_params': {'period': 'quarterly'}, 'tool_field': 'data.growth_metrics.qoq_revenue_growth', 'aliases_json': '[\"QoQ revenue growth\", \"sequential revenue growth\", \"quarter over quarter sales\", \"sequential growth\"]', 'category': 'fundamental', 'source': 'yfinance / defeatbeta', 'notes'"
+    },
+    {
+      "tool": "search_non_macro_catalog",
+      "args": {
+        "query": "peers",
+        "top_k": 5
+      },
+      "result": "[]"
+    },
+    {
+      "tool": "search_non_macro_catalog",
+      "args": {
+        "top_k": 5,
+        "query": "competitor"
+      },
+      "result": "[]"
+    },
+    {
+      "tool": "search_non_macro_catalog",
+      "args": {
+        "query": "peer",
+        "top_k": 5
+      },
+      "result": "[{'item_id': 'research.literature.pubmed', 'label': 'PubMed Scientific Articles', 'description': 'Peer-reviewed scientific articles from PubMed. Covers published research related to the query. Does NOT include gray literature or preprints.', 'data_type': 'text', 'tool_fn': 'get_literature', 'tool_params': {'source': 'pubmed'}, 'tool_field': None, 'aliases_json': '[\"scientific papers\", \"PubMed articles\", \"published research\", \"medical literature\", \"journal articles\"]', 'category': 'research', 'so"
+    },
+    {
+      "tool": "lookup_capability",
+      "args": {
+        "resource_id": "fundamental.growth.revenue_yoy",
+        "resource_type": "non_macro_item"
+      },
+      "result": "fetch_shape=<FetchShape.RECORD: 'record'> numeric=True history_materializable=True temporal_analytics_eligible=True comparison_modes_supported=[<ComparisonMode.SELF_HISTORY: 'self_history'>] materialization_routes=['history_field'] requires_query_text=False"
+    }
+  ],
+  "tokens": {
+    "input_tokens": 0,
+    "output_tokens": 0,
+    "reasoning_tokens": 0,
+    "cache_read_tokens": 0,
+    "total_tokens": 0,
+    "llm_calls": 0,
+    "tool_calls": 6,
+    "estimated_cost_usd": 0.0
+  },
+  "error": null,
+  "duration_seconds": 51.4143431186676
+}

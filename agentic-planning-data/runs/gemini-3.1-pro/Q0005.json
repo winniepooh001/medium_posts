@@ -1,0 +1,89 @@
+{
+  "question_id": "Q0005",
+  "plan": {
+    "original_text": "What is the consensus EPS estimate revision trend for ACMR over the last three months?",
+    "thesis": "ACMR is demonstrating operating leverage, with revenue up 20.77% and gross profit up 50.06%. If semiconductor equipment demand remains stable in China, margin expansion could drive EPS acceleration over the next 2\u20134 quarters. The thesis fails if capex orders slow.",
+    "hypothesis_type": "temporal",
+    "answer_type": "numeric",
+    "ticker": "ACMR",
+    "steps": [
+      {
+        "step_id": "s1",
+        "operation": "fetch",
+        "description": "ACMR consensus EPS estimate history over the last 3 months \u2014 estimates.eps.history",
+        "macro_preference": false,
+        "horizon": {
+          "period": 3,
+          "frequency": "monthly"
+        },
+        "assessment_period": null,
+        "expected_output": "timeseries",
+        "result_type": null,
+        "inputs": [],
+        "params": {
+          "item_id": "estimates.eps.history"
+        },
+        "output_key": "acmr_eps_estimate_history",
+        "derivation": null
+      },
+      {
+        "step_id": "s2",
+        "operation": "trend",
+        "description": "Trend of ACMR consensus EPS estimates over the last 3 months",
+        "macro_preference": null,
+        "horizon": null,
+        "assessment_period": null,
+        "expected_output": null,
+        "result_type": "numeric",
+        "inputs": [
+          "$s1"
+        ],
+        "params": {},
+        "output_key": "acmr_eps_estimate_trend",
+        "derivation": null
+      }
+    ],
+    "ambiguity_notes": {
+      "consensus EPS estimate revision trend": "grounded to the trend of estimates.eps.history over the last 3 months"
+    },
+    "reasoning": "To determine the EPS estimate revision trend, we fetch the timeseries of consensus EPS estimates for ACMR over the past three months and compute its trend. A positive trend indicates upward revisions, supporting the thesis of EPS acceleration."
+  },
+  "trace": [
+    {
+      "tool": "search_non_macro_catalog",
+      "args": {
+        "query": "EPS estimates",
+        "top_k": 5
+      },
+      "result": "[{'item_id': 'estimates.eps.revision_direction', 'label': 'EPS Estimate Revision Direction', 'description': \"Whether EPS estimates are being revised up or down: 'rising', 'falling', or 'stable'. Leading indicator of earnings momentum.\", 'data_type': 'single_value', 'tool_fn': 'get_estimate_history', 'tool_params': {}, 'tool_field': 'data.eps_revision_direction', 'aliases_json': '[\"estimate revision trend\", \"EPS revision direction\", \"estimate momentum\", \"earnings revision\"]', 'category': 'estimat"
+    },
+    {
+      "tool": "lookup_capability",
+      "args": {
+        "resource_type": "non_macro_item",
+        "resource_id": "estimates.eps.history"
+      },
+      "result": "fetch_shape=<FetchShape.RECORD: 'record'> numeric=True history_materializable=True temporal_analytics_eligible=True comparison_modes_supported=[<ComparisonMode.SELF_HISTORY: 'self_history'>] materialization_routes=[] requires_query_text=False"
+    },
+    {
+      "tool": "lookup_capability",
+      "args": {
+        "resource_id": "estimates.eps.revision_direction",
+        "resource_type": "non_macro_item"
+      },
+      "result": "fetch_shape=<FetchShape.RECORD: 'record'> numeric=True history_materializable=True temporal_analytics_eligible=True comparison_modes_supported=[<ComparisonMode.SELF_HISTORY: 'self_history'>] materialization_routes=[] requires_query_text=False"
+    }
+  ],
+  "tokens": {
+    "input_tokens": 0,
+    "output_tokens": 0,
+    "reasoning_tokens": 0,
+    "cache_read_tokens": 0,
+    "total_tokens": 0,
+    "llm_calls": 0,
+    "tool_calls": 3,
+    "estimated_cost_usd": 0.0
+  },
+  "error": null,
+  "duration_seconds": 37.48048639297485
+}

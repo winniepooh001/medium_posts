@@ -1,0 +1,117 @@
+{
+  "question_id": "Q0060",
+  "plan": {
+    "original_text": "What is the correlation between jet fuel prices and Delta's operating margins?",
+    "thesis": "Delta\u2019s EPS is convex to stable fuel prices and sustained load factors above 85%. If jet fuel costs stabilize while pricing power holds in premium and international routes, earnings can normalize materially higher over the next 12 months. The thesis fails if fuel prices rise sharply or ticket yield compresses.",
+    "hypothesis_type": "relational",
+    "answer_type": "numeric",
+    "ticker": "DAL",
+    "steps": [
+      {
+        "step_id": "s1",
+        "operation": "fetch",
+        "description": "Kerosene-Type Jet Fuel Spot Price \u2014 EIA:PET.EER_EPJK_PF4_RGC_DPG.D",
+        "macro_preference": true,
+        "horizon": {
+          "period": 20,
+          "frequency": "quarterly"
+        },
+        "assessment_period": null,
+        "expected_output": "timeseries",
+        "result_type": null,
+        "inputs": [],
+        "params": {
+          "series_id": "EIA:PET.EER_EPJK_PF4_RGC_DPG.D"
+        },
+        "output_key": "jet_fuel_price_ts",
+        "derivation": null
+      },
+      {
+        "step_id": "s2",
+        "operation": "fetch",
+        "description": "DAL quarterly operating margin derived from operating income and revenue",
+        "macro_preference": false,
+        "horizon": {
+          "period": 20,
+          "frequency": "quarterly"
+        },
+        "assessment_period": null,
+        "expected_output": "timeseries",
+        "result_type": null,
+        "inputs": [],
+        "params": {},
+        "output_key": "derived_operating_margin",
+        "derivation": {
+          "numerator": "operating_income",
+          "denominator": "revenue",
+          "operation": "ratio"
+        }
+      },
+      {
+        "step_id": "s3",
+        "operation": "correlate",
+        "description": "Correlation between jet fuel prices and DAL operating margins",
+        "macro_preference": null,
+        "horizon": null,
+        "assessment_period": null,
+        "expected_output": null,
+        "result_type": "numeric",
+        "inputs": [
+          "$s1",
+          "$s2"
+        ],
+        "params": {},
+        "output_key": "fuel_margin_correlation",
+        "derivation": null
+      }
+    ],
+    "ambiguity_notes": {
+      "jet fuel prices": "grounded to EIA:PET.EER_EPJK_PF4_RGC_DPG.D (Kerosene-Type Jet Fuel Spot Price)",
+      "operating margins": "grounded via derivation from fundamental.history.operating_income and fundamental.history.revenue since direct historical margin timeseries is not available"
+    },
+    "reasoning": "To determine the relationship between jet fuel costs and Delta's profitability, we fetch the historical timeseries for jet fuel spot prices and Delta's derived operating margin, then compute the statistical correlation between the two."
+  },
+  "trace": [
+    {
+      "tool": "search_macro_catalog",
+      "args": {
+        "query": "jet fuel price"
+      },
+      "result": "{'results': [{'series_id': 'EIA:PET.EER_EPJK_PF4_RGC_DPG.D', 'name': 'Kerosene-Type Jet Fuel Spot Price', 'description': 'Kerosene-type jet fuel spot price in dollars per gallon, daily. Directly impacts airline operating costs; jet fuel hedging decisions for carriers (DAL, UAL, AAL) reference this series.', 'source': 'eia', 'frequency': 'D', 'frequency_short': 'D', 'seasonal_adjustment': None, 'geography': 'US', 'units': 'Dollars per Gallon', 'coverage_start': '', 'coverage_end': '', 'score': 0."
+    },
+    {
+      "tool": "search_non_macro_catalog",
+      "args": {
+        "query": "operating margin"
+      },
+      "result": "[{'item_id': 'fundamental.snapshot.operating_margin', 'label': 'Operating Margin Percent', 'description': 'Operating income as a percentage of revenue (TTM). Includes COGS, R&D, and SG&A. Does NOT include interest or taxes.', 'data_type': 'single_value', 'tool_fn': 'get_fundamentals', 'tool_params': {}, 'tool_field': 'data.snapshot.operating_margin', 'aliases_json': '[\"EBIT margin\", \"operating profitability\", \"EBIT percent\", \"operating income margin\", \"operating efficiency\"]', 'category': 'funda"
+    },
+    {
+      "tool": "search_non_macro_catalog",
+      "args": {
+        "query": "revenue history"
+      },
+      "result": "[{'item_id': 'fundamental.history.revenue', 'label': 'Revenue Quarterly History', 'description': 'Revenue for each of the past N quarters. Use for trend and seasonality analysis. Does NOT include forward estimates.', 'data_type': 'timeseries', 'tool_fn': 'get_fundamentals', 'tool_params': {'period': 'quarterly'}, 'tool_field': 'data.history', 'aliases_json': '[\"revenue\", \"revenue history\", \"revenue quarterly\", \"revenue trend\"]', 'category': 'fundamental', 'source': 'yfinance / defeatbeta', 'note"
+    },
+    {
+      "tool": "lookup_capability",
+      "args": {
+        "resource_id": "EIA:PET.EER_EPJK_PF4_RGC_DPG.D",
+        "resource_type": "macro_series"
+      },
+      "result": "fetch_shape=<FetchShape.TIMESERIES: 'timeseries'> numeric=True history_materializable=False temporal_analytics_eligible=True comparison_modes_supported=[<ComparisonMode.SELF_HISTORY: 'self_history'>, <ComparisonMode.MACRO_RELATION: 'macro_relation'>, <ComparisonMode.CONDITIONAL_HISTORY: 'conditional_history'>] materialization_routes=[] requires_query_text=False"
+    }
+  ],
+  "tokens": {
+    "input_tokens": 0,
+    "output_tokens": 0,
+    "reasoning_tokens": 0,
+    "cache_read_tokens": 0,
+    "total_tokens": 0,
+    "llm_calls": 0,
+    "tool_calls": 4,
+    "estimated_cost_usd": 0.0
+  },
+  "error": null,
+  "duration_seconds": 33.860536098480225
+}

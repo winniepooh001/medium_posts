@@ -1,0 +1,167 @@
+{
+  "question_id": "Q0075",
+  "plan": {
+    "original_text": "What are the recent trends in the 10-year Treasury yield, and how might they impact ISSC's cost of capital?",
+    "thesis": "ISSC appears undervalued relative to its earnings growth trajectory and niche avionics positioning. If backlog converts to revenue as expected and margins sustain, the stock may rerate toward peer multiples over 12\u201318 months. The thesis fails if order conversion slows or customer concentration risk materializes.",
+    "hypothesis_type": "composite",
+    "answer_type": "text",
+    "ticker": "ISSC",
+    "steps": [
+      {
+        "step_id": "s1",
+        "operation": "fetch",
+        "description": "10-year Treasury yield monthly timeseries \u2014 FRED:GS10",
+        "macro_preference": true,
+        "horizon": {
+          "period": 24,
+          "frequency": "monthly"
+        },
+        "assessment_period": null,
+        "expected_output": "timeseries",
+        "result_type": null,
+        "inputs": [],
+        "params": {
+          "series_id": "FRED:GS10"
+        },
+        "output_key": "treasury_10y_yield_ts",
+        "derivation": null
+      },
+      {
+        "step_id": "s2",
+        "operation": "trend",
+        "description": "Trend of the 10-year Treasury yield over the last 24 months",
+        "macro_preference": null,
+        "horizon": null,
+        "assessment_period": null,
+        "expected_output": null,
+        "result_type": "numeric",
+        "inputs": [
+          "$s1"
+        ],
+        "params": {},
+        "output_key": "treasury_10y_trend",
+        "derivation": null
+      },
+      {
+        "step_id": "s3",
+        "operation": "fetch",
+        "description": "ISSC debt-to-equity ratio \u2014 fundamental.snapshot.debt_equity",
+        "macro_preference": false,
+        "horizon": {
+          "period": 1,
+          "frequency": null
+        },
+        "assessment_period": null,
+        "expected_output": "scalar",
+        "result_type": null,
+        "inputs": [],
+        "params": {
+          "item_id": "fundamental.snapshot.debt_equity"
+        },
+        "output_key": "issc_debt_equity",
+        "derivation": null
+      },
+      {
+        "step_id": "s4",
+        "operation": "assess",
+        "description": "Assess how the 10-year Treasury yield trend impacts ISSC's cost of capital, considering its debt-to-equity ratio",
+        "macro_preference": null,
+        "horizon": null,
+        "assessment_period": null,
+        "expected_output": null,
+        "result_type": "verdict",
+        "inputs": [
+          "$s2",
+          "$s3"
+        ],
+        "params": {},
+        "output_key": "cost_of_capital_impact_verdict",
+        "derivation": null
+      }
+    ],
+    "ambiguity_notes": {
+      "10-year Treasury yield": "grounded",
+      "cost of capital": "proxy - No direct WACC metric available. Using the 10-year Treasury yield trend as a proxy for the risk-free rate component, and ISSC's debt-to-equity ratio to assess the relative weight of debt vs equity in its capital structure."
+    },
+    "reasoning": "To determine the impact on ISSC's cost of capital, we first measure the recent trend in the 10-year Treasury yield, which serves as the risk-free rate. We then fetch ISSC's debt-to-equity ratio to understand its capital structure, allowing us to assess how changes in the risk-free rate affect its overall weighted average cost of capital."
+  },
+  "trace": [
+    {
+      "tool": "search_macro_catalog",
+      "args": {
+        "query": "10-year Treasury yield"
+      },
+      "result": "{'results': [{'series_id': 'FRED:GS10', 'name': 'Market Yield on U.S. Treasury Securities at 10-Year Constant Maturity, Quoted on an Investment Basis', 'description': 'H.15 Statistical Release notes (https://www.federalreserve.gov/releases/h15/default.htm) and the Treasury Yield Curve Methodology (https://home.treasury.gov/policy-issues/financing-the-government/interest-rate-statistics/treasury-yield-curve-methodology).\\n\\nFor questions on the data, please contact the data source (https://www.fe"
+    },
+    {
+      "tool": "search_non_macro_catalog",
+      "args": {
+        "query": "cost of capital WACC"
+      },
+      "result": "[{'item_id': 'fundamental.etf.expense_ratio', 'label': 'ETF Expense Ratio', 'description': 'Annual expense ratio of the ETF as a percentage. Lower is better for long-term holders.', 'data_type': 'single_value', 'tool_fn': 'get_etf_holdings', 'tool_params': {}, 'tool_field': 'data.etf_metrics.expense_ratio', 'aliases_json': '[\"ETF fee\", \"fund expense\", \"management fee\", \"ETF cost\", \"annual fee\", \"TER\"]', 'category': 'fundamental', 'source': 'yfinance', 'notes': None, 'rank': -6.292280519146025, '"
+    },
+    {
+      "tool": "search_non_macro_catalog",
+      "args": {
+        "query": "debt"
+      },
+      "result": "[{'item_id': 'fundamental.history.total_debt', 'label': 'Total Debt Quarterly History', 'description': 'Total debt (long-term and short-term) for each of the past N quarters. Use to assess leverage trajectory.', 'data_type': 'timeseries', 'tool_fn': 'get_fundamentals', 'tool_params': {'period': 'quarterly'}, 'tool_field': 'data.history', 'aliases_json': '[\"debt trend\", \"leverage trend\", \"total debt over time\", \"debt history\", \"debt load trend\"]', 'category': 'fundamental', 'source': 'yfinance / "
+    },
+    {
+      "tool": "lookup_capability",
+      "args": {
+        "resource_type": "macro_series",
+        "resource_id": "FRED:GS10"
+      },
+      "result": "fetch_shape=<FetchShape.TIMESERIES: 'timeseries'> numeric=True history_materializable=False temporal_analytics_eligible=True comparison_modes_supported=[<ComparisonMode.SELF_HISTORY: 'self_history'>, <ComparisonMode.MACRO_RELATION: 'macro_relation'>, <ComparisonMode.CONDITIONAL_HISTORY: 'conditional_history'>] materialization_routes=[] requires_query_text=False"
+    },
+    {
+      "tool": "lookup_capability",
+      "args": {
+        "resource_id": "fundamental.snapshot.debt_equity",
+        "resource_type": "non_macro_item"
+      },
+      "result": "fetch_shape=<FetchShape.RECORD: 'record'> numeric=False history_materializable=False temporal_analytics_eligible=False comparison_modes_supported=[<ComparisonMode.NONE: 'none'>] materialization_routes=[] requires_query_text=False"
+    },
+    {
+      "tool": "search_non_macro_catalog",
+      "args": {
+        "query": "beta"
+      },
+      "result": "[]"
+    },
+    {
+      "tool": "search_non_macro_catalog",
+      "args": {
+        "query": "risk"
+      },
+      "result": "[{'item_id': 'fundamental.filing.text', 'label': 'SEC Filing Document Text', 'description': 'Full text of SEC filings (10-K, 10-Q, 8-K). Includes MD&A, risk factors, financial statements narrative. Does NOT include raw financial tables \u2014 use get_fundamentals for those.', 'data_type': 'text', 'tool_fn': 'get_security_filing', 'tool_params': {}, 'tool_field': 'data.sections', 'aliases_json': '[\"10-K text\", \"10-Q text\", \"SEC filing\", \"annual report text\", \"EDGAR filing\", \"financial filing\", \"regula"
+    },
+    {
+      "tool": "search_non_macro_catalog",
+      "args": {
+        "query": "interest expense"
+      },
+      "result": "[{'item_id': 'fundamental.etf.expense_ratio', 'label': 'ETF Expense Ratio', 'description': 'Annual expense ratio of the ETF as a percentage. Lower is better for long-term holders.', 'data_type': 'single_value', 'tool_fn': 'get_etf_holdings', 'tool_params': {}, 'tool_field': 'data.etf_metrics.expense_ratio', 'aliases_json': '[\"ETF fee\", \"fund expense\", \"management fee\", \"ETF cost\", \"annual fee\", \"TER\"]', 'category': 'fundamental', 'source': 'yfinance', 'notes': None, 'rank': -8.249353945310821, '"
+    },
+    {
+      "tool": "search_non_macro_catalog",
+      "args": {
+        "query": "interest rate risk"
+      },
+      "result": "[{'item_id': 'macro.cot.open_interest', 'label': 'COT Open Interest', 'description': 'Total open interest from CFTC COT report. Rising OI with price = trend confirmation; falling OI = trend exhaustion.', 'data_type': 'timeseries', 'tool_fn': 'get_cot_positioning', 'tool_params': {}, 'tool_field': 'data.positions', 'aliases_json': '[\"open interest\", \"futures open interest\", \"total OI\", \"CFTC open interest\"]', 'category': 'macro', 'source': 'CFTC', 'notes': None, 'rank': -5.440129008334527, 'score"
+    }
+  ],
+  "tokens": {
+    "input_tokens": 0,
+    "output_tokens": 0,
+    "reasoning_tokens": 0,
+    "cache_read_tokens": 0,
+    "total_tokens": 0,
+    "llm_calls": 0,
+    "tool_calls": 9,
+    "estimated_cost_usd": 0.0
+  },
+  "error": null,
+  "duration_seconds": 87.8831205368042
+}

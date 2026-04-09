@@ -1,0 +1,146 @@
+{
+  "question_id": "Q0039",
+  "plan": {
+    "original_text": "Are analyst consensus EPS estimates for Booz Allen being revised downward over the last three months?",
+    "thesis": "Booz Allen should outperform over the next 2\u20134 quarters if demand for AI/cybersecurity solutions within the intelligence community accelerates and contract award timelines normalize. The firm's high-margin consulting work, deep relationships with defense and civilian agencies, and recurring revenue from mission-critical systems provide earnings stability and margin expansion potential. The thesis fails if government shutdown risks materialize, procurement reforms compress billing rates, or talent retention costs spike",
+    "hypothesis_type": "temporal",
+    "answer_type": "boolean",
+    "ticker": "BAH",
+    "steps": [
+      {
+        "step_id": "s1",
+        "operation": "fetch",
+        "description": "BAH current quarter consensus EPS estimate timeseries over the last 3 months \u2014 estimates.eps.current_quarter",
+        "macro_preference": false,
+        "horizon": {
+          "period": 3,
+          "frequency": "monthly"
+        },
+        "assessment_period": null,
+        "expected_output": "timeseries",
+        "result_type": null,
+        "inputs": [],
+        "params": {
+          "item_id": "estimates.eps.current_quarter"
+        },
+        "output_key": "bah_eps_estimate_3m_ts",
+        "derivation": null
+      },
+      {
+        "step_id": "s2",
+        "operation": "aggregate",
+        "description": "Average BAH EPS estimate over the last 3 months",
+        "macro_preference": null,
+        "horizon": null,
+        "assessment_period": null,
+        "expected_output": null,
+        "result_type": "numeric",
+        "inputs": [
+          "$s1"
+        ],
+        "params": {
+          "method": "mean"
+        },
+        "output_key": "bah_eps_estimate_3m_avg",
+        "derivation": null
+      },
+      {
+        "step_id": "s3",
+        "operation": "fetch",
+        "description": "BAH current quarter consensus EPS estimate latest snapshot \u2014 estimates.eps.current_quarter",
+        "macro_preference": false,
+        "horizon": {
+          "period": 1,
+          "frequency": null
+        },
+        "assessment_period": null,
+        "expected_output": "scalar",
+        "result_type": null,
+        "inputs": [],
+        "params": {
+          "item_id": "estimates.eps.current_quarter"
+        },
+        "output_key": "bah_eps_estimate_current",
+        "derivation": null
+      },
+      {
+        "step_id": "s4",
+        "operation": "compare",
+        "description": "Is the current BAH EPS estimate below its 3-month average?",
+        "macro_preference": null,
+        "horizon": null,
+        "assessment_period": null,
+        "expected_output": null,
+        "result_type": "boolean",
+        "inputs": [
+          "$s3",
+          "$s2"
+        ],
+        "params": {
+          "operator": "<"
+        },
+        "output_key": "is_eps_revised_downward",
+        "derivation": null
+      }
+    ],
+    "ambiguity_notes": {
+      "analyst consensus EPS estimates": "grounded to estimates.eps.current_quarter as a representative proxy for overall EPS estimates",
+      "revised downward": "interpreted as the current estimate being lower than the 3-month historical average of the estimate"
+    },
+    "reasoning": "To determine if EPS estimates are being revised downward, we fetch the timeseries of the current quarter's consensus EPS estimate over the last 3 months and calculate its average. We then compare the latest EPS estimate snapshot against this 3-month average to see if it is lower, indicating a downward revision trend."
+  },
+  "trace": [
+    {
+      "tool": "search_non_macro_catalog",
+      "args": {
+        "top_k": 5,
+        "query": "analyst consensus EPS estimates"
+      },
+      "result": "[{'item_id': 'estimates.eps.history', 'label': 'Analyst EPS Estimate History', 'description': 'Per-quarter EPS consensus over the past N quarters: shows how estimates evolved before each earnings report.', 'data_type': 'timeseries', 'tool_fn': 'get_estimate_history', 'tool_params': {}, 'tool_field': 'data.eps_history', 'aliases_json': '[\"EPS estimate trend\", \"earnings estimate history\", \"estimate revision history\", \"EPS revision trend\"]', 'category': 'estimates', 'source': 'Dolthub', 'notes': No"
+    },
+    {
+      "tool": "lookup_capability",
+      "args": {
+        "resource_type": "non_macro_item",
+        "resource_id": "estimates.eps.history"
+      },
+      "result": "fetch_shape=<FetchShape.RECORD: 'record'> numeric=True history_materializable=True temporal_analytics_eligible=True comparison_modes_supported=[<ComparisonMode.SELF_HISTORY: 'self_history'>] materialization_routes=[] requires_query_text=False"
+    },
+    {
+      "tool": "search_non_macro_catalog",
+      "args": {
+        "top_k": 5,
+        "query": "EPS estimate revision"
+      },
+      "result": "[{'item_id': 'estimates.eps.revision_direction', 'label': 'EPS Estimate Revision Direction', 'description': \"Whether EPS estimates are being revised up or down: 'rising', 'falling', or 'stable'. Leading indicator of earnings momentum.\", 'data_type': 'single_value', 'tool_fn': 'get_estimate_history', 'tool_params': {}, 'tool_field': 'data.eps_revision_direction', 'aliases_json': '[\"estimate revision trend\", \"EPS revision direction\", \"estimate momentum\", \"earnings revision\"]', 'category': 'estimat"
+    },
+    {
+      "tool": "lookup_capability",
+      "args": {
+        "resource_id": "estimates.eps.current_quarter",
+        "resource_type": "non_macro_item"
+      },
+      "result": "fetch_shape=<FetchShape.RECORD: 'record'> numeric=True history_materializable=True temporal_analytics_eligible=True comparison_modes_supported=[<ComparisonMode.SELF_HISTORY: 'self_history'>] materialization_routes=[] requires_query_text=False"
+    },
+    {
+      "tool": "lookup_capability",
+      "args": {
+        "resource_type": "non_macro_item",
+        "resource_id": "estimates.eps.revision_direction"
+      },
+      "result": "fetch_shape=<FetchShape.RECORD: 'record'> numeric=True history_materializable=True temporal_analytics_eligible=True comparison_modes_supported=[<ComparisonMode.SELF_HISTORY: 'self_history'>] materialization_routes=[] requires_query_text=False"
+    }
+  ],
+  "tokens": {
+    "input_tokens": 0,
+    "output_tokens": 0,
+    "reasoning_tokens": 0,
+    "cache_read_tokens": 0,
+    "total_tokens": 0,
+    "llm_calls": 0,
+    "tool_calls": 5,
+    "estimated_cost_usd": 0.0
+  },
+  "error": null,
+  "duration_seconds": 76.73798060417175
+}

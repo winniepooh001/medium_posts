@@ -1,0 +1,159 @@
+{
+  "question_id": "Q0268",
+  "plan": {
+    "original_text": "What external factors could lead to a sudden drop in shell egg prices, and how quickly could these factors impact Cal-Maine's earnings?",
+    "thesis": "Cal-Maine should outperform over the next 2\u20134 quarters if shell egg pricing remains above historical mid-cycle levels. Earnings are highly sensitive to spot egg prices due to largely fixed production costs, creating operating leverage. The thesis fails if egg prices revert to pre-cycle averages faster than expected.",
+    "hypothesis_type": "composite",
+    "answer_type": "text",
+    "ticker": "CALM",
+    "steps": [
+      {
+        "step_id": "s1",
+        "operation": "fetch",
+        "description": "Qualitative context on external factors that could lead to a sudden drop in shell egg prices (e.g., avian flu recovery, oversupply)",
+        "macro_preference": null,
+        "horizon": {
+          "period": 1,
+          "frequency": null
+        },
+        "assessment_period": null,
+        "expected_output": "text_summary",
+        "result_type": null,
+        "inputs": [],
+        "params": {},
+        "output_key": "egg_price_drop_factors_text",
+        "derivation": null
+      },
+      {
+        "step_id": "s2",
+        "operation": "fetch",
+        "description": "US Farm Egg Price Received monthly timeseries \u2014 USDA_NASS:usda_egg_price_received",
+        "macro_preference": true,
+        "horizon": {
+          "period": 60,
+          "frequency": "monthly"
+        },
+        "assessment_period": null,
+        "expected_output": "timeseries",
+        "result_type": null,
+        "inputs": [],
+        "params": {
+          "series_id": "USDA_NASS:usda_egg_price_received"
+        },
+        "output_key": "egg_price_ts",
+        "derivation": null
+      },
+      {
+        "step_id": "s3",
+        "operation": "fetch",
+        "description": "CALM quarterly net income history \u2014 fundamental.history.net_income",
+        "macro_preference": false,
+        "horizon": {
+          "period": 20,
+          "frequency": "quarterly"
+        },
+        "assessment_period": null,
+        "expected_output": "timeseries",
+        "result_type": null,
+        "inputs": [],
+        "params": {
+          "item_id": "fundamental.history.net_income"
+        },
+        "output_key": "calm_net_income_ts",
+        "derivation": null
+      },
+      {
+        "step_id": "s4",
+        "operation": "correlate",
+        "description": "Correlation between shell egg prices and CALM net income to assess relationship and impact speed",
+        "macro_preference": null,
+        "horizon": null,
+        "assessment_period": null,
+        "expected_output": null,
+        "result_type": "numeric",
+        "inputs": [
+          "$s2",
+          "$s3"
+        ],
+        "params": {},
+        "output_key": "egg_price_income_correlation",
+        "derivation": null
+      },
+      {
+        "step_id": "s5",
+        "operation": "assess",
+        "description": "Synthesize the external factors that could drop egg prices and the correlation data to determine how quickly CALM's earnings would be impacted.",
+        "macro_preference": null,
+        "horizon": null,
+        "assessment_period": null,
+        "expected_output": null,
+        "result_type": "verdict",
+        "inputs": [
+          "$s1",
+          "$s4"
+        ],
+        "params": {},
+        "output_key": "final_assessment",
+        "derivation": null
+      }
+    ],
+    "ambiguity_notes": {
+      "external factors": "Resolved via qualitative text fetch for narrative context on egg price drivers.",
+      "shell egg prices": "Grounded to USDA_NASS:usda_egg_price_received as the primary macro indicator for farm-gate egg prices.",
+      "earnings": "Grounded to fundamental.history.net_income as the primary measure of bottom-line profitability.",
+      "how quickly": "Interpreted as the statistical correlation and lag between the egg price timeseries and CALM's net income timeseries."
+    },
+    "reasoning": "The plan first fetches qualitative context to identify external factors (like avian flu recovery or feed cost changes) that could cause a sudden drop in shell egg prices. It then fetches historical timeseries for both US farm egg prices and Cal-Maine's net income, correlating the two to quantify the relationship and determine how quickly changes in spot prices flow through to the company's bottom line. Finally, it assesses these inputs to provide a comprehensive narrative answer."
+  },
+  "trace": [
+    {
+      "tool": "search_macro_catalog",
+      "args": {
+        "query": "shell egg prices"
+      },
+      "result": "{'results': [{'series_id': 'USDA_NASS:usda_egg_price_received', 'name': 'US Farm Egg Price Received', 'description': 'Monthly US average farm-gate egg price received by producers, dollars per dozen. Tracks farmgate pricing power for egg producers (CALM). High prices during supply disruptions improve CALM margins; retail prices follow with a lag.', 'source': 'usda_nass', 'frequency': 'Monthly', 'frequency_short': 'M', 'seasonal_adjustment': None, 'geography': 'US', 'units': '$ / Dozen', 'coverage"
+    },
+    {
+      "tool": "search_non_macro_catalog",
+      "args": {
+        "query": "EPS"
+      },
+      "result": "[{'item_id': 'estimates.eps.current_quarter', 'label': 'Analyst EPS Estimate Current Quarter', 'description': 'Consensus EPS estimate for the current quarter. Does NOT include reported actuals \u2014 use get_fundamentals for those.', 'data_type': 'single_value', 'tool_fn': 'get_estimates', 'tool_params': {}, 'tool_field': 'data.eps_estimate_current_quarter', 'aliases_json': '[\"EPS estimate\", \"earnings estimate current quarter\", \"consensus EPS\", \"analyst EPS forecast\", \"current quarter EPS estimate\"]'"
+    },
+    {
+      "tool": "search_non_macro_catalog",
+      "args": {
+        "query": "net income"
+      },
+      "result": "[{'item_id': 'fundamental.history.net_income', 'label': 'Net Income Quarterly History', 'description': 'Net income for each of the past N quarters.', 'data_type': 'timeseries', 'tool_fn': 'get_fundamentals', 'tool_params': {'period': 'quarterly'}, 'tool_field': 'data.history', 'aliases_json': '[\"quarterly earnings trend\", \"net profit trend\", \"quarterly net income\", \"earnings history\"]', 'category': 'fundamental', 'source': 'yfinance / defeatbeta', 'notes': \"Extract field 'net_income' from each h"
+    },
+    {
+      "tool": "lookup_capability",
+      "args": {
+        "resource_id": "fundamental.history.net_income",
+        "resource_type": "non_macro_item"
+      },
+      "result": "fetch_shape=<FetchShape.TIMESERIES: 'timeseries'> numeric=True history_materializable=False temporal_analytics_eligible=True comparison_modes_supported=[<ComparisonMode.SELF_HISTORY: 'self_history'>, <ComparisonMode.CONDITIONAL_HISTORY: 'conditional_history'>] materialization_routes=[] requires_query_text=False"
+    },
+    {
+      "tool": "lookup_capability",
+      "args": {
+        "resource_id": "USDA_NASS:usda_egg_price_received",
+        "resource_type": "macro_series"
+      },
+      "result": "fetch_shape=<FetchShape.TIMESERIES: 'timeseries'> numeric=True history_materializable=False temporal_analytics_eligible=True comparison_modes_supported=[<ComparisonMode.SELF_HISTORY: 'self_history'>, <ComparisonMode.MACRO_RELATION: 'macro_relation'>, <ComparisonMode.CONDITIONAL_HISTORY: 'conditional_history'>] materialization_routes=[] requires_query_text=False"
+    }
+  ],
+  "tokens": {
+    "input_tokens": 0,
+    "output_tokens": 0,
+    "reasoning_tokens": 0,
+    "cache_read_tokens": 0,
+    "total_tokens": 0,
+    "llm_calls": 0,
+    "tool_calls": 5,
+    "estimated_cost_usd": 0.0
+  },
+  "error": null,
+  "duration_seconds": 37.978458404541016
+}

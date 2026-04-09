@@ -1,0 +1,162 @@
+{
+  "question_id": "Q0078",
+  "plan": {
+    "original_text": "Is there a significant increase in operational costs that could impact ISSC's gross margins over the next 12-18 months?",
+    "thesis": "ISSC appears undervalued relative to its earnings growth trajectory and niche avionics positioning. If backlog converts to revenue as expected and margins sustain, the stock may rerate toward peer multiples over 12-18 months. The thesis fails if order conversion slows or customer concentration risk materializes.",
+    "hypothesis_type": "temporal",
+    "answer_type": "text",
+    "ticker": "ISSC",
+    "steps": [
+      {
+        "step_id": "s1",
+        "operation": "fetch",
+        "description": "ISSC quarterly Cost of Goods Sold (COGS) history derived from revenue and gross profit",
+        "macro_preference": false,
+        "horizon": {
+          "period": 12,
+          "frequency": "quarterly"
+        },
+        "assessment_period": null,
+        "expected_output": "timeseries",
+        "result_type": null,
+        "inputs": [],
+        "params": {},
+        "output_key": "derived_cogs_history",
+        "derivation": {
+          "numerator": "revenue",
+          "denominator": "gross_profit",
+          "operation": "difference"
+        }
+      },
+      {
+        "step_id": "s2",
+        "operation": "trend",
+        "description": "Trend of ISSC COGS over the last 12 quarters",
+        "macro_preference": null,
+        "horizon": null,
+        "assessment_period": null,
+        "expected_output": null,
+        "result_type": "numeric",
+        "inputs": [
+          "$s1"
+        ],
+        "params": {},
+        "output_key": "cogs_trend",
+        "derivation": null
+      },
+      {
+        "step_id": "s3",
+        "operation": "fetch",
+        "description": "ISSC operational costs, supply chain disruptions, and gross margin guidance news",
+        "macro_preference": false,
+        "horizon": {
+          "period": 1,
+          "frequency": "yearly"
+        },
+        "assessment_period": null,
+        "expected_output": "text_summary",
+        "result_type": null,
+        "inputs": [],
+        "params": {},
+        "output_key": "operational_costs_news",
+        "derivation": null
+      },
+      {
+        "step_id": "s4",
+        "operation": "fetch",
+        "description": "ISSC current gross margin percent \u2014 fundamental.snapshot.gross_margin",
+        "macro_preference": false,
+        "horizon": {
+          "period": 1,
+          "frequency": null
+        },
+        "assessment_period": null,
+        "expected_output": "scalar",
+        "result_type": null,
+        "inputs": [],
+        "params": {
+          "item_id": "fundamental.snapshot.gross_margin"
+        },
+        "output_key": "current_gross_margin",
+        "derivation": null
+      },
+      {
+        "step_id": "s5",
+        "operation": "assess",
+        "description": "Assess whether there is a significant increase in operational costs that could impact ISSC's gross margins over the next 12-18 months",
+        "macro_preference": null,
+        "horizon": null,
+        "assessment_period": null,
+        "expected_output": null,
+        "result_type": "verdict",
+        "inputs": [
+          "$s2",
+          "$s3",
+          "$s4"
+        ],
+        "params": {},
+        "output_key": "operational_costs_impact_verdict",
+        "derivation": null
+      }
+    ],
+    "ambiguity_notes": {
+      "operational costs": "Interpreted as Cost of Goods Sold (COGS) since the question specifically asks about the impact on gross margins, which are directly affected by COGS rather than operating expenses.",
+      "significant increase": "Evaluated by computing the historical trend of COGS and assessing forward-looking management guidance and supply chain news."
+    },
+    "reasoning": "To determine if operational costs will impact ISSC's gross margins over the next 12-18 months, we first derive the historical trend of its Cost of Goods Sold (COGS) to see if costs are already rising. We then fetch current gross margin levels and forward-looking qualitative news regarding supply chain, cost guidance, and operational expenses to assess the future impact."
+  },
+  "trace": [
+    {
+      "tool": "search_non_macro_catalog",
+      "args": {
+        "query": "gross margin",
+        "top_k": 5
+      },
+      "result": "[{'item_id': 'fundamental.snapshot.gross_margin', 'label': 'Gross Margin Percent', 'description': 'Gross profit as a percentage of revenue (TTM). Measures production efficiency and pricing power. Does NOT include operating expenses, R&D, or SG&A.', 'data_type': 'single_value', 'tool_fn': 'get_fundamentals', 'tool_params': {}, 'tool_field': 'data.snapshot.gross_margin', 'aliases_json': '[\"gross margin\", \"gross margin percent\", \"gross margin trend\"]', 'category': 'fundamental', 'source': 'yfinance"
+    },
+    {
+      "tool": "search_non_macro_catalog",
+      "args": {
+        "query": "cost of goods sold",
+        "top_k": 5
+      },
+      "result": "[{'item_id': 'quant.short.shares', 'label': 'Shares Short Count', 'description': 'Absolute number of shares currently sold short.', 'data_type': 'single_value', 'tool_fn': 'get_short_interest', 'tool_params': {}, 'tool_field': 'data.shares_short', 'aliases_json': '[\"shares sold short\", \"short position size\", \"short share count\"]', 'category': 'quant', 'source': 'yfinance', 'notes': None, 'rank': -7.5135502133328655, 'score': 0.8825401888821981, 'aliases': ['shares sold short', 'short position si"
+    },
+    {
+      "tool": "search_non_macro_catalog",
+      "args": {
+        "query": "operating expenses",
+        "top_k": 5
+      },
+      "result": "[{'item_id': 'fundamental.snapshot.gross_margin', 'label': 'Gross Margin Percent', 'description': 'Gross profit as a percentage of revenue (TTM). Measures production efficiency and pricing power. Does NOT include operating expenses, R&D, or SG&A.', 'data_type': 'single_value', 'tool_fn': 'get_fundamentals', 'tool_params': {}, 'tool_field': 'data.snapshot.gross_margin', 'aliases_json': '[\"gross margin\", \"gross margin percent\", \"gross margin trend\"]', 'category': 'fundamental', 'source': 'yfinance"
+    },
+    {
+      "tool": "lookup_capability",
+      "args": {
+        "resource_id": "fundamental.snapshot.gross_margin",
+        "resource_type": "non_macro_item"
+      },
+      "result": "fetch_shape=<FetchShape.RECORD: 'record'> numeric=False history_materializable=True temporal_analytics_eligible=True comparison_modes_supported=[<ComparisonMode.SELF_HISTORY: 'self_history'>] materialization_routes=['derive_from_components'] requires_query_text=False"
+    },
+    {
+      "tool": "search_non_macro_catalog",
+      "args": {
+        "query": "cost of revenue",
+        "top_k": 5
+      },
+      "result": "[{'item_id': 'fundamental.etf.expense_ratio', 'label': 'ETF Expense Ratio', 'description': 'Annual expense ratio of the ETF as a percentage. Lower is better for long-term holders.', 'data_type': 'single_value', 'tool_fn': 'get_etf_holdings', 'tool_params': {}, 'tool_field': 'data.etf_metrics.expense_ratio', 'aliases_json': '[\"ETF fee\", \"fund expense\", \"management fee\", \"ETF cost\", \"annual fee\", \"TER\"]', 'category': 'fundamental', 'source': 'yfinance', 'notes': None, 'rank': -6.292280519146025, '"
+    }
+  ],
+  "tokens": {
+    "input_tokens": 0,
+    "output_tokens": 0,
+    "reasoning_tokens": 0,
+    "cache_read_tokens": 0,
+    "total_tokens": 0,
+    "llm_calls": 0,
+    "tool_calls": 5,
+    "estimated_cost_usd": 0.0
+  },
+  "error": null,
+  "duration_seconds": 60.35076189041138
+}

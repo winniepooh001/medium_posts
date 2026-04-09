@@ -1,0 +1,153 @@
+{
+  "question_id": "Q0229",
+  "plan": {
+    "original_text": "How does QBTS's gross margin compare to its industry peers?",
+    "thesis": "QBTS represents an early commercialization stage in applied quantum systems. If enterprise adoption transitions from pilot to scaled deployment, revenue inflection could occur over the next 24 months. The thesis fails if adoption remains experimental.",
+    "hypothesis_type": "cross_sectional",
+    "answer_type": "boolean",
+    "ticker": "QBTS",
+    "steps": [
+      {
+        "step_id": "s1",
+        "operation": "fetch",
+        "description": "QBTS gross margin percent \u2014 fundamental.snapshot.gross_margin",
+        "macro_preference": false,
+        "horizon": {
+          "period": 1,
+          "frequency": null
+        },
+        "assessment_period": null,
+        "expected_output": "scalar",
+        "result_type": null,
+        "inputs": [],
+        "params": {
+          "item_id": "fundamental.snapshot.gross_margin"
+        },
+        "output_key": "qbts_gross_margin",
+        "derivation": null
+      },
+      {
+        "step_id": "s2",
+        "operation": "fetch",
+        "description": "QBTS industry peers gross margin percent \u2014 fundamental.snapshot.gross_margin",
+        "macro_preference": false,
+        "horizon": {
+          "period": 1,
+          "frequency": null
+        },
+        "assessment_period": null,
+        "expected_output": "list_of_items",
+        "result_type": null,
+        "inputs": [],
+        "params": {
+          "item_id": "fundamental.snapshot.gross_margin"
+        },
+        "output_key": "qbts_peers_gross_margin_list",
+        "derivation": null
+      },
+      {
+        "step_id": "s3",
+        "operation": "aggregate",
+        "description": "Average gross margin of QBTS industry peers",
+        "macro_preference": null,
+        "horizon": null,
+        "assessment_period": null,
+        "expected_output": null,
+        "result_type": "numeric",
+        "inputs": [
+          "$s2"
+        ],
+        "params": {
+          "method": "mean"
+        },
+        "output_key": "peers_gross_margin_mean",
+        "derivation": null
+      },
+      {
+        "step_id": "s4",
+        "operation": "compare",
+        "description": "Is QBTS gross margin above its industry peers average?",
+        "macro_preference": null,
+        "horizon": null,
+        "assessment_period": null,
+        "expected_output": null,
+        "result_type": "boolean",
+        "inputs": [
+          "$s1",
+          "$s3"
+        ],
+        "params": {
+          "operator": ">"
+        },
+        "output_key": "qbts_vs_peers_margin",
+        "derivation": null
+      }
+    ],
+    "ambiguity_notes": {
+      "industry peers": "No specific peer tickers were provided; relying on the executor to resolve the peer set for QBTS and fetch their gross margins as a list."
+    },
+    "reasoning": "To evaluate QBTS's relative profitability, we fetch its current gross margin and the gross margins of its industry peers. We then aggregate the peer margins into a mean and compare QBTS's margin against this industry average."
+  },
+  "trace": [
+    {
+      "tool": "search_non_macro_catalog",
+      "args": {
+        "query": "gross margin",
+        "top_k": 5
+      },
+      "result": "[{'item_id': 'fundamental.snapshot.gross_margin', 'label': 'Gross Margin Percent', 'description': 'Gross profit as a percentage of revenue (TTM). Measures production efficiency and pricing power. Does NOT include operating expenses, R&D, or SG&A.', 'data_type': 'single_value', 'tool_fn': 'get_fundamentals', 'tool_params': {}, 'tool_field': 'data.snapshot.gross_margin', 'aliases_json': '[\"gross margin\", \"gross margin percent\", \"gross margin trend\"]', 'category': 'fundamental', 'source': 'yfinance"
+    },
+    {
+      "tool": "search_non_macro_catalog",
+      "args": {
+        "query": "peer gross margin",
+        "top_k": 5
+      },
+      "result": "[{'item_id': 'fundamental.snapshot.gross_margin', 'label': 'Gross Margin Percent', 'description': 'Gross profit as a percentage of revenue (TTM). Measures production efficiency and pricing power. Does NOT include operating expenses, R&D, or SG&A.', 'data_type': 'single_value', 'tool_fn': 'get_fundamentals', 'tool_params': {}, 'tool_field': 'data.snapshot.gross_margin', 'aliases_json': '[\"gross margin\", \"gross margin percent\", \"gross margin trend\"]', 'category': 'fundamental', 'source': 'yfinance"
+    },
+    {
+      "tool": "search_non_macro_catalog",
+      "args": {
+        "query": "peers",
+        "top_k": 5
+      },
+      "result": "[]"
+    },
+    {
+      "tool": "lookup_capability",
+      "args": {
+        "resource_id": "fundamental.snapshot.gross_margin",
+        "resource_type": "peer_metric"
+      },
+      "result": "fetch_shape=<FetchShape.RECORD: 'record'> numeric=False history_materializable=True temporal_analytics_eligible=True comparison_modes_supported=[<ComparisonMode.SELF_HISTORY: 'self_history'>] materialization_routes=['derive_from_components'] requires_query_text=False"
+    },
+    {
+      "tool": "lookup_capability",
+      "args": {
+        "resource_id": "fundamental.snapshot.gross_margin",
+        "resource_type": "non_macro_item"
+      },
+      "result": "fetch_shape=<FetchShape.RECORD: 'record'> numeric=False history_materializable=True temporal_analytics_eligible=True comparison_modes_supported=[<ComparisonMode.SELF_HISTORY: 'self_history'>] materialization_routes=['derive_from_components'] requires_query_text=False"
+    },
+    {
+      "tool": "search_non_macro_catalog",
+      "args": {
+        "top_k": 5,
+        "query": "QBTS peers"
+      },
+      "result": "[]"
+    }
+  ],
+  "tokens": {
+    "input_tokens": 0,
+    "output_tokens": 0,
+    "reasoning_tokens": 0,
+    "cache_read_tokens": 0,
+    "total_tokens": 0,
+    "llm_calls": 0,
+    "tool_calls": 6,
+    "estimated_cost_usd": 0.0
+  },
+  "error": null,
+  "duration_seconds": 54.407455921173096
+}

@@ -1,0 +1,89 @@
+{
+  "question_id": "Q0031",
+  "plan": {
+    "original_text": "What recent analyst rating changes have occurred for Booz Allen?",
+    "thesis": "Booz Allen should outperform over the next 2\u20134 quarters if demand for AI/cybersecurity solutions within the intelligence community accelerates and contract award timelines normalize. The firm's high-margin consulting work, deep relationships with defense and civilian agencies, and recurring revenue from mission-critical systems provide earnings stability and margin expansion potential. The thesis fails if government shutdown risks materialize, procurement reforms compress billing rates, or talent retention costs spike",
+    "hypothesis_type": "level",
+    "answer_type": "text",
+    "ticker": "BAH",
+    "steps": [
+      {
+        "step_id": "s1",
+        "operation": "fetch",
+        "description": "BAH recent analyst rating changes history \u2014 sentiment.ratings.history",
+        "macro_preference": false,
+        "horizon": {
+          "period": 12,
+          "frequency": "monthly"
+        },
+        "assessment_period": null,
+        "expected_output": "record",
+        "result_type": null,
+        "inputs": [],
+        "params": {
+          "item_id": "sentiment.ratings.history"
+        },
+        "output_key": "bah_rating_changes",
+        "derivation": null
+      },
+      {
+        "step_id": "s2",
+        "operation": "assess",
+        "description": "Summarize the recent analyst rating changes for Booz Allen",
+        "macro_preference": null,
+        "horizon": null,
+        "assessment_period": null,
+        "expected_output": null,
+        "result_type": "verdict",
+        "inputs": [
+          "$s1"
+        ],
+        "params": {},
+        "output_key": "rating_changes_summary",
+        "derivation": null
+      }
+    ],
+    "ambiguity_notes": {
+      "recent analyst rating changes": "grounded to sentiment.ratings.history which provides a record of recent analyst actions"
+    },
+    "reasoning": "To determine what recent analyst rating changes have occurred for Booz Allen, we fetch the history of analyst rating changes. We then assess this record to provide a qualitative summary of the recent upgrades, downgrades, and initiations."
+  },
+  "trace": [
+    {
+      "tool": "search_non_macro_catalog",
+      "args": {
+        "top_k": 5,
+        "query": "analyst ratings recommendations"
+      },
+      "result": "[{'item_id': 'ownership.recommendations.hold', 'label': 'Hold Count', 'description': 'Number of analysts with a Hold or Neutral rating.', 'data_type': 'single_value', 'tool_fn': 'get_recommendations', 'tool_params': {}, 'tool_field': 'data.current_consensus.hold', 'aliases_json': '[\"hold ratings\", \"neutral ratings\", \"hold analyst count\"]', 'category': 'ownership', 'source': 'yfinance', 'notes': None, 'rank': -8.700650390393166, 'score': 0.8969141284598475, 'aliases': ['hold ratings', 'neutral ra"
+    },
+    {
+      "tool": "search_non_macro_catalog",
+      "args": {
+        "top_k": 5,
+        "query": "rating changes upgrades downgrades"
+      },
+      "result": "[{'item_id': 'sentiment.ratings.upgrades', 'label': 'Analyst Upgrade Count', 'description': 'Number of analyst rating upgrades over the lookback period.', 'data_type': 'single_value', 'tool_fn': 'get_rating_changes', 'tool_params': {}, 'tool_field': 'data.summary.upgrades', 'aliases_json': '[\"upgrades\", \"analyst upgrades\", \"positive rating changes\", \"buy upgrades\", \"analyst bullish\"]', 'category': 'sentiment', 'source': 'yfinance', 'notes': None, 'rank': -16.36887647281478, 'score': 0.9424257520"
+    },
+    {
+      "tool": "lookup_capability",
+      "args": {
+        "resource_id": "sentiment.ratings.history",
+        "resource_type": "non_macro_item"
+      },
+      "result": "fetch_shape=<FetchShape.RECORD: 'record'> numeric=False history_materializable=False temporal_analytics_eligible=False comparison_modes_supported=[<ComparisonMode.NONE: 'none'>] materialization_routes=[] requires_query_text=False"
+    }
+  ],
+  "tokens": {
+    "input_tokens": 0,
+    "output_tokens": 0,
+    "reasoning_tokens": 0,
+    "cache_read_tokens": 0,
+    "total_tokens": 0,
+    "llm_calls": 0,
+    "tool_calls": 3,
+    "estimated_cost_usd": 0.0
+  },
+  "error": null,
+  "duration_seconds": 57.631335973739624
+}

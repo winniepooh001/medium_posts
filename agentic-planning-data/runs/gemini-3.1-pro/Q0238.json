@@ -1,0 +1,100 @@
+{
+  "question_id": "Q0238",
+  "plan": {
+    "original_text": "What would be the impact on QBTS's revenue if enterprise clients decide to extend pilot programs indefinitely instead of moving to full deployment?",
+    "thesis": "QBTS represents an early commercialization stage in applied quantum systems. If enterprise adoption transitions from pilot to scaled deployment, revenue inflection could occur over the next 24 months. The thesis fails if adoption remains experimental.",
+    "hypothesis_type": "conditional",
+    "answer_type": "text",
+    "ticker": "QBTS",
+    "steps": [
+      {
+        "step_id": "s1",
+        "operation": "fetch",
+        "description": "QBTS quarterly revenue history \u2014 fundamental.history.revenue",
+        "macro_preference": false,
+        "horizon": {
+          "period": 8,
+          "frequency": "quarterly"
+        },
+        "assessment_period": null,
+        "expected_output": "timeseries",
+        "result_type": null,
+        "inputs": [],
+        "params": {
+          "item_id": "fundamental.history.revenue"
+        },
+        "output_key": "qbts_revenue_ts",
+        "derivation": null
+      },
+      {
+        "step_id": "s2",
+        "operation": "fetch",
+        "description": "QBTS management commentary and qualitative context on pilot programs, enterprise adoption, and conversion to full deployment",
+        "macro_preference": false,
+        "horizon": {
+          "period": 4,
+          "frequency": "quarterly"
+        },
+        "assessment_period": null,
+        "expected_output": "text_summary",
+        "result_type": null,
+        "inputs": [],
+        "params": {},
+        "output_key": "qbts_pilot_context",
+        "derivation": null
+      },
+      {
+        "step_id": "s3",
+        "operation": "assess",
+        "description": "Evaluate the impact on QBTS's revenue if enterprise clients extend pilot programs indefinitely instead of moving to full deployment",
+        "macro_preference": null,
+        "horizon": null,
+        "assessment_period": null,
+        "expected_output": null,
+        "result_type": "verdict",
+        "inputs": [
+          "$s1",
+          "$s2"
+        ],
+        "params": {},
+        "output_key": "revenue_impact_assessment",
+        "derivation": null
+      }
+    ],
+    "ambiguity_notes": {
+      "QBTS revenue": "grounded \u2014 direct catalog match found (fundamental.history.revenue).",
+      "pilot programs context": "unresolved \u2014 no direct catalog item for pilot program metrics; using web search fallback for qualitative management commentary."
+    },
+    "reasoning": "To determine the impact of indefinite pilot extensions on QBTS's revenue, we fetch the company's recent revenue history to establish a baseline and gather qualitative context on their pilot programs and enterprise adoption. We then assess how a failure to convert these pilots to full deployments would affect their revenue trajectory."
+  },
+  "trace": [
+    {
+      "tool": "search_non_macro_catalog",
+      "args": {
+        "query": "QBTS revenue",
+        "top_k": 5
+      },
+      "result": "[{'item_id': 'estimates.revenue.next_quarter', 'label': 'Analyst Revenue Estimate Next Quarter', 'description': 'Consensus revenue estimate for the next quarter.', 'data_type': 'single_value', 'tool_fn': 'get_estimates', 'tool_params': {}, 'tool_field': 'data.revenue_estimate_next_quarter', 'aliases_json': '[\"next quarter revenue estimate\", \"forward revenue estimate\", \"future revenue forecast\"]', 'category': 'estimates', 'source': 'yfinance', 'notes': None, 'rank': -4.313987230722273, 'score': 0"
+    },
+    {
+      "tool": "lookup_capability",
+      "args": {
+        "resource_type": "non_macro_item",
+        "resource_id": "fundamental.history.revenue"
+      },
+      "result": "fetch_shape=<FetchShape.TIMESERIES: 'timeseries'> numeric=True history_materializable=False temporal_analytics_eligible=True comparison_modes_supported=[<ComparisonMode.SELF_HISTORY: 'self_history'>, <ComparisonMode.CONDITIONAL_HISTORY: 'conditional_history'>] materialization_routes=[] requires_query_text=False"
+    }
+  ],
+  "tokens": {
+    "input_tokens": 0,
+    "output_tokens": 0,
+    "reasoning_tokens": 0,
+    "cache_read_tokens": 0,
+    "total_tokens": 0,
+    "llm_calls": 0,
+    "tool_calls": 2,
+    "estimated_cost_usd": 0.0
+  },
+  "error": null,
+  "duration_seconds": 33.44284701347351
+}

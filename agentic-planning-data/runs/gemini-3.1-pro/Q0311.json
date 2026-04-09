@@ -1,0 +1,280 @@
+{
+  "question_id": "Q0311",
+  "plan": {
+    "original_text": "How does Cal-Maine's production capacity compare to its competitors, and what would happen if competitors ramped up production?",
+    "thesis": "Cal-Maine should outperform over the next 2\u20134 quarters if shell egg pricing remains above historical mid-cycle levels. Earnings are highly sensitive to spot egg prices due to largely fixed production costs, creating operating leverage. The thesis fails if egg prices revert to pre-cycle averages faster than expected.",
+    "hypothesis_type": "composite",
+    "answer_type": "text",
+    "ticker": "CALM",
+    "steps": [
+      {
+        "step_id": "s1",
+        "operation": "fetch",
+        "description": "Cal-Maine Foods production capacity and market share compared to competitors",
+        "macro_preference": false,
+        "horizon": {
+          "period": 1,
+          "frequency": null
+        },
+        "assessment_period": null,
+        "expected_output": "text_summary",
+        "result_type": null,
+        "inputs": [],
+        "params": {},
+        "output_key": "calm_capacity_vs_peers_text",
+        "derivation": null
+      },
+      {
+        "step_id": "s2",
+        "operation": "fetch",
+        "description": "US Monthly Egg Production \u2014 USDA_NASS:usda_egg_production_monthly",
+        "macro_preference": true,
+        "horizon": {
+          "period": 60,
+          "frequency": "monthly"
+        },
+        "assessment_period": null,
+        "expected_output": "timeseries",
+        "result_type": null,
+        "inputs": [],
+        "params": {
+          "series_id": "USDA_NASS:usda_egg_production_monthly"
+        },
+        "output_key": "us_egg_production_ts",
+        "derivation": null
+      },
+      {
+        "step_id": "s3",
+        "operation": "fetch",
+        "description": "US Farm Egg Price Received \u2014 USDA_NASS:usda_egg_price_received",
+        "macro_preference": true,
+        "horizon": {
+          "period": 60,
+          "frequency": "monthly"
+        },
+        "assessment_period": null,
+        "expected_output": "timeseries",
+        "result_type": null,
+        "inputs": [],
+        "params": {
+          "series_id": "USDA_NASS:usda_egg_price_received"
+        },
+        "output_key": "us_egg_price_ts",
+        "derivation": null
+      },
+      {
+        "step_id": "s4",
+        "operation": "delta",
+        "description": "Change in US Monthly Egg Production",
+        "macro_preference": null,
+        "horizon": null,
+        "assessment_period": null,
+        "expected_output": null,
+        "result_type": "numeric",
+        "inputs": [
+          "$s2"
+        ],
+        "params": {},
+        "output_key": "delta_egg_production",
+        "derivation": null
+      },
+      {
+        "step_id": "s5",
+        "operation": "sensitivity",
+        "description": "Sensitivity of US Farm Egg Price to changes in US Monthly Egg Production",
+        "macro_preference": null,
+        "horizon": null,
+        "assessment_period": null,
+        "expected_output": null,
+        "result_type": "numeric",
+        "inputs": [
+          "$s3",
+          "$s4"
+        ],
+        "params": {},
+        "output_key": "sensitivity_price_to_production",
+        "derivation": null
+      },
+      {
+        "step_id": "s6",
+        "operation": "fetch",
+        "description": "CALM quarterly operating income history \u2014 fundamental.history.operating_income",
+        "macro_preference": false,
+        "horizon": {
+          "period": 20,
+          "frequency": "quarterly"
+        },
+        "assessment_period": null,
+        "expected_output": "timeseries",
+        "result_type": null,
+        "inputs": [],
+        "params": {
+          "item_id": "fundamental.history.operating_income"
+        },
+        "output_key": "calm_operating_income_ts",
+        "derivation": null
+      },
+      {
+        "step_id": "s7",
+        "operation": "delta",
+        "description": "Change in US Farm Egg Price Received",
+        "macro_preference": null,
+        "horizon": null,
+        "assessment_period": null,
+        "expected_output": null,
+        "result_type": "numeric",
+        "inputs": [
+          "$s3"
+        ],
+        "params": {},
+        "output_key": "delta_egg_price",
+        "derivation": null
+      },
+      {
+        "step_id": "s8",
+        "operation": "sensitivity",
+        "description": "Sensitivity of CALM operating income to changes in US Farm Egg Price",
+        "macro_preference": null,
+        "horizon": null,
+        "assessment_period": null,
+        "expected_output": null,
+        "result_type": "numeric",
+        "inputs": [
+          "$s6",
+          "$s7"
+        ],
+        "params": {},
+        "output_key": "sensitivity_income_to_price",
+        "derivation": null
+      },
+      {
+        "step_id": "s9",
+        "operation": "assess",
+        "description": "Evaluate CALM's capacity vs peers and the earnings impact of a competitor production ramp-up",
+        "macro_preference": null,
+        "horizon": null,
+        "assessment_period": null,
+        "expected_output": null,
+        "result_type": "verdict",
+        "inputs": [
+          "$s1",
+          "$s5",
+          "$s8"
+        ],
+        "params": {},
+        "output_key": "competitor_ramp_up_assessment",
+        "derivation": null
+      }
+    ],
+    "ambiguity_notes": {
+      "production capacity": "Specific quantitative capacity metrics for CALM and all private competitors are not available as structured timeseries, so this was resolved to a qualitative text summary fetch.",
+      "competitors ramped up production": "Modeled analytically by calculating the sensitivity of egg prices to industry-wide egg production changes, and the subsequent sensitivity of CALM's operating income to those egg price changes."
+    },
+    "reasoning": "To answer the composite question, the plan first fetches qualitative context on CALM's production capacity relative to competitors. It then models the 'competitor ramp-up' scenario by computing the historical sensitivity of US egg prices to changes in US egg production, and the sensitivity of CALM's operating income to changes in egg prices, culminating in a final assessment of the earnings impact."
+  },
+  "trace": [
+    {
+      "tool": "search_non_macro_catalog",
+      "args": {
+        "top_k": 5,
+        "query": "Cal-Maine production capacity flock size"
+      },
+      "result": "[{'item_id': 'political.hiring.regulatory_buildup', 'label': 'Regulatory Agency Hiring Buildup', 'description': 'Federal job postings in regulatory agencies that oversee the company \u2014 indicates upcoming regulatory scrutiny or enforcement buildup.', 'data_type': 'text', 'tool_fn': 'get_hiring', 'tool_params': {'mode': 'regulatory_buildup'}, 'tool_field': None, 'aliases_json': '[\"regulatory hiring\", \"agency staffing up\", \"regulator headcount\", \"enforcement buildup\", \"regulatory capacity\"]', 'categ"
+    },
+    {
+      "tool": "search_macro_catalog",
+      "args": {
+        "thesis_context": "egg industry supply and competitor production",
+        "query": "egg production volume capacity",
+        "top_k": 5
+      },
+      "result": "{'results': [{'series_id': 'USDA_NASS:usda_layer_hens_inventory', 'name': 'US Layer Hen Inventory', 'description': 'US inventory of commercial laying hens in head. Measures the size of the productive flock. HPAI-driven depletions appear here first \u2014 each decline in layer count directly caps future egg production capacity. Critical for modeling CALM and VITL margins.', 'source': 'usda_nass', 'frequency': 'P', 'frequency_short': 'P', 'seasonal_adjustment': None, 'geography': 'US', 'units': 'Head',"
+    },
+    {
+      "tool": "search_macro_catalog",
+      "args": {
+        "top_k": 5,
+        "query": "shell egg prices spot",
+        "thesis_context": "egg pricing"
+      },
+      "result": "{'results': [], 'total_found': 0, 'query': 'shell egg prices spot', 'fallback_triggered': True, 'fallback_tier': 'all_nonprimary'}"
+    },
+    {
+      "tool": "search_non_macro_catalog",
+      "args": {
+        "top_k": 5,
+        "query": "operating margin earnings"
+      },
+      "result": "[{'item_id': 'fundamental.snapshot.operating_margin', 'label': 'Operating Margin Percent', 'description': 'Operating income as a percentage of revenue (TTM). Includes COGS, R&D, and SG&A. Does NOT include interest or taxes.', 'data_type': 'single_value', 'tool_fn': 'get_fundamentals', 'tool_params': {}, 'tool_field': 'data.snapshot.operating_margin', 'aliases_json': '[\"EBIT margin\", \"operating profitability\", \"EBIT percent\", \"operating income margin\", \"operating efficiency\"]', 'category': 'funda"
+    },
+    {
+      "tool": "resolve_concept",
+      "args": {
+        "query": "egg prices",
+        "context": "egg prices and egg production volume"
+      },
+      "result": "ResolvedConcept(concept_id='eggs price', label='Shell Egg Prices', category='agricultural', series=[{'series_uid': 'usda_nass:usda_egg_price_received', 'provider': 'usda_nass', 'series_id': 'usda_egg_price_received', 'title': 'US Farm Egg Price Received', 'description': 'Monthly US average farm-gate egg price received by producers, dollars per dozen. Tracks farmgate pricing power for egg producers (CALM). High prices during supply disruptions improve CALM margins; retail prices follow with a lag"
+    },
+    {
+      "tool": "resolve_concept",
+      "args": {
+        "query": "egg production",
+        "context": "egg prices and egg production volume"
+      },
+      "result": "ResolvedConcept(concept_id='eggs production', label='Egg Production', category='agricultural', series=[{'series_uid': 'usda_nass:usda_egg_production_monthly', 'provider': 'usda_nass', 'series_id': 'usda_egg_production_monthly', 'title': 'US Monthly Egg Production', 'description': 'Monthly US commercial egg production in dozen. Tracks total eggs laid by commercial layers nationally. Primary supply metric for egg prices and processor margins. Directly affected by HPAI flock depletions \u2014 sharp drop"
+    },
+    {
+      "tool": "search_macro_catalog",
+      "args": {
+        "query": "egg",
+        "thesis_context": "egg prices and production",
+        "top_k": 10
+      },
+      "result": "{'results': [{'series_id': 'USDA_NASS:usda_egg_production_monthly', 'name': 'US Monthly Egg Production', 'description': 'Monthly US commercial egg production in dozen. Tracks total eggs laid by commercial layers nationally. Primary supply metric for egg prices and processor margins. Directly affected by HPAI flock depletions \u2014 sharp drops signal supply shocks for egg producers (CALM, VITL) and food retailers.', 'source': 'usda_nass', 'frequency': 'Monthly', 'frequency_short': 'M', 'seasonal_adju"
+    },
+    {
+      "tool": "search_non_macro_catalog",
+      "args": {
+        "query": "market share competitors",
+        "top_k": 5
+      },
+      "result": "[{'item_id': 'quant.price.current', 'label': 'Current Stock Price', 'description': 'Most recent closing or real-time price. Does NOT provide history \u2014 use quant.price.history for time series.', 'data_type': 'single_value', 'tool_fn': 'get_price', 'tool_params': {}, 'tool_field': 'data.current_price', 'aliases_json': '[\"stock price\", \"share price\", \"last price\", \"closing price\", \"current market price\"]', 'category': 'quant', 'source': 'yfinance', 'notes': None, 'rank': -7.164030289782021, 'score'"
+    },
+    {
+      "tool": "search_non_macro_catalog",
+      "args": {
+        "top_k": 5,
+        "query": "production volume"
+      },
+      "result": "[{'item_id': 'quant.technical.current_volume', 'label': 'Current Trading Volume', 'description': 'Trading volume for the current or most recent session.', 'data_type': 'single_value', 'tool_fn': 'compute_technical_signal', 'tool_params': {'indicator': 'current_volume'}, 'tool_field': 'data.value', 'aliases_json': '[\"today volume\", \"daily volume\", \"session volume\", \"current day trading volume\"]', 'category': 'quant', 'source': 'yfinance', 'notes': None, 'rank': -5.7074491201986, 'score': 0.850912"
+    },
+    {
+      "tool": "lookup_capability",
+      "args": {
+        "resource_id": "fundamental.history.operating_income",
+        "resource_type": "non_macro_item"
+      },
+      "result": "fetch_shape=<FetchShape.TIMESERIES: 'timeseries'> numeric=True history_materializable=False temporal_analytics_eligible=True comparison_modes_supported=[<ComparisonMode.SELF_HISTORY: 'self_history'>, <ComparisonMode.CONDITIONAL_HISTORY: 'conditional_history'>] materialization_routes=[] requires_query_text=False"
+    },
+    {
+      "tool": "lookup_capability",
+      "args": {
+        "resource_type": "non_macro_item",
+        "resource_id": "fundamental.history.revenue"
+      },
+      "result": "fetch_shape=<FetchShape.TIMESERIES: 'timeseries'> numeric=True history_materializable=False temporal_analytics_eligible=True comparison_modes_supported=[<ComparisonMode.SELF_HISTORY: 'self_history'>, <ComparisonMode.CONDITIONAL_HISTORY: 'conditional_history'>] materialization_routes=[] requires_query_text=False"
+    }
+  ],
+  "tokens": {
+    "input_tokens": 0,
+    "output_tokens": 0,
+    "reasoning_tokens": 0,
+    "cache_read_tokens": 0,
+    "total_tokens": 0,
+    "llm_calls": 0,
+    "tool_calls": 11,
+    "estimated_cost_usd": 0.0
+  },
+  "error": null,
+  "duration_seconds": 83.2120680809021
+}

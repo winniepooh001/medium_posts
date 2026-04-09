@@ -1,0 +1,147 @@
+{
+  "question_id": "Q0275",
+  "plan": {
+    "original_text": "How does Cal-Maine's market share compare to its competitors, and what factors could lead to a significant shift in market dynamics?",
+    "thesis": "Cal-Maine should outperform over the next 2\u20134 quarters if shell egg pricing remains above historical mid-cycle levels. Earnings are highly sensitive to spot egg prices due to largely fixed production costs, creating operating leverage. The thesis fails if egg prices revert to pre-cycle averages faster than expected.",
+    "hypothesis_type": "composite",
+    "answer_type": "text",
+    "ticker": "CALM",
+    "steps": [
+      {
+        "step_id": "s1",
+        "operation": "fetch",
+        "description": "Cal-Maine Foods (CALM) market share and flock size compared to top US shell egg competitors (e.g., Rose Acre Farms, Hillandale Farms)",
+        "macro_preference": false,
+        "horizon": {
+          "period": 1,
+          "frequency": null
+        },
+        "assessment_period": null,
+        "expected_output": "text_summary",
+        "result_type": null,
+        "inputs": [],
+        "params": {},
+        "output_key": "calm_market_share_text",
+        "derivation": null
+      },
+      {
+        "step_id": "s2",
+        "operation": "fetch",
+        "description": "Factors leading to significant shifts in US shell egg market dynamics, such as Highly Pathogenic Avian Influenza (HPAI) outbreaks, feed cost volatility, and state-level cage-free mandates",
+        "macro_preference": false,
+        "horizon": {
+          "period": 1,
+          "frequency": null
+        },
+        "assessment_period": null,
+        "expected_output": "text_summary",
+        "result_type": null,
+        "inputs": [],
+        "params": {},
+        "output_key": "egg_market_dynamics_factors",
+        "derivation": null
+      },
+      {
+        "step_id": "s3",
+        "operation": "assess",
+        "description": "Evaluate Cal-Maine's market share position against competitors and synthesize the key factors that could lead to a significant shift in egg market dynamics.",
+        "macro_preference": null,
+        "horizon": null,
+        "assessment_period": null,
+        "expected_output": null,
+        "result_type": "verdict",
+        "inputs": [
+          "$s1",
+          "$s2"
+        ],
+        "params": {},
+        "output_key": "market_share_and_dynamics_assessment",
+        "derivation": null
+      }
+    ],
+    "ambiguity_notes": {
+      "market share": "unsupported in quantitative catalogs; using text_summary fetch to retrieve qualitative market share and competitor flock size comparisons from industry reports.",
+      "competitors": "unsupported in quantitative catalogs as most US egg producers are private; using text_summary fetch.",
+      "factors": "qualitative concept; using text_summary fetch to identify market dynamics drivers like HPAI and cage-free mandates."
+    },
+    "reasoning": "The question requires a qualitative assessment of Cal-Maine's competitive positioning and the drivers of egg market dynamics. Since most competitors are private and market share is typically measured by flock size in industry reports rather than standard financial metrics, the plan fetches text summaries for both the market share comparison and the market dynamics factors, then synthesizes them into a final verdict."
+  },
+  "trace": [
+    {
+      "tool": "search_non_macro_catalog",
+      "args": {
+        "query": "market share",
+        "top_k": 5
+      },
+      "result": "[{'item_id': 'quant.price.current', 'label': 'Current Stock Price', 'description': 'Most recent closing or real-time price. Does NOT provide history \u2014 use quant.price.history for time series.', 'data_type': 'single_value', 'tool_fn': 'get_price', 'tool_params': {}, 'tool_field': 'data.current_price', 'aliases_json': '[\"stock price\", \"share price\", \"last price\", \"closing price\", \"current market price\"]', 'category': 'quant', 'source': 'yfinance', 'notes': None, 'rank': -7.164030289782021, 'score'"
+    },
+    {
+      "tool": "search_macro_catalog",
+      "args": {
+        "top_k": 5,
+        "query": "egg market share competitors"
+      },
+      "result": "{'results': [], 'total_found': 0, 'query': 'egg market share competitors', 'fallback_triggered': True, 'fallback_tier': 'all_nonprimary'}"
+    },
+    {
+      "tool": "search_non_macro_catalog",
+      "args": {
+        "query": "competitors peers",
+        "top_k": 5
+      },
+      "result": "[]"
+    },
+    {
+      "tool": "search_macro_catalog",
+      "args": {
+        "top_k": 5,
+        "query": "egg industry"
+      },
+      "result": "{'results': [{'series_id': 'FRED:PCU3222993222991', 'name': 'Producer Price Index by Industry: All Other Converted Paper Product Manufacturing: Molded Pulp Goods, Including Egg Cartons, Florist Pots, Food Trays, etc.', 'description': '', 'source': 'fred', 'frequency': 'Monthly', 'frequency_short': 'M', 'seasonal_adjustment': 'Not Seasonally Adjusted', 'geography': None, 'units': 'Index Dec 2003=100', 'coverage_start': '2003-12-01', 'coverage_end': '2025-12-01', 'score': 16.15620336293599, 'has_a"
+    },
+    {
+      "tool": "search_macro_catalog",
+      "args": {
+        "query": "shell egg sales revenue",
+        "top_k": 5
+      },
+      "result": "{'results': [{'series_id': 'USDA_NASS:usda_hazelnuts_sales_tons_in_shell_basis_a', 'name': 'US Hazelnuts Sales (Annual)', 'description': 'USDA NASS Hazelnuts Sales in TONS, IN SHELL BASIS, Annual frequency, national level.', 'source': 'usda_nass', 'frequency': 'Annual', 'frequency_short': 'A', 'seasonal_adjustment': None, 'geography': 'US', 'units': 'TONS, IN SHELL BASIS', 'coverage_start': '2020-01-01', 'coverage_end': '2024-12-31', 'score': 36.276818713250336, 'has_alternatives': False, 'alter"
+    },
+    {
+      "tool": "search_macro_catalog",
+      "args": {
+        "query": "egg production",
+        "top_k": 5
+      },
+      "result": "{'results': [{'series_id': 'USDA_NASS:usda_egg_production_monthly', 'name': 'US Monthly Egg Production', 'description': 'Monthly US commercial egg production in dozen. Tracks total eggs laid by commercial layers nationally. Primary supply metric for egg prices and processor margins. Directly affected by HPAI flock depletions \u2014 sharp drops signal supply shocks for egg producers (CALM, VITL) and food retailers.', 'source': 'usda_nass', 'frequency': 'Monthly', 'frequency_short': 'M', 'seasonal_adju"
+    },
+    {
+      "tool": "search_non_macro_catalog",
+      "args": {
+        "top_k": 5,
+        "query": "volume production"
+      },
+      "result": "[{'item_id': 'quant.technical.current_volume', 'label': 'Current Trading Volume', 'description': 'Trading volume for the current or most recent session.', 'data_type': 'single_value', 'tool_fn': 'compute_technical_signal', 'tool_params': {'indicator': 'current_volume'}, 'tool_field': 'data.value', 'aliases_json': '[\"today volume\", \"daily volume\", \"session volume\", \"current day trading volume\"]', 'category': 'quant', 'source': 'yfinance', 'notes': None, 'rank': -5.7074491201986, 'score': 0.850912"
+    },
+    {
+      "tool": "search_macro_catalog",
+      "args": {
+        "top_k": 5,
+        "query": "spot egg prices"
+      },
+      "result": "{'results': [{'series_id': 'USDA_NASS:usda_egg_price_received', 'name': 'US Farm Egg Price Received', 'description': 'Monthly US average farm-gate egg price received by producers, dollars per dozen. Tracks farmgate pricing power for egg producers (CALM). High prices during supply disruptions improve CALM margins; retail prices follow with a lag.', 'source': 'usda_nass', 'frequency': 'Monthly', 'frequency_short': 'M', 'seasonal_adjustment': None, 'geography': 'US', 'units': '$ / Dozen', 'coverage"
+    }
+  ],
+  "tokens": {
+    "input_tokens": 0,
+    "output_tokens": 0,
+    "reasoning_tokens": 0,
+    "cache_read_tokens": 0,
+    "total_tokens": 0,
+    "llm_calls": 0,
+    "tool_calls": 8,
+    "estimated_cost_usd": 0.0
+  },
+  "error": null,
+  "duration_seconds": 62.52289891242981
+}

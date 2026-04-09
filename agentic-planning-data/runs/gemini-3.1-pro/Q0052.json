@@ -1,0 +1,146 @@
+{
+  "question_id": "Q0052",
+  "plan": {
+    "original_text": "Is there evidence of significant increases in feed costs that could impact CALM's production expenses over the next two quarters?",
+    "thesis": "Cal-Maine should outperform over the next 2\u20134 quarters if shell egg pricing remains above historical mid-cycle levels. Earnings are highly sensitive to spot egg prices due to largely fixed production costs, creating operating leverage. The thesis fails if egg prices revert to pre-cycle averages faster than expected.",
+    "hypothesis_type": "temporal",
+    "answer_type": "text",
+    "ticker": "CALM",
+    "steps": [
+      {
+        "step_id": "s1",
+        "operation": "fetch",
+        "description": "US Corn Price Received \u2014 USDA_NASS:usda_corn_price_received",
+        "macro_preference": true,
+        "horizon": {
+          "period": 12,
+          "frequency": "monthly"
+        },
+        "assessment_period": null,
+        "expected_output": "timeseries",
+        "result_type": null,
+        "inputs": [],
+        "params": {
+          "series_id": "USDA_NASS:usda_corn_price_received"
+        },
+        "output_key": "corn_price_ts",
+        "derivation": null
+      },
+      {
+        "step_id": "s2",
+        "operation": "fetch",
+        "description": "Producer Price Index by Commodity: Processed Foods and Feeds: Soybean Cake and Meal \u2014 FRED:WPU029201121",
+        "macro_preference": true,
+        "horizon": {
+          "period": 12,
+          "frequency": "monthly"
+        },
+        "assessment_period": null,
+        "expected_output": "timeseries",
+        "result_type": null,
+        "inputs": [],
+        "params": {
+          "series_id": "FRED:WPU029201121"
+        },
+        "output_key": "soybean_meal_price_ts",
+        "derivation": null
+      },
+      {
+        "step_id": "s3",
+        "operation": "trend",
+        "description": "Trend of US Corn Price Received over the last 12 months",
+        "macro_preference": null,
+        "horizon": null,
+        "assessment_period": null,
+        "expected_output": null,
+        "result_type": "numeric",
+        "inputs": [
+          "$s1"
+        ],
+        "params": {},
+        "output_key": "corn_price_trend",
+        "derivation": null
+      },
+      {
+        "step_id": "s4",
+        "operation": "trend",
+        "description": "Trend of Soybean Cake and Meal PPI over the last 12 months",
+        "macro_preference": null,
+        "horizon": null,
+        "assessment_period": null,
+        "expected_output": null,
+        "result_type": "numeric",
+        "inputs": [
+          "$s2"
+        ],
+        "params": {},
+        "output_key": "soybean_meal_price_trend",
+        "derivation": null
+      },
+      {
+        "step_id": "s5",
+        "operation": "assess",
+        "description": "Evaluate whether the trends in corn and soybean meal prices indicate significant increases in feed costs for CALM",
+        "macro_preference": null,
+        "horizon": null,
+        "assessment_period": null,
+        "expected_output": null,
+        "result_type": "verdict",
+        "inputs": [
+          "$s1",
+          "$s2",
+          "$s3",
+          "$s4"
+        ],
+        "params": {},
+        "output_key": "feed_cost_increase_verdict",
+        "derivation": null
+      }
+    ],
+    "ambiguity_notes": {
+      "feed costs": "proxy: Interpreted as corn and soybean meal prices, which are the primary feed ingredients for poultry and egg production.",
+      "significant increases": "grounded: Evaluated by computing the trend of these feed ingredient prices over the last 12 months."
+    },
+    "reasoning": "To determine if feed costs are significantly increasing, we fetch the timeseries for corn and soybean meal prices (the primary components of poultry feed) over the last 12 months. We then compute the trend for both series and assess whether these trends indicate a material increase that could impact CALM's production expenses."
+  },
+  "trace": [
+    {
+      "tool": "search_macro_catalog",
+      "args": {
+        "thesis_context": "Cal-Maine feed costs",
+        "query": "corn price",
+        "top_k": 5
+      },
+      "result": "{'results': [{'series_id': 'USDA_NASS:usda_corn_price_received', 'name': 'US Corn Price Received', 'description': 'Monthly US average corn price received by producers, dollars per bushel. Farmgate corn price signal \u2014 key input cost for livestock producers and ethanol blenders. Drives feed margin compression for CALM and other poultry/hog producers when elevated.', 'source': 'usda_nass', 'frequency': 'Monthly', 'frequency_short': 'M', 'seasonal_adjustment': None, 'geography': 'US', 'units': '$ / "
+    },
+    {
+      "tool": "search_macro_catalog",
+      "args": {
+        "thesis_context": "Cal-Maine feed costs",
+        "query": "soybean meal price",
+        "top_k": 5
+      },
+      "result": "{'results': [{'series_id': 'FRED:PCU31122431122441', 'name': 'Producer Price Index by Industry: Soybean and Other Oilseed Processing: Soybean Cake and Meal', 'description': '', 'source': 'fred', 'frequency': 'Monthly', 'frequency_short': 'M', 'seasonal_adjustment': 'Not Seasonally Adjusted', 'geography': None, 'units': 'Index Dec 2009=100', 'coverage_start': '2009-12-01', 'coverage_end': '2025-12-01', 'score': 39.91359498990181, 'has_alternatives': False, 'alternative_ids': []}, {'series_id': 'F"
+    },
+    {
+      "tool": "search_non_macro_catalog",
+      "args": {
+        "top_k": 5,
+        "query": "feed costs"
+      },
+      "result": "[]"
+    }
+  ],
+  "tokens": {
+    "input_tokens": 0,
+    "output_tokens": 0,
+    "reasoning_tokens": 0,
+    "cache_read_tokens": 0,
+    "total_tokens": 0,
+    "llm_calls": 0,
+    "tool_calls": 3,
+    "estimated_cost_usd": 0.0
+  },
+  "error": null,
+  "duration_seconds": 45.13877606391907
+}

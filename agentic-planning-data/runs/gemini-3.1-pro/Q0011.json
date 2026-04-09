@@ -1,0 +1,42 @@
+{
+  "question_id": "Q0011",
+  "plan": null,
+  "trace": [
+    {
+      "tool": "search_non_macro_catalog",
+      "args": {
+        "query": "EPS estimates revisions",
+        "top_k": 5
+      },
+      "result": "[{'item_id': 'fundamental.earnings.avg_eps_surprise', 'label': 'Average EPS Beat Rate', 'description': 'Average EPS surprise percent over recent quarters \u2014 positive means consistently beating consensus estimates.', 'data_type': 'single_value', 'tool_fn': 'get_fundamentals', 'tool_params': {}, 'tool_field': 'data.earnings.avg_eps_surprise_pct', 'aliases_json': '[\"EPS beat rate\", \"earnings beat percentage\", \"EPS surprise average\", \"beat miss rate\", \"earnings surprise\"]', 'category': 'fundamental',"
+    },
+    {
+      "tool": "lookup_capability",
+      "args": {
+        "resource_type": "non_macro_item",
+        "resource_id": "estimates.eps.history"
+      },
+      "result": "fetch_shape=<FetchShape.RECORD: 'record'> numeric=True history_materializable=True temporal_analytics_eligible=True comparison_modes_supported=[<ComparisonMode.SELF_HISTORY: 'self_history'>] materialization_routes=[] requires_query_text=False"
+    },
+    {
+      "tool": "lookup_capability",
+      "args": {
+        "resource_id": "estimates.eps.revision_direction",
+        "resource_type": "non_macro_item"
+      },
+      "result": "fetch_shape=<FetchShape.RECORD: 'record'> numeric=True history_materializable=True temporal_analytics_eligible=True comparison_modes_supported=[<ComparisonMode.SELF_HISTORY: 'self_history'>] materialization_routes=[] requires_query_text=False"
+    }
+  ],
+  "tokens": {
+    "input_tokens": 0,
+    "output_tokens": 0,
+    "reasoning_tokens": 0,
+    "cache_read_tokens": 0,
+    "total_tokens": 0,
+    "llm_calls": 0,
+    "tool_calls": 3,
+    "estimated_cost_usd": 0.0
+  },
+  "error": "Failed to produce HypothesisPlan from agent output",
+  "duration_seconds": 38.36514091491699
+}

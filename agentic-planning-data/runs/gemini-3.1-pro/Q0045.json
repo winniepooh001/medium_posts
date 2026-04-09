@@ -1,0 +1,121 @@
+{
+  "question_id": "Q0045",
+  "plan": {
+    "original_text": "What is the correlation between shell egg prices and CALM's operating margins over the past five years?",
+    "thesis": "Cal-Maine should outperform over the next 2\u20134 quarters if shell egg pricing remains above historical mid-cycle levels. Earnings are highly sensitive to spot egg prices due to largely fixed production costs, creating operating leverage. The thesis fails if egg prices revert to pre-cycle averages faster than expected.",
+    "hypothesis_type": "relational",
+    "answer_type": "numeric",
+    "ticker": "CALM",
+    "steps": [
+      {
+        "step_id": "s1",
+        "operation": "fetch",
+        "description": "US Farm Egg Price Received monthly timeseries \u2014 USDA_NASS:usda_egg_price_received",
+        "macro_preference": true,
+        "horizon": {
+          "period": 60,
+          "frequency": "monthly"
+        },
+        "assessment_period": null,
+        "expected_output": "timeseries",
+        "result_type": null,
+        "inputs": [],
+        "params": {
+          "series_id": "USDA_NASS:usda_egg_price_received"
+        },
+        "output_key": "egg_price_ts",
+        "derivation": null
+      },
+      {
+        "step_id": "s2",
+        "operation": "fetch",
+        "description": "CALM quarterly operating margin derived from operating income and revenue",
+        "macro_preference": false,
+        "horizon": {
+          "period": 20,
+          "frequency": "quarterly"
+        },
+        "assessment_period": null,
+        "expected_output": "timeseries",
+        "result_type": null,
+        "inputs": [],
+        "params": {},
+        "output_key": "derived_operating_margin_ts",
+        "derivation": {
+          "numerator": "operating_income",
+          "denominator": "revenue",
+          "operation": "ratio"
+        }
+      },
+      {
+        "step_id": "s3",
+        "operation": "correlate",
+        "description": "Correlation between shell egg prices and CALM operating margin",
+        "macro_preference": null,
+        "horizon": null,
+        "assessment_period": null,
+        "expected_output": null,
+        "result_type": "numeric",
+        "inputs": [
+          "$s1",
+          "$s2"
+        ],
+        "params": {},
+        "output_key": "egg_margin_correlation",
+        "derivation": null
+      }
+    ],
+    "ambiguity_notes": {
+      "shell egg prices": "grounded to USDA_NASS:usda_egg_price_received (US Farm Egg Price Received)",
+      "operating margins": "grounded to derived metric using operating_income and revenue from fundamental history"
+    },
+    "reasoning": "To determine the correlation, we fetch the 5-year monthly timeseries for US farm egg prices and the 5-year quarterly timeseries for CALM's operating margin (derived from operating income and revenue). We then compute the statistical correlation between the two series to quantify their relationship."
+  },
+  "trace": [
+    {
+      "tool": "search_macro_catalog",
+      "args": {
+        "query": "shell egg prices",
+        "top_k": 5,
+        "thesis_context": "Cal-Maine should outperform over the next 2\u20134 quarters if shell egg pricing remains above historical mid-cycle levels. Earnings are highly sensitive to spot egg prices due to largely fixed production costs, creating operating leverage. The thesis fails if egg prices revert to pre-cycle averages faster than expected."
+      },
+      "result": "{'results': [{'series_id': 'USDA_NASS:usda_egg_price_received', 'name': 'US Farm Egg Price Received', 'description': 'Monthly US average farm-gate egg price received by producers, dollars per dozen. Tracks farmgate pricing power for egg producers (CALM). High prices during supply disruptions improve CALM margins; retail prices follow with a lag.', 'source': 'usda_nass', 'frequency': 'Monthly', 'frequency_short': 'M', 'seasonal_adjustment': None, 'geography': 'US', 'units': '$ / Dozen', 'coverage"
+    },
+    {
+      "tool": "search_non_macro_catalog",
+      "args": {
+        "top_k": 5,
+        "query": "operating margin"
+      },
+      "result": "[{'item_id': 'fundamental.snapshot.operating_margin', 'label': 'Operating Margin Percent', 'description': 'Operating income as a percentage of revenue (TTM). Includes COGS, R&D, and SG&A. Does NOT include interest or taxes.', 'data_type': 'single_value', 'tool_fn': 'get_fundamentals', 'tool_params': {}, 'tool_field': 'data.snapshot.operating_margin', 'aliases_json': '[\"EBIT margin\", \"operating profitability\", \"EBIT percent\", \"operating income margin\", \"operating efficiency\"]', 'category': 'funda"
+    },
+    {
+      "tool": "lookup_capability",
+      "args": {
+        "resource_type": "non_macro_item",
+        "resource_id": "fundamental.snapshot.operating_margin"
+      },
+      "result": "fetch_shape=<FetchShape.RECORD: 'record'> numeric=False history_materializable=True temporal_analytics_eligible=True comparison_modes_supported=[<ComparisonMode.SELF_HISTORY: 'self_history'>] materialization_routes=['derive_from_components'] requires_query_text=False"
+    },
+    {
+      "tool": "search_non_macro_catalog",
+      "args": {
+        "query": "revenue history",
+        "top_k": 3
+      },
+      "result": "[{'item_id': 'fundamental.history.revenue', 'label': 'Revenue Quarterly History', 'description': 'Revenue for each of the past N quarters. Use for trend and seasonality analysis. Does NOT include forward estimates.', 'data_type': 'timeseries', 'tool_fn': 'get_fundamentals', 'tool_params': {'period': 'quarterly'}, 'tool_field': 'data.history', 'aliases_json': '[\"revenue\", \"revenue history\", \"revenue quarterly\", \"revenue trend\"]', 'category': 'fundamental', 'source': 'yfinance / defeatbeta', 'note"
+    }
+  ],
+  "tokens": {
+    "input_tokens": 0,
+    "output_tokens": 0,
+    "reasoning_tokens": 0,
+    "cache_read_tokens": 0,
+    "total_tokens": 0,
+    "llm_calls": 0,
+    "tool_calls": 4,
+    "estimated_cost_usd": 0.0
+  },
+  "error": null,
+  "duration_seconds": 36.776668548583984
+}

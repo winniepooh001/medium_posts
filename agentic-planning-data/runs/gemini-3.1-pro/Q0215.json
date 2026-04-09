@@ -1,0 +1,131 @@
+{
+  "question_id": "Q0215",
+  "plan": {
+    "original_text": "What is PayPal's current operating margin, and how does it compare to historical averages?",
+    "thesis": "PayPal could rerate if management executes cost restructuring and monetizes non-core assets, triggering margin expansion. The thesis fails if active account growth stagnates.",
+    "hypothesis_type": "temporal",
+    "answer_type": "boolean",
+    "ticker": "PYPL",
+    "steps": [
+      {
+        "step_id": "s1",
+        "operation": "fetch",
+        "description": "PYPL current operating margin \u2014 fundamental.snapshot.operating_margin",
+        "macro_preference": false,
+        "horizon": {
+          "period": 1,
+          "frequency": null
+        },
+        "assessment_period": null,
+        "expected_output": "scalar",
+        "result_type": null,
+        "inputs": [],
+        "params": {
+          "item_id": "fundamental.snapshot.operating_margin"
+        },
+        "output_key": "pypl_current_operating_margin",
+        "derivation": null
+      },
+      {
+        "step_id": "s2",
+        "operation": "fetch",
+        "description": "PYPL historical operating margin (derived from operating income and revenue)",
+        "macro_preference": false,
+        "horizon": {
+          "period": 20,
+          "frequency": "quarterly"
+        },
+        "assessment_period": null,
+        "expected_output": "timeseries",
+        "result_type": null,
+        "inputs": [],
+        "params": {},
+        "output_key": "derived_pypl_operating_margin_history",
+        "derivation": {
+          "numerator": "operating_income",
+          "denominator": "revenue",
+          "operation": "ratio"
+        }
+      },
+      {
+        "step_id": "s3",
+        "operation": "aggregate",
+        "description": "Average of PYPL historical operating margin over the last 5 years",
+        "macro_preference": null,
+        "horizon": null,
+        "assessment_period": null,
+        "expected_output": null,
+        "result_type": "numeric",
+        "inputs": [
+          "$s2"
+        ],
+        "params": {
+          "method": "mean"
+        },
+        "output_key": "pypl_historical_avg_operating_margin",
+        "derivation": null
+      },
+      {
+        "step_id": "s4",
+        "operation": "compare",
+        "description": "Is PYPL current operating margin above its historical average?",
+        "macro_preference": null,
+        "horizon": null,
+        "assessment_period": null,
+        "expected_output": null,
+        "result_type": "boolean",
+        "inputs": [
+          "$s1",
+          "$s3"
+        ],
+        "params": {
+          "operator": ">"
+        },
+        "output_key": "pypl_margin_vs_avg_result",
+        "derivation": null
+      }
+    ],
+    "ambiguity_notes": {
+      "historical averages": "Interpreted as the mean of the operating margin over the last 5 years (20 quarters)."
+    },
+    "reasoning": "To evaluate the margin expansion thesis, we fetch PayPal's current operating margin and compare it to its 5-year historical average to see if cost restructuring is yielding above-average profitability."
+  },
+  "trace": [
+    {
+      "tool": "search_non_macro_catalog",
+      "args": {
+        "top_k": 5,
+        "query": "operating margin"
+      },
+      "result": "[{'item_id': 'fundamental.snapshot.operating_margin', 'label': 'Operating Margin Percent', 'description': 'Operating income as a percentage of revenue (TTM). Includes COGS, R&D, and SG&A. Does NOT include interest or taxes.', 'data_type': 'single_value', 'tool_fn': 'get_fundamentals', 'tool_params': {}, 'tool_field': 'data.snapshot.operating_margin', 'aliases_json': '[\"EBIT margin\", \"operating profitability\", \"EBIT percent\", \"operating income margin\", \"operating efficiency\"]', 'category': 'funda"
+    },
+    {
+      "tool": "search_non_macro_catalog",
+      "args": {
+        "query": "revenue history",
+        "top_k": 5
+      },
+      "result": "[{'item_id': 'fundamental.history.revenue', 'label': 'Revenue Quarterly History', 'description': 'Revenue for each of the past N quarters. Use for trend and seasonality analysis. Does NOT include forward estimates.', 'data_type': 'timeseries', 'tool_fn': 'get_fundamentals', 'tool_params': {'period': 'quarterly'}, 'tool_field': 'data.history', 'aliases_json': '[\"revenue\", \"revenue history\", \"revenue quarterly\", \"revenue trend\"]', 'category': 'fundamental', 'source': 'yfinance / defeatbeta', 'note"
+    },
+    {
+      "tool": "lookup_capability",
+      "args": {
+        "resource_type": "non_macro_item",
+        "resource_id": "fundamental.snapshot.operating_margin"
+      },
+      "result": "fetch_shape=<FetchShape.RECORD: 'record'> numeric=False history_materializable=True temporal_analytics_eligible=True comparison_modes_supported=[<ComparisonMode.SELF_HISTORY: 'self_history'>] materialization_routes=['derive_from_components'] requires_query_text=False"
+    }
+  ],
+  "tokens": {
+    "input_tokens": 0,
+    "output_tokens": 0,
+    "reasoning_tokens": 0,
+    "cache_read_tokens": 0,
+    "total_tokens": 0,
+    "llm_calls": 0,
+    "tool_calls": 3,
+    "estimated_cost_usd": 0.0
+  },
+  "error": null,
+  "duration_seconds": 43.31767272949219
+}
